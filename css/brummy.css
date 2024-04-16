@@ -1,0 +1,100 @@
+div.dt-container div.dt-search input {
+    padding: 10px !important;
+}
+
+.table-hover > tbody > tr:hover {
+    --bs-table-accent-bg: #00907133;
+}
+
+table.dataTable thead > tr > th {
+    background-color: #009071;
+    color: #fff;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    --bs-table-accent-bg: rgb(0 0 0 / 3%);
+}
+
+.table-striped > tbody > tr:hover {
+    --bs-table-accent-bg: #00907133;
+}
+
+.active > a > span.material-icons.me-2 {
+    color: #009071;
+}
+
+.buttom {
+    border-radius: 10px;
+    width: fit-content;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding: 0 11px 0 10px !important;
+    user-select: none;
+    margin: 0px 0px 10px 0px;
+    padding: 0 11px 0 10px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.buttom > span {
+    padding: 3px 3px;
+    vertical-align: middle;
+    display: flex;
+    font-weight: 500;
+}
+
+.buttom > span > i {
+    color: inherit;
+    margin-left: 15px;
+}
+
+.buttom:hover > span > i {
+    color: inherit;
+}
+/* Buttom color blue */
+.buttom-blue {
+    border: 2px solid #01539c;
+    color: #01539c;
+}
+
+.buttom-blue:hover {
+    border: 2px solid #01539c;
+    background-color: #01539c;
+    color: #fff;
+}
+/* Buttom color red */
+.buttom-red {
+    border: 2px solid #ff0037;
+    color: #ff0037;
+}
+
+.buttom-red:hover {
+    border: 2px solid #ff0037;
+    background-color: #ff0037;
+    color: #fff;
+}
+/* Buttom color green */
+.buttom-green {
+    border: 2px solid #009071;
+    color: #009071;
+}
+
+.buttom-green:hover {
+    border: 2px solid #009071;
+    background-color: #009071;
+    color: #fff;
+}
+
+.button-sinText > span > i {
+    margin-left: 0px;
+}
+
+input.form-control.capitalize {
+    text-transform: capitalize;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}

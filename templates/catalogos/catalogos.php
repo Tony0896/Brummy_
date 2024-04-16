@@ -7,7 +7,35 @@
 <script type="text/javascript" src="./functions/catalogos/catalogos.js"></script>
     <h4 class="card-title">Cátalogos</h4>
     <div class="forms-sample">
-        <table id="myTable" class="mdl-data-table table table-hover responsive table-condensed table-bordered table-sm align-middle table-striped no-footer dtr-inline dataTable datatable" style="width:100%">
+        <div class="row">
+            <div class="col-md-3 mb-1">
+                <div class="buttom-blue buttom">
+                    <span class="text-sm mb-0">Acceder <i class="material-icons"> launch </i></span>
+                </div>
+            </div>
+            <div class="col-md-3 mb-1">
+                <div class="buttom-red buttom">
+                    <span class="text-sm mb-0">Acceder <i class="material-icons"> launch </i></span>
+                </div>
+            </div>
+            <div class="col-md-3 mb-1">
+                <div class="buttom-green buttom">
+                    <span class="text-sm mb-0">Acceder <i class="material-icons"> launch </i></span>
+                </div>
+            </div>
+            <div class="col-md-3 mb-1 media">
+                <div class="buttom-blue buttom button-sinText mx-1">
+                    <span class="text-sm mb-0"><i class="material-icons"> launch </i></span>
+                </div>
+                <div class="buttom-red buttom button-sinText mx-1">
+                    <span class="text-sm mb-0"><i class="material-icons"> launch </i></span>
+                </div>
+                <div class="buttom-green buttom button-sinText mx-1">
+                    <span class="text-sm mb-0"><i class="material-icons"> launch </i></span>
+                </div>
+            </div>
+        </div>
+        <table id="myTable" class="mdl-data-table table responsive table-bordered table-striped datatable" style="width:100%">
             <thead>
                 <tr>
                 <th>Name</th>

@@ -3,7 +3,7 @@ const preloader = function () {};
 preloader.show = function () {
     $(".modals").modal({ backdrop: "static", keyboard: false });
     $(".modals").modal("show");
-    $(".modal").css("z-index", "1050");
+    $(".modal").css("z-index", "1040");
     $(".modals").css("z-index", "1056");
 };
 
@@ -44,3 +44,49 @@ function dataTableDestroy() {
 $(".tagAMenu").click(function (e) {
     e.preventDefault();
 });
+
+function get_datos_completos(form) {
+    let campos;
+    let trae_los_campos_sin_llennar = [];
+    campos = document.querySelectorAll("#" + form + " .obligatorio");
+    let valido = true;
+
+    [].slice.call(campos).forEach(function (campo) {
+        if ($(campo).get(0).tagName == "SELECT") {
+            if (campo.value.trim() == 0 || campo.value.trim() == "") {
+                valido = false;
+                trae_los_campos_sin_llennar = [...trae_los_campos_sin_llennar, $(campo).attr("placeholder")];
+            }
+        } else if ($(campo).get(0).tagName == "TEXTAREA") {
+            if (campo.value.trim() === "") {
+                valido = false;
+                trae_los_campos_sin_llennar = [...trae_los_campos_sin_llennar, $(campo).attr("placeholder")];
+            }
+        } else {
+            if (campo.value.trim() === "") {
+                valido = false;
+                trae_los_campos_sin_llennar = [...trae_los_campos_sin_llennar, $(campo).attr("placeholder")];
+            }
+        }
+    });
+
+    if (valido) {
+        return {
+            valido: valido,
+            reponse: 1,
+        };
+    } else {
+        return {
+            valido: valido,
+            response: trae_los_campos_sin_llennar,
+        };
+    }
+}
+
+function pintaInput(ID) {
+    if ($("#" + ID).val()) {
+        $("#" + ID).css("border-color", "#01539c");
+    } else {
+        $("#" + ID).css("border-color", "#dee2e6");
+    }
+}

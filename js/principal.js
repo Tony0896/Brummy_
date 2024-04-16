@@ -16,31 +16,42 @@
 //     inventory_menu;
 // }
 
+function activeSubmenu(id_element_submenu) {
+    $(".nav-item").attr("class", "nav-item");
+    $("#" + id_element_submenu + "_li").attr("class", "nav-item active");
+}
+
 function cargaTemplate(id) {
     preloader.show();
     switch (id) {
         case "apps_menu":
             cargarTemplateCatalogos();
+            activeSubmenu(id);
             break;
 
         case "paid_menu":
             cargaTemplateVentas();
+            activeSubmenu(id);
             break;
 
         case "people_menu":
             cargaTemplateClientes();
+            activeSubmenu(id);
             break;
 
         case "pets_menu":
             cargaTemplateMascotas();
+            activeSubmenu(id);
             break;
 
         case "event_menu":
             cargaTemplateCitas();
+            activeSubmenu(id);
             break;
 
         case "inventory_menu":
             cargaTemplateInventario();
+            activeSubmenu(id);
             break;
 
         default:

@@ -18,11 +18,12 @@
         <!-- End plugin css for this page -->
         <!-- inject:css -->
         <link rel="stylesheet" href="./css/vertical-layout-light/style.css" />
+        <link rel="stylesheet" href="./css/brummy.css" />
         <!-- endinject -->
         <link rel="shortcut icon" href="./images/favicon.png" />
 
-        <link rel="stylesheet" href="./libraries/datatables-1.12.1/jquery.dataTables.min.css">
-        <link rel="stylesheet" href="./libraries/datatables-1.12.1/responsive/2.3.0/responsive.dataTables.min.css">
+        <link rel="stylesheet" href="./libraries/datatables-1.12.1/jquery.dataTables.min.css" />
+        <link rel="stylesheet" href="./libraries/datatables-1.12.1/responsive/2.3.0/responsive.dataTables.min.css" />
     </head>
 
     <body>
@@ -72,7 +73,7 @@
                 </div>
             </nav>
             <div class="container-fluid page-body-wrapper">
-                <nav class="sidebar sidebar-offcanvas" id="sidebar" style="position: fixed;">
+                <nav class="sidebar sidebar-offcanvas" id="sidebar" style="position: fixed">
                     <ul class="nav">
                         <li class="nav-item">
                             <a class="nav-link" href="./index.html">
@@ -81,37 +82,37 @@
                             </a>
                         </li>
                         <li class="nav-item nav-category" style="padding-top: 0px"><hr style="margin: 5px 0px" /></li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="apps_menu_li">
                             <a class="nav-link" href="#" id="apps_menu" onclick="cargaTemplate(this.id)">
                                 <span class="material-icons me-2"> apps </span>
                                 <span class="menu-title">Cátalogos</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="paid_menu_li">
                             <a class="nav-link tagAMenu" href="#" id="paid_menu" onclick="cargaTemplate(this.id)">
                                 <span class="material-icons me-2"> paid </span>
                                 <span class="menu-title">Venta</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="people_menu_li">
                             <a class="nav-link tagAMenu" href="#" id="people_menu" onclick="cargaTemplate(this.id)">
                                 <span class="material-icons me-2"> people </span>
                                 <span class="menu-title">Clientes</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="pets_menu_li">
                             <a class="nav-link tagAMenu" href="#" id="pets_menu" onclick="cargaTemplate(this.id)">
                                 <span class="material-icons me-2"> pets </span>
                                 <span class="menu-title">Mascotas</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="event_menu_li">
                             <a class="nav-link tagAMenu" href="#" id="event_menu" onclick="cargaTemplate(this.id)">
                                 <span class="material-icons me-2"> event </span>
                                 <span class="menu-title">Citas</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="inventory_menu_li">
                             <a class="nav-link tagAMenu" href="#" id="inventory_menu" onclick="cargaTemplate(this.id)">
                                 <span class="material-icons me-2"> inventory_2 </span>
                                 <span class="menu-title">Inventario</span>
@@ -126,7 +127,7 @@
                                     alt="Profile image"
                                     style="width: 28px; height: 28px"
                                 />
-                                <span class="menu-title">Form elements</span>
+                                <span class="menu-title">John Doe</span>
                             </a>
                             <div class="collapse" id="userOptions">
                                 <ul class="nav flex-column sub-menu">
@@ -139,7 +140,7 @@
                     </ul>
                 </nav>
                 <!-- partial -->
-                <div class="main-panel" style="margin-left: auto;">
+                <div class="main-panel" style="margin-left: auto">
                     <div class="content-wrapper">
                         <div class="row">
                             <div class="col-md-12 grid-margin stretch-card">
@@ -205,7 +206,7 @@
         <!-- Custom js for this page-->
         <script src="./js/select2.js"></script>
         <!-- End custom js for this page-->
-        <script type="text/javascript" src = "./libraries/datatables-1.12.1/jquery.dataTables.min.js"></script>
-        <script type="text/javascript" src = "./libraries/datatables-1.12.1/responsive/2.3.0/dataTables.responsive.min.js"></script>
+        <script type="text/javascript" src="./libraries/datatables-1.12.1/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="./libraries/datatables-1.12.1/responsive/2.3.0/dataTables.responsive.min.js"></script>
     </body>
 </html>
