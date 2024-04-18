@@ -26,8 +26,14 @@ function dataTableCreate() {
                 infoEmpty: "No hay registros disponibles",
                 infoFiltered: "(Mostrar _MAX_ registros)",
                 paginate: {
-                    previous: "Anterior",
-                    next: "Siguiente",
+                    previous: "‹",
+                    next: "›",
+                },
+                aria: {
+                    paginate: {
+                        previous: "Previous",
+                        next: "Next",
+                    },
                 },
                 search: "Buscar",
             },
@@ -86,7 +92,9 @@ function get_datos_completos(form) {
 function pintaInput(ID) {
     if ($("#" + ID).val()) {
         $("#" + ID).css("border-color", "#01539c");
+        $("#" + ID).css("border", "1px solid");
     } else {
         $("#" + ID).css("border-color", "#dee2e6");
+        $("#" + ID).css("border", "1px solid");
     }
 }

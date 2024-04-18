@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
+
 @-moz-keyframes flash {
     0% {
         opacity: 1;
@@ -29154,7 +29154,6 @@ table.dataTable tbody td.select-checkbox:after {
 
 .swal2-modal .swal2-icon,
 .swal2-modal .swal2-success-ring {
-    margin-top: 0;
     margin-bottom: 42px;
 }
 

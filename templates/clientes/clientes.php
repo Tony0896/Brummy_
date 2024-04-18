@@ -6,10 +6,10 @@
 ?>
 <script type="text/javascript" src="./functions/clientes/clientes.js"></script>
     <div class="row" style="margin-bottom: 0.7em;">
-        <div class="col-md-9 mb-1" style="display: flex;align-items: center;">
+        <div class="col-md-9 mb-2" style="display: flex;align-items: center;">
             <h4 class="card-title mb-0">Clientes</h4>
         </div>
-        <div class="col-md-3 mb-1" style="display: flex;justify-content: end;">
+        <div class="col-md-3 mb-2" style="display: flex;justify-content: end;">
             <div class="buttom-green buttom" onclick="crearCliente()">
                 <span class="text-sm mb-0">Crear <i class="material-icons"> add_circle </i></span>
             </div>

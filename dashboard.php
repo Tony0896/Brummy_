@@ -4,8 +4,10 @@
         <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <title>Star Admin2</title>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <title>Brummy</title>
+        <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" /> -->
+        <link href="./css/CDN/Material_Icons.css" rel="stylesheet">
+        <link href="./css/CDN/sweetalert2.min.css" rel="stylesheet">
         <link rel="stylesheet" media="all" href="./css/ispinner.prefixed.css" />
         <!-- plugins:css -->
         <link rel="stylesheet" href="./vendors/feather/feather.css" />
@@ -44,7 +46,7 @@
             </div>
         </div>
         <div class="container-scroller">
-            <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
+            <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row" style="user-select: none;">
                 <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
                     <div class="me-3">
                         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
@@ -73,7 +75,7 @@
                 </div>
             </nav>
             <div class="container-fluid page-body-wrapper">
-                <nav class="sidebar sidebar-offcanvas" id="sidebar" style="position: fixed">
+                <nav class="sidebar sidebar-offcanvas" id="sidebar" style="position: fixed; user-select: none;">
                     <ul class="nav">
                         <li class="nav-item">
                             <a class="nav-link" href="./index.html">
@@ -208,5 +210,6 @@
         <!-- End custom js for this page-->
         <script type="text/javascript" src="./libraries/datatables-1.12.1/jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="./libraries/datatables-1.12.1/responsive/2.3.0/dataTables.responsive.min.js"></script>
+        <script src="./libraries/sweetalert2.all.min.js"></script>
     </body>
 </html>
