@@ -53,13 +53,13 @@ function obtenerMascotas() {
                     break;
                 case false:
                     preloader.hide();
-                    Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                     break;
             }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             preloader.hide();
-            Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
             console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
         });
 }
@@ -105,49 +105,49 @@ function crearMascota() {
 
                                             $("#body_modal").html(`<br>
                                                 <div id="formMascotas">
-                                                    <div class="form-floating mb-2 mt-1">
-                                                        <input type="text" class="form-control capitalize obligatorio" id="nombreMascota" autocomplete="off" placeholder="Nombre Mascota" onchange="pintaInput(this.id)" maxlength"50"/>
-                                                        <label name="Nombre Mascota" for="nombreMascota" class="labelFloating">Nombre Mascota</label>
+                                                    <div class="coolinput">
+                                                        <label name="Nombre Mascota" for="nombreMascota" class="text">Nombre Mascota</label>    
+                                                        <input name="Nombre Mascota" type="text" class="input capitalize obligatorio" id="nombreMascota" autocomplete="off" maxlength"50"/>
                                                     </div>
 
-                                                    <div class="form-floating mb-2 mt-1">
-                                                        <input type="date" class="form-control obligatorio" id="fechaMascota" autocomplete="off" placeholder="Fecha Nacimiento" onchange="pintaInput(this.id)" maxlength"50"/>
-                                                        <label name="Fecha Nacimiento" for="fechaMascota" class="labelFloating">Fecha Nacimiento</label>
+                                                    <div class="coolinput">
+                                                        <label name="Fecha Nacimiento" for="fechaMascota" class="text">Fecha Nacimiento</label>    
+                                                        <input name="Fecha Nacimiento" type="date" class="input obligatorio" id="fechaMascota" autocomplete="off" maxlength"50"/>
                                                     </div>
 
-                                                    <div class="form-floating mb-2 mt-1">
-                                                        <select class="form-control capitalize obligatorio" name="Relación Especie" id="relacionEspecie" placeholder="Relación Especie" onchange="pintaInput(this.id)" style="background-color: rgb(255, 255, 255);width:100%;">
+                                                    <div class="coolinput">
+                                                        <label for="relacionEspecie" class="text">Relación Especie</label>
+                                                        <select class="input capitalize obligatorio" name="Relación Especie" id="relacionEspecie" style="background-color: rgb(255, 255, 255);width:100%;">
                                                             <option value="">Selecciona una opción</option>
                                                             ${html2}
                                                         </select>
-                                                        <label for="relacionEspecie" class="labelFloating">Relación Especie</label>
                                                     </div>
 
-                                                    <div class="form-floating mb-2 mt-1">
-                                                        <select class="form-control capitalize obligatorio" name="Sexo Mascota" id="sexoMascota" placeholder="Sexo Mascota" onchange="pintaInput(this.id)" style="background-color: rgb(255, 255, 255);width:100%;">
+                                                    <div class="coolinput">
+                                                        <label for="sexoMascota" class="text">Sexo Mascota</label>
+                                                        <select class="input capitalize obligatorio" name="Sexo Mascota" id="sexoMascota" style="background-color: rgb(255, 255, 255);width:100%;">
                                                             <option value="">Selecciona una opción</option>
                                                             <option value="Macho">Macho</option>
                                                             <option value="Hembra">Hembra</option>
                                                         </select>
-                                                        <label for="sexoMascota" class="labelFloating">Sexo Mascota</label>
                                                     </div>
 
-                                                    <div class="form-floating mb-2 mt-1">
-                                                        <input type="text" class="form-control capitalize" id="colorMascota" autocomplete="off" placeholder="Color Mascota" onchange="pintaInput(this.id)" maxlength"50"/>
-                                                        <label name="Color Mascota" for="colorMascota" class="labelFloating">Color Mascota</label>
+                                                    <div class="coolinput">
+                                                        <label name="Color Mascota" for="colorMascota" class="text">Color Mascota</label>    
+                                                        <input type="text" class="input capitalize" id="colorMascota" autocomplete="off" maxlength"50"/>
                                                     </div>
 
-                                                    <div class="form-floating mb-2 mt-1">
-                                                        <input type="text" class="form-control capitalize" id="rasgosMascota" autocomplete="off" placeholder="Rasgos Particulares" onchange="pintaInput(this.id)" maxlength"50"/>
-                                                        <label name="Rasgos Particulares" for="rasgosMascota" class="labelFloating">Rasgos Particulares</label>
+                                                    <div class="coolinput">
+                                                        <label name="Rasgos Particulares" for="rasgosMascota" class="text">Rasgos Particulares</label>    
+                                                        <input type="text" class="input capitalize" id="rasgosMascota" autocomplete="off" maxlength"50"/>
                                                     </div>
 
-                                                    <div class="form-floating mb-2 mt-1">
-                                                        <select class="form-control capitalize obligatorio" name="Dueño Mascota" id="FK_dueno" placeholder="Dueño Mascota" onchange="pintaInput(this.id)" style="background-color: rgb(255, 255, 255);width:100%;">
+                                                    <div class="coolinput">
+                                                        <label for="FK_dueno" class="text">Dueño Mascota</label>
+                                                        <select class="input capitalize obligatorio" name="Dueño Mascota" id="FK_dueno" style="background-color: rgb(255, 255, 255);width:100%;">
                                                             <option value="">Selecciona una opción</option>
                                                             ${html3}
                                                         </select>
-                                                        <label for="FK_dueno" class="labelFloating">Dueño Mascota</label>
                                                     </div>
 
                                                 </div>
@@ -187,26 +187,26 @@ function crearMascota() {
                                         break;
                                     case false:
                                         preloader.hide();
-                                        Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                                        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                                         break;
                                 }
                             })
                             .fail(function (jqXHR, textStatus, errorThrown) {
                                 preloader.hide();
-                                Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                                msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                                 console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
                             });
                     }
                     break;
                 case false:
                     preloader.hide();
-                    Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                     break;
             }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             preloader.hide();
-            Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
             console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
         });
 }
@@ -252,18 +252,18 @@ function guardarMascota() {
                     case true:
                         $("#modalTemplate").modal("hide");
                         $("#btnClose").off("click");
-                        Swal.fire({ icon: "success", title: "Guardado correctamente.", text: "" });
+                        msj.show("Aviso", "Guardado correctamente", [{ text1: "OK" }]);
                         obtenerMascotas();
                         break;
                     case false:
                         preloader.hide();
-                        Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                         break;
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 preloader.hide();
-                Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                 console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
             });
     } else {

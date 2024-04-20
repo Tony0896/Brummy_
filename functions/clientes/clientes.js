@@ -52,13 +52,13 @@ function obtenerClientes() {
                     break;
                 case false:
                     preloader.hide();
-                    Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                     break;
             }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             preloader.hide();
-            Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
             console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
         });
 }
@@ -68,29 +68,29 @@ function crearCliente() {
 
     $("#body_modal").html(`<br>
         <div id="formClientes">
-            <div class="form-floating mb-2 mt-1">
-                <input type="text" class="form-control capitalize obligatorio" id="nombre" autocomplete="off" placeholder="Nombre" onchange="pintaInput(this.id)" maxlength"20"/>
-                <label name="Nombre" for="nombre" class="labelFloating">Nombre</label>
+            <div class="coolinput">
+                <label name="Nombre" for="nombre" class="text">Nombre</label>
+                <input name="Nombre" type="text" class="input capitalize obligatorio" id="nombre" autocomplete="off" maxlength"20"/>
             </div>
 
-            <div class="form-floating mb-2 mt-1">
-                <input type="text" class="form-control capitalize obligatorio" id="apellidoP" autocomplete="off" placeholder="Apellido Paterno" onchange="pintaInput(this.id)" maxlength"20"/>
-                <label name="Apellido Paterno" for="apellidoP" class="labelFloating">Apellido Paterno</label>
+            <div class="coolinput">
+                <label name="Apellido Paterno" for="apellidoP" class="text">Apellido Paterno</label>
+                <input name="Apellido Paterno" type="text" class="input capitalize obligatorio" id="apellidoP" autocomplete="off" maxlength"20"/>
             </div>
 
-            <div class="form-floating mb-2 mt-1">
-                <input type="text" class="form-control capitalize" id="apellidoM" autocomplete="off" placeholder="Apellido Materno" onchange="pintaInput(this.id)" maxlength"20"/>
-                <label name="Apellido Materno" for="apellidoM" class="labelFloating">Apellido Materno</label>
+            <div class="coolinput">
+                <label name="Apellido Materno" for="apellidoM" class="text">Apellido Materno</label>
+                <input name="Apellido Materno" type="text" class="input capitalize" id="apellidoM" autocomplete="off" maxlength"20"/>
             </div>
 
-            <div class="form-floating mb-2 mt-1">
-                <input type="text" class="form-control capitalize" id="telefono" autocomplete="off" placeholder="Teléfono" onchange="pintaInput(this.id)" maxlength"20"/>
-                <label name="Teléfono" for="telefono" class="labelFloating">Teléfono</label>
+            <div class="coolinput">
+                <label name="Teléfono" for="telefono" class="text">Teléfono</label>
+                <input name="Teléfono" type="text" class="input capitalize" id="telefono" autocomplete="off" maxlength"20"/>
             </div>
             
-            <div class="form-floating mb-2 mt-1">
-                <input type="text" class="form-control" id="correo" autocomplete="off" placeholder="Correo" onchange="pintaInput(this.id)" maxlength"100"/>
-                <label name="Correo" for="correo" class="labelFloating">Correo</label>
+            <div class="coolinput">
+                <label name="Correo" for="correo" class="text">Correo</label>
+                <input name="Correo" type="text" class="input" id="correo" autocomplete="off" maxlength"100"/>
             </div>
         </div>
 
@@ -147,29 +147,29 @@ function verPerfilCliente(ID) {
 
                             $("#body_modal").html(`<br>
                                 <div id="formClientes">
-                                    <div class="form-floating mb-2 mt-1">
-                                        <input type="text" class="form-control capitalize obligatorio" id="nombre" autocomplete="off" placeholder="Nombre" onchange="pintaInput(this.id)" maxlength"20" value="${nombreModal}"/>
-                                        <label name="Nombre" for="nombre" class="labelFloating">Nombre</label>
+                                    <div class="coolinput">
+                                        <label name="Nombre" for="nombre" class="text">Nombre</label>
+                                        <input name="Nombre" type="text" class="capitalize obligatorio input" id="nombre" autocomplete="off" maxlength"20" value="${nombreModal}"/>
                                     </div>
 
-                                    <div class="form-floating mb-2 mt-1">
-                                        <input type="text" class="form-control capitalize obligatorio" id="apellidoP" autocomplete="off" placeholder="Apellido Paterno" onchange="pintaInput(this.id)" maxlength"20" value="${apellidoPModal}"/>
-                                        <label name="Apellido Paterno" for="apellidoP" class="labelFloating">Apellido Paterno</label>
+                                    <div class="coolinput">
+                                        <label name="Apellido Paterno" for="apellidoP" class="text">Apellido Paterno</label>
+                                        <input name="Apellido Paterno" type="text" class="input capitalize obligatorio" id="apellidoP" autocomplete="off" maxlength"20" value="${apellidoPModal}"/>
                                     </div>
 
-                                    <div class="form-floating mb-2 mt-1">
-                                        <input type="text" class="form-control capitalize" id="apellidoM" autocomplete="off" placeholder="Apellido Materno" onchange="pintaInput(this.id)" maxlength"20" value="${apellidoMModal}"/>
-                                        <label name="Apellido Materno" for="apellidoM" class="labelFloating">Apellido Materno</label>
+                                    <div class="coolinput">
+                                        <label name="Apellido Materno" for="apellidoM" class="text">Apellido Materno</label>    
+                                        <input type="text" class="input capitalize" id="apellidoM" autocomplete="off" maxlength"20" value="${apellidoMModal}"/>
                                     </div>
 
-                                    <div class="form-floating mb-2 mt-1">
-                                        <input type="text" class="form-control capitalize" id="telefono" autocomplete="off" placeholder="Teléfono" onchange="pintaInput(this.id)" maxlength"20" value="${telefonoModal}"/>
-                                        <label name="Teléfono" for="telefono" class="labelFloating">Teléfono</label>
+                                    <div class="coolinput">
+                                        <label name="Teléfono" for="telefono" class="text">Teléfono</label>    
+                                        <input type="text" class="input capitalize" id="telefono" autocomplete="off" maxlength"20" value="${telefonoModal}"/>
                                     </div>
                                     
-                                    <div class="form-floating mb-2 mt-1">
-                                        <input type="text" class="form-control" id="correo" autocomplete="off" placeholder="Correo" onchange="pintaInput(this.id)" maxlength"100" value="${correoModal}"/>
-                                        <label name="Correo" for="correo" class="labelFloating">Correo</label>
+                                    <div class="coolinput">
+                                        <label name="Correo" for="correo" class="text">Correo</label>    
+                                        <input type="text" class="input" id="correo" autocomplete="off" maxlength"100" value="${correoModal}"/>
                                     </div>
                                 </div>
 
@@ -209,13 +209,13 @@ function verPerfilCliente(ID) {
                     break;
                 case false:
                     preloader.hide();
-                    Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                     break;
             }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             preloader.hide();
-            Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
             console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
         });
 }
@@ -252,18 +252,18 @@ function guardarCliente() {
                     case true:
                         $("#modalTemplate").modal("hide");
                         $("#btnClose").off("click");
-                        Swal.fire({ icon: "success", title: "Guardado correctamente.", text: "" });
+                        msj.show("Aviso", "Guardado correctamente", [{ text1: "OK" }]);
                         obtenerClientes();
                         break;
                     case false:
                         preloader.hide();
-                        Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                         break;
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 preloader.hide();
-                Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                 console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
             });
     } else {
@@ -309,18 +309,18 @@ function actualizarCliente(ID) {
                     case true:
                         $("#modalTemplate").modal("hide");
                         $("#btnClose").off("click");
-                        Swal.fire({ icon: "success", title: "Actualizado correctamente.", text: "" });
+                        msj.show("Aviso", "Actualizado correctamente", [{ text1: "OK" }]);
                         obtenerClientes();
                         break;
                     case false:
                         preloader.hide();
-                        Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                         break;
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 preloader.hide();
-                Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                 console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
             });
     } else {
@@ -364,13 +364,13 @@ function eliminarCliente(ID) {
                             break;
                         case false:
                             preloader.hide();
-                            Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                             break;
                     }
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
                     preloader.hide();
-                    Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                     console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
                 });
         }
@@ -466,13 +466,13 @@ function HistorialCliente() {
     //             break;
     //         case false:
     //             preloader.hide();
-    //             Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+    //             msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
     //             break;
     //     }
     // })
     // .fail(function (jqXHR, textStatus, errorThrown) {
     //     preloader.hide();
-    //     Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+    //     msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
     //     console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
     // });
 }

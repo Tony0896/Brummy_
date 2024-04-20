@@ -123,17 +123,19 @@ input.form-control.capitalize {
     border-bottom: 0px solid #ebedf2;
 }
 
-.select2-selection select2-selection--single {
-    height: 58px;
+.select2-container--default .select2-selection--single {
+    padding: 0;
+    font-size: 0.75rem;
+    border: 2px #009071 solid;
+    border-radius: 5px;
+    background-color: #fff !important;
+    height: 46.82px;
+    border-radius: 10px;
 }
 
 .select2-selection__rendered {
-    margin-top: 18px;
+    margin-top: 15px;
     text-transform: capitalize;
-}
-
-.select2-container--default .select2-selection--single {
-    background-color: #fff !important;
 }
 
 .select2-results__option[aria-selected] {
@@ -431,3 +433,149 @@ h2 {
 .dropdown-item:active {
     background-color: #009071;
 }
+
+.coolinput {
+    display: flex;
+    flex-direction: column;
+    position: static;
+}
+
+.coolinput label.text {
+    font-size: 0.85rem;
+    color: #009071;
+    font-weight: 700;
+    position: relative;
+    top: 0.5rem;
+    margin: 0 0 0 7px;
+    padding: 0 3px;
+    background: #fff;
+    width: fit-content;
+    z-index: 1;
+}
+
+.coolinput input.input {
+    padding: 11px 10px;
+    font-size: 0.85rem;
+    border: 2px #009071 solid;
+    border-radius: 5px;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.coolinput input.input:focus {
+    outline: none;
+}
+
+.coolinput select.input {
+    padding: 11px 10px;
+    font-size: 0.85rem;
+    border: 2px #009071 solid;
+    border-radius: 5px;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.coolinput select.input:focus {
+    outline: none;
+}
+
+.form-control:focus,
+.asColorPicker-input:focus,
+.dataTables_wrapper select:focus,
+.select2-container--default .select2-selection--single:focus,
+.select2-container--default .select2-selection--single .select2-search__field:focus,
+.typeahead:focus,
+.tt-query:focus,
+.tt-hint:focus {
+    border-color: #009071;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    font-family: "Manrope", sans-serif;
+    font-weight: 400;
+    font-size: 0.85rem;
+    height: 100%;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    display: none;
+}
+/******************************************************/
+.cookies-card {
+    width: auto;
+    height: fit-content;
+    background-color: rgb(255, 250, 250);
+    border-radius: 10px;
+    border: 1px solid rgb(206, 206, 206);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 20px 20px 35px 20px;
+    gap: 15px;
+    position: relative;
+    font-family: Arial, Helvetica, sans-serif;
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.066);
+}
+
+.cookie-heading {
+    color: rgb(34, 34, 34);
+    font-weight: 800;
+    font-size: 20px;
+    margin-right: 20px;
+    margin-top: 22px;
+}
+.cookie-para {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgb(51, 51, 51);
+}
+.button-wrapper {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 20px;
+}
+.cookie-button {
+    width: 50%;
+    padding: 8px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.accept {
+    background-color: #009071;
+    color: white;
+}
+.reject {
+    background-color: #ececec;
+    color: rgb(34, 34, 34);
+}
+.accept:hover {
+    background-color: #009071;
+}
+.reject:hover {
+    background-color: #ddd;
+}
+.exit-button {
+    position: absolute;
+    top: 17px;
+    right: 17px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.exit-button:hover {
+    background-color: #ddd;
+    color: white;
+}
+.svgIconCross {
+    height: 10px;
+}
+/******************************************************/

@@ -49,3 +49,19 @@ CREATE TABLE `brummybd`.`Razas` (
     `estatus` BIT(1) NOT NULL DEFAULT b'1',
     PRIMARY KEY (`ID`)
 );
+
+CREATE TABLE `brummybd`.`inventario` (
+    `ID` INT NOT NULL AUTO_INCREMENT , 
+    `codigo` VARCHAR(255), 
+    `nombre` INT,
+    `descripcion` VARCHAR(500), 
+    `tipo` VARCHAR(50),
+    `Flagtipo` VARCHAR(50),
+    `precioCompra` DECIMAL(10, 2),
+    `precioVenta` DECIMAL(10, 2),
+    `stockMinimo` INT,
+    `stockReal` INT,
+    `fechaCreacion` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+    `estatus` BIT(1) NOT NULL DEFAULT b'1',
+    PRIMARY KEY (`ID`)
+);

@@ -5,6 +5,7 @@ preloader.show = function () {
     $(".modals").modal("show");
     $(".modal").css("z-index", "1040");
     $(".modals").css("z-index", "1056");
+    $(".modalAlerts").css("z-index", "1057");
 };
 
 preloader.hide = function () {
@@ -61,17 +62,17 @@ function get_datos_completos(form) {
         if ($(campo).get(0).tagName == "SELECT") {
             if (campo.value.trim() == 0 || campo.value.trim() == "") {
                 valido = false;
-                trae_los_campos_sin_llennar = [...trae_los_campos_sin_llennar, $(campo).attr("placeholder")];
+                trae_los_campos_sin_llennar = [...trae_los_campos_sin_llennar, $(campo).attr("name")];
             }
         } else if ($(campo).get(0).tagName == "TEXTAREA") {
             if (campo.value.trim() === "") {
                 valido = false;
-                trae_los_campos_sin_llennar = [...trae_los_campos_sin_llennar, $(campo).attr("placeholder")];
+                trae_los_campos_sin_llennar = [...trae_los_campos_sin_llennar, $(campo).attr("name")];
             }
         } else {
             if (campo.value.trim() === "") {
                 valido = false;
-                trae_los_campos_sin_llennar = [...trae_los_campos_sin_llennar, $(campo).attr("placeholder")];
+                trae_los_campos_sin_llennar = [...trae_los_campos_sin_llennar, $(campo).attr("name")];
             }
         }
     });
@@ -89,12 +90,22 @@ function get_datos_completos(form) {
     }
 }
 
-function pintaInput(ID) {
-    if ($("#" + ID).val()) {
-        $("#" + ID).css("border-color", "#01539c");
-        $("#" + ID).css("border", "1px solid");
-    } else {
-        $("#" + ID).css("border-color", "#dee2e6");
-        $("#" + ID).css("border", "1px solid");
-    }
-}
+const msj = function () {};
+
+msj.show = function (title, subtile, buttons) {
+    let buttonOne = "",
+        buttonTwo = "";
+    $("#titleAlert").html(title);
+    $("#subtitleAlert").html(subtile);
+    buttons[0].text2
+        ? ((buttonTwo = `<button class="reject cookie-button acceptOne">${buttons[0].text2}</button>`),
+          (buttonOne = `<button class="accept cookie-button">${buttons[0].text1}</button>`))
+        : (buttonOne = `<button class="accept cookie-button px-3 acceptOne" style="width: fit-content;">${buttons[0].text1}</button>`);
+
+    $("#btnAlert").html(buttonOne + buttonTwo);
+    $("#modalAlert").modal("show");
+
+    $(".acceptOne").on("click", () => {
+        $("#modalAlert").modal("hide");
+    });
+};

@@ -9,9 +9,9 @@ function crearNuevaEspecie() {
 
     $("#body_modal").html(`<br>
         <div id="formEspecies">
-            <div class="form-floating mb-1 mt-1">
-                <input type="text" class="form-control capitalize obligatorio" id="nombreEspecie" autocomplete="off" placeholder="Nombre Especie" onchange="pintaInput(this.id)" maxlength"50"/>
-                <label name="Nombre Especie" for="nombreEspecie" class="labelFloating">Nombre Especie</label>
+            <div class="coolinput">
+                <label name="Nombre Especie" for="nombreEspecie" class="text">Nombre Especie</label>
+                <input name="Nombre Especie" type="text" class="capitalize obligatorio input" id="nombreEspecie" autocomplete="off" maxlength"50"/>
             </div>
         </div>
 
@@ -62,18 +62,18 @@ function guardarEspecie() {
                     case true:
                         $("#modalTemplate").modal("hide");
                         $("#btnClose").off("click");
-                        Swal.fire({ icon: "success", title: "Guardado correctamente.", text: "" });
+                        msj.show("Aviso", "Guardado correctamente", [{ text1: "OK" }]);
                         obtenerEspecies();
                         break;
                     case false:
                         preloader.hide();
-                        Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                         break;
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 preloader.hide();
-                Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                 console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
             });
     } else {
@@ -127,13 +127,13 @@ function obtenerEspecies() {
                     break;
                 case false:
                     preloader.hide();
-                    Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                     break;
             }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             preloader.hide();
-            Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
             console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
         });
 }
@@ -179,13 +179,13 @@ function obtenerRazas() {
                     break;
                 case false:
                     preloader.hide();
-                    Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                     break;
             }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             preloader.hide();
-            Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
             console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
         });
 }
@@ -215,17 +215,17 @@ function crearNuevaRaza() {
 
                         $("#body_modal").html(`<br>
                             <div id="formRazas">
-                                <div class="form-floating mb-1 mt-1">
-                                    <input type="text" class="form-control capitalize obligatorio" id="nombreRaza" autocomplete="off" placeholder="Nombre Raza" onchange="pintaInput(this.id)" maxlength"50"/>
-                                    <label name="Nombre Raza" for="nombreRaza" class="labelFloating">Nombre Raza</label>
+                                <div class="coolinput">
+                                    <label name="Nombre Raza" for="nombreRaza" class="text">Nombre Raza</label>
+                                    <input name="Nombre Raza" type="text" class="input capitalize obligatorio" id="nombreRaza" autocomplete="off" maxlength"50"/>
                                 </div>
 
-                                <div class="form-floating mb-1 mt-1">
-                                    <select class="form-control capitalize obligatorio" name="Relación Especie" id="relacionEspecie" placeholder="Relación Especie" onchange="pintaInput(this.id)" style="background-color: rgb(255, 255, 255);width:100%;">
+                                <div class="coolinput">
+                                    <label for="relacionEspecie" class="text">Relación Especie</label>
+                                    <select class="input capitalize obligatorio" name="Relación Especie" id="relacionEspecie" style="background-color: rgb(255, 255, 255);width:100%;">
                                         <option value="">Selecciona una opción</option>
                                         ${html}
                                     </select>
-                                    <label for="relacionEspecie" class="labelFloating">Relación Especie</label>
                                 </div>
                             </div>
 
@@ -260,13 +260,13 @@ function crearNuevaRaza() {
                     break;
                 case false:
                     preloader.hide();
-                    Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                     break;
             }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             preloader.hide();
-            Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
             console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
         });
 }
@@ -296,18 +296,18 @@ function guardarRaza() {
                     case true:
                         $("#modalTemplate").modal("hide");
                         $("#btnClose").off("click");
-                        Swal.fire({ icon: "success", title: "Guardado correctamente.", text: "" });
+                        msj.show("Aviso", "Guardado correctamente", [{ text1: "OK" }]);
                         obtenerRazas();
                         break;
                     case false:
                         preloader.hide();
-                        Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                         break;
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 preloader.hide();
-                Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                 console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
             });
     } else {
@@ -351,13 +351,13 @@ function deleteEspecie(ID) {
                             break;
                         case false:
                             preloader.hide();
-                            Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                             break;
                     }
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
                     preloader.hide();
-                    Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                     console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
                 });
         }
@@ -394,13 +394,13 @@ function deleteRaza(ID) {
                             break;
                         case false:
                             preloader.hide();
-                            Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                             break;
                     }
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
                     preloader.hide();
-                    Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                     console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
                 });
         }

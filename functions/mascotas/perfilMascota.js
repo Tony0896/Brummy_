@@ -53,13 +53,13 @@ function verPerfilMascota(ID) {
                     break;
                 case false:
                     preloader.hide();
-                    Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                     break;
             }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             preloader.hide();
-            Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
             console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
         });
 }
@@ -98,13 +98,13 @@ function eliminarMascota(ID) {
                     break;
                 case false:
                     preloader.hide();
-                    Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                     break;
             }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             preloader.hide();
-            Swal.fire({ icon: "warning", title: "Algo salió mal.", text: "" });
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
             console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
         });
 }

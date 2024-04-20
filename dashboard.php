@@ -45,6 +45,7 @@
                 </div>
             </div>
         </div>
+        <?php include_once('./templates/components/modalAlert.php'); ?>
         <div class="container-scroller">
             <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row" style="user-select: none;">
                 <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
