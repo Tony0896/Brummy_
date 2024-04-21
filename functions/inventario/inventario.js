@@ -23,19 +23,25 @@ function obtenerInventario() {
                         preloader.hide();
                     } else {
                         dataTableDestroy();
-                        let html;
+                        let html, codigo, stock;
                         result.forEach((data, index) => {
+                            codigo = data.codigo;
+                            stock = data.stockReal;
+                            if (data.Flagtipo == "Servicio") {
+                                codigo = String(codigo) + String(data.ID);
+                                stock = "N/A";
+                            }
                             html += `<tr>
                                 <td>${index + 1}</td>
-                                <td>${data.codigo}</td>
+                                <td>${codigo}</td>
                                 <td>${data.nombre}</td>
                                 <td>${data.Flagtipo}</td>
                                 <td>${data.precioVenta}</td>
-                                <td>${data.stockReal}</td>
+                                <td>${stock}</td>
                                 <td>
                                     <div style="display: flex; flex-direction: row;">
-                                        <div class="buttom-blue buttom button-sinText mx-1" title="Ver Producto" onclick="verMascota(${data.ID})">
-                                            <span class="text-sm mb-0"><i class="material-icons"> pets </i></span>
+                                        <div class="buttom-blue buttom button-sinText mx-1" title="Ver Producto" onclick="verProducto(${data.ID})">
+                                            <span class="text-sm mb-0"><i class="material-icons"> inventory_2 </i></span>
                                         </div>
                                     </div>
                                 </td>
@@ -165,6 +171,11 @@ function guardarProducto() {
         precioVenta.replaceAll("'", '"');
         stockMinimo.replaceAll("'", '"');
         stockReal.replaceAll("'", '"');
+        if (!codigo) {
+            let now = String(Date.now());
+            let lastFive = now.substr(now.length - 8);
+            codigo = "750" + String(lastFive);
+        }
         preloader.show();
         $.ajax({
             method: "POST",
@@ -202,4 +213,243 @@ function guardarProducto() {
         html += `</ul>`;
         Swal.fire({ icon: "warning", title: "", html: html });
     }
+}
+
+function verProducto(ID) {
+    preloader.show();
+    $.ajax({
+        method: "POST",
+        dataType: "JSON",
+        url: "./views/inventario/obtenerProducto.php",
+        data: { ID },
+    })
+        .done(function (results) {
+            let success = results.success;
+            let result = results.result;
+            let html = "";
+            switch (success) {
+                case true:
+                    if (result == "Sin Datos") {
+                        Swal.fire({ icon: "warning", title: "Sin datos.", text: "" });
+                    } else {
+                        result.forEach((data, index) => {
+                            $("#labelModal").html(`Crear Nuevo Producto o Servicio`);
+
+                            $("#body_modal").html(`<br>
+                                <div id="formInventario">
+                                    <div class="coolinput div_producto div_servicio">
+                                        <label for="tipoProducto" class="text">Tipo</label>
+                                        <select class="input obligatorio" name="Tipo" id="tipoProducto" style="background-color: rgb(255, 255, 255);width:100%;" onchange="asignaObligatorios(this.value)">
+                                            <option value="">Selecciona una opción</option>
+                                            <option value="Producto">Producto</option>
+                                            <option value="Servicio">Servicio</option>
+                                        </select>
+                                    </div>
+    
+                                    <div class="coolinput div_producto div_servicio">
+                                        <label for="nombre" class="text">Nombre</label>
+                                        <input name="Nombre" type="text" class="capitalize input producto servicio obligatorio" id="nombre" autocomplete="off" maxlength"20"/>
+                                    </div>
+    
+                                    <div class="coolinput div_producto">
+                                        <label for="codigo" class="text">Código</label>
+                                        <input name="Código" type="text" class="capitalize input producto" id="codigo" autocomplete="off" maxlength"20"/>
+                                    </div>
+    
+                                    <div class="coolinput div_producto div_servicio">
+                                        <label for="descripcion" class="text">Descripción</label>
+                                        <input name="Descripción" type="text" class="capitalize input producto servicio obligatorio" id="descripcion" autocomplete="off" maxlength"20"/>
+                                    </div>
+    
+                                    <div class="coolinput div_producto">
+                                        <label for="precioCompra" class="text">Precio Compra</label>
+                                        <input name="Precio Compra" type="text" class="capitalize input producto" id="precioCompra" autocomplete="off" maxlength"20"/>
+                                    </div>
+    
+                                    <div class="coolinput div_producto div_servicio">
+                                        <label for="precioVenta" class="text">Precio Venta</label>
+                                        <input name="Precio Venta" type="text" class="capitalize input producto servicio obligatorio" id="precioVenta" autocomplete="off" maxlength"20"/>
+                                    </div>
+    
+                                    <div class="coolinput div_producto">
+                                        <label for="stockMinimo" class="text">Stock mínimo</label>
+                                        <input name="Stock mínimo" type="text" class="capitalize input producto" id="stockMinimo" autocomplete="off" maxlength"20"/>
+                                    </div>
+                                    
+                                    <div class="coolinput div_producto">
+                                        <label for="stockReal" class="text">Stock Real</label>
+                                        <input name="Stock Real" type="text" class="capitalize input producto" id="stockReal" autocomplete="off" maxlength"20"/>
+                                    </div>
+                                </div>
+    
+                                <div class="center-fitcomponent" style="width: 100%;">
+                                    <div class="buttom-blue buttom" style="margin-left: auto;margin-right: auto;" onclick="actualizarProducto(${data.ID});">
+                                        <span class="text-sm mb-0 span-buttom"> 
+                                            Actualizar
+                                            <i class="material-icons"> save </i>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="center-fitcomponent" style="width: 100%;">
+                                    <div class="buttom-red buttom" style="margin-left: auto;margin-right: auto;" onclick="eliminarProdcuto(${data.ID});">
+                                        <span class="text-sm mb-0 span-buttom"> 
+                                            Eliminar
+                                            <i class="material-icons"> delete </i>
+                                        </span>
+                                    </div>
+                                </div>
+                            `);
+
+                            $(".capitalize").removeClass("obligatorio");
+                            $(".coolinput").css("display", "none");
+
+                            $("#tipoProducto").val(data.tipo);
+                            $("#nombre").val(data.nombre);
+                            data.tipo == "Servicio" ? $("#codigo").val(String(data.codigo) + String(data.ID)) : $("#codigo").val(data.codigo);
+                            $("#descripcion").val(data.descripcion);
+                            $("#precioCompra").val(data.precioCompra);
+                            $("#precioVenta").val(data.precioVenta);
+                            $("#stockMinimo").val(data.stockMinimo);
+                            $("#stockReal").val(data.stockReal);
+
+                            if (data.tipo == "Producto") {
+                                $(".producto").addClass("obligatorio");
+                                $(".div_producto").css("display", "flex");
+                            } else if (data.tipo == "Servicio") {
+                                $(".servicio").addClass("obligatorio");
+                                $(".div_servicio").css("display", "flex");
+                            }
+
+                            $("#modalTemplate").modal({
+                                backdrop: "static",
+                                keyboard: false,
+                            });
+
+                            $("#modalTemplate").modal("show");
+
+                            $("#btnClose").on("click", () => {
+                                $("#modalTemplate").modal("hide");
+                                $("#btnClose").off("click");
+                            });
+                        });
+                        preloader.hide();
+                    }
+                    break;
+                case false:
+                    preloader.hide();
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            preloader.hide();
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+            console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
+}
+
+function actualizarProducto(ID) {
+    let values = get_datos_completos("formInventario");
+    let response = values.response;
+    let valido = values.valido;
+    if (valido) {
+        let tipoProducto = String($("#tipoProducto").val()).trim();
+        let nombre = String($("#nombre").val()).trim();
+        let codigo = String($("#codigo").val()).trim();
+        let descripcion = String($("#descripcion").val()).trim();
+        let precioCompra = String($("#precioCompra").val()).trim();
+        let precioVenta = String($("#precioVenta").val()).trim();
+        let stockMinimo = String($("#stockMinimo").val()).trim();
+        let stockReal = String($("#stockReal").val()).trim();
+
+        tipoProducto.replaceAll("'", '"');
+        nombre.replaceAll("'", '"');
+        codigo.replaceAll("'", '"');
+        descripcion.replaceAll("'", '"');
+        precioCompra.replaceAll("'", '"');
+        precioVenta.replaceAll("'", '"');
+        stockMinimo.replaceAll("'", '"');
+        stockReal.replaceAll("'", '"');
+
+        preloader.show();
+        $.ajax({
+            method: "POST",
+            dataType: "JSON",
+            url: "./views/inventario/actualizaProducto.php",
+            data: { descripcion, precioCompra, precioVenta, stockMinimo, stockReal, ID },
+        })
+            .done(function (results) {
+                let success = results.success;
+                let result = results.result;
+                switch (success) {
+                    case true:
+                        $("#modalTemplate").modal("hide");
+                        $("#btnClose").off("click");
+                        msj.show("Aviso", "Actualizado correctamente", [{ text1: "OK" }]);
+                        obtenerInventario();
+                        break;
+                    case false:
+                        preloader.hide();
+                        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                        break;
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                preloader.hide();
+                msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+            });
+    } else {
+        let html =
+            '<span style="font-weight: 900;">Debes llenar estos campos para poder guardar:</span> <br> <ul style="text-align: left; margin-left: 15px; font-style: italic;"> ';
+        response.forEach((data) => {
+            html += `<li style="list-style: disc;">${data}.</li> `;
+        });
+        html += `</ul>`;
+        Swal.fire({ icon: "warning", title: "", html: html });
+    }
+}
+
+function eliminarProdcuto(ID) {
+    Swal.fire({
+        title: "",
+        text: "¿Estás seguro de querer eliminar el registro?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#7066e0",
+        cancelButtonColor: "#FF0037",
+        confirmButtonText: "OK",
+        cancelButtonText: "Cancelar",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            preloader.show();
+            $.ajax({
+                method: "POST",
+                dataType: "JSON",
+                url: "./views/inventario/eliminarProdcuto.php",
+                data: { ID },
+            })
+                .done(function (results) {
+                    let success = results.success;
+                    let result = results.result;
+                    switch (success) {
+                        case true:
+                            $("#modalTemplate").modal("hide");
+                            $("#btnClose").off("click");
+                            obtenerInventario();
+                            break;
+                        case false:
+                            preloader.hide();
+                            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                            break;
+                    }
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    preloader.hide();
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                    console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+                });
+        }
+    });
 }

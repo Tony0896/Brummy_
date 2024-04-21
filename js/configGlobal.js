@@ -109,3 +109,7 @@ msj.show = function (title, subtile, buttons) {
         $("#modalAlert").modal("hide");
     });
 };
+
+function capitalizeLetras(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}

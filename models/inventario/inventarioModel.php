@@ -76,6 +76,106 @@ namespace inventario\inventarioModel;
             $resultJson = json_encode( $result );
             return $resultJson;
         }
+
+        function obtenerProducto($data){
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $ID = $data['ID'];
+            $sql = "SELECT * FROM inventario WHERE ID = $ID";
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $rowcount=mysqli_num_rows($stmt);   
+                    if ( $rowcount ) {
+                        while($row = mysqli_fetch_assoc($stmt)) {
+                            $array[] =$row;
+                        }
+                        $result = array('success' => true, 'result' => $array);
+                    } else{
+                        $result = array('success' => true, 'result' => 'Sin Datos');
+                    }
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+            
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;
+        }
+
+        function actualizaProducto($data){
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $descripcion = $data['descripcion'];
+            $precioCompra = $data['precioCompra'];
+            $precioVenta = $data['precioVenta'];
+            $stockMinimo = $data['stockMinimo'];
+            $stockReal = $data['stockReal'];
+            $ID = $data['ID'];
+
+            $sql = "UPDATE inventario SET descripcion = '$descripcion', precioCompra = '$precioCompra', 
+            precioVenta = '$precioVenta', stockMinimo = '$stockMinimo', stockReal = '$stockReal' WHERE ID = $ID";
+
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $rowcount=0;
+                    if ( $rowcount ) {
+                        while($row = mysqli_fetch_assoc($stmt)) {
+                            $array[] =$row;
+                        }
+                        $result = array('success' => true, 'result' => $array);
+                    } else{
+                        $result = array('success' => true, 'result' => 'Sin Datos');
+                    }
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;
+        }
         
+        function eliminarProdcuto($data){
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $ID = $data['ID'];
+
+            $sql = "UPDATE inventario SET estatus = 0 WHERE ID = $ID";
+
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $rowcount=0;
+                    if ( $rowcount ) {
+                        while($row = mysqli_fetch_assoc($stmt)) {
+                            $array[] =$row;
+                        }
+                        $result = array('success' => true, 'result' => $array);
+                    } else{
+                        $result = array('success' => true, 'result' => 'Sin Datos');
+                    }
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;
+        }
+         
     }
 ?>

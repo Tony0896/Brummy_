@@ -25,6 +25,24 @@
             $result_model = $model_inventario->guardarProducto($data);
             return $result_model;
         }
+
+        function obtenerProducto($data){
+            $model_inventario = $this->getConexionModelClass();
+            $result_model = $model_inventario->obtenerProducto($data);
+            return $result_model;
+        }
         
+        function actualizaProducto($data){
+            $model_inventario = $this->getConexionModelClass();
+            $result_model = $model_inventario->actualizaProducto($data);
+            return $result_model;
+        }
+  
+        function eliminarProdcuto($data){
+            $model_inventario = $this->getConexionModelClass();
+            $result_model = $model_inventario->eliminarProdcuto($data);
+            return $result_model;
+        }
+
     }
 ?>
