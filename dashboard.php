@@ -55,10 +55,10 @@
                         </button>
                     </div>
                     <div>
-                        <a class="navbar-brand brand-logo" href="./index.html">
+                        <a class="navbar-brand brand-logo" href="./dashboard.php">
                             <img src="./images/logo.svg" alt="logo" />
                         </a>
-                        <a class="navbar-brand brand-logo-mini" href="./index.html">
+                        <a class="navbar-brand brand-logo-mini" href="./dashboard.php">
                             <img src="./images/logo-mini.svg" alt="logo" />
                         </a>
                     </div>
@@ -79,7 +79,7 @@
                 <nav class="sidebar sidebar-offcanvas" id="sidebar" style="position: fixed; user-select: none;">
                     <ul class="nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="./index.html">
+                            <a class="nav-link" href="./dashboard.php">
                                 <span class="material-icons me-2"> dashboard </span>
                                 <span class="menu-title">Dashboard</span>
                             </a>

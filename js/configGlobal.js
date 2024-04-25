@@ -44,6 +44,34 @@ function dataTableCreate() {
     preloader.hide();
 }
 
+function dataTableCreateDes() {
+    $(".datatable")
+        .DataTable({
+            responsive: true,
+            language: {
+                lengthMenu: "_MENU_ registros por pagina",
+                zeroRecords: "No hay resultados",
+                info: "Pagina _PAGE_ de _PAGES_",
+                infoEmpty: "No hay registros disponibles",
+                infoFiltered: "(Mostrar _MAX_ registros)",
+                paginate: {
+                    previous: "‹",
+                    next: "›",
+                },
+                aria: {
+                    paginate: {
+                        previous: "Previous",
+                        next: "Next",
+                    },
+                },
+                search: "Buscar",
+            },
+            order: [[0, "desc"]],
+        })
+        .draw();
+    preloader.hide();
+}
+
 function dataTableDestroy() {
     $(".datatable").DataTable().destroy();
 }
@@ -112,4 +140,20 @@ msj.show = function (title, subtile, buttons) {
 
 function capitalizeLetras(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function genRandom() {
+    const digitHundreds = Math.floor(Math.random() * 900) + 1;
+    let digitTens = Math.floor(Math.random() * 9);
+    if (digitTens >= digitHundreds) digitTens++;
+    let digitUnits = Math.floor(Math.random() * 8);
+    if (digitUnits >= digitHundreds || digitUnits >= digitTens) digitUnits++;
+    if (digitUnits >= digitHundreds && digitUnits >= digitTens) digitUnits++;
+    return digitHundreds * 100 + digitTens * 10 + digitUnits;
+}
+
+function FormatDate(fecha) {
+    let n = new Date(fecha);
+    n = String(n.toLocaleString("es-CL")).split(",")[0];
+    return n;
 }

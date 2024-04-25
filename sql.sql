@@ -65,3 +65,37 @@ CREATE TABLE `brummybd`.`inventario` (
     `estatus` BIT(1) NOT NULL DEFAULT b'1',
     PRIMARY KEY (`ID`)
 );
+
+CREATE TABLE `brummybd`.`ventaHeader` (
+    `ID` INT NOT NULL AUTO_INCREMENT , 
+    `cliente` INT,
+    `price` DECIMAL(10,2),
+    `FlagExacto` BIT,
+    `efectivo` DECIMAL(10,2),
+    `cambio` DECIMAL(10,2),
+    `fechaCreacion` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+    `estatus` BIT(1) NOT NULL DEFAULT b'1',
+    PRIMARY KEY (`ID`)
+);
+
+
+CREATE TABLE `brummybd`.`ventaDetalle` (
+    `ID` INT NOT NULL AUTO_INCREMENT , 
+    `FKVenta` INT,
+    `FKProducto` INT,
+    `FlagProducto` VARCHAR(100),
+    `cantidad` INT,
+    `total` DECIMAL(10,2),
+    `fechaCreacion` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+    `estatus` BIT(1) NOT NULL DEFAULT b'1',
+    PRIMARY KEY (`ID`)
+);
+
+--*View vwVentasGeneral
+SELECT he.ID,he.cliente,he.price,DATE(he.fechaCreacion) as Fecha, SUM(det.cantidad) as cantidad,
+CONCAT(cl.nombre,' ',cl.apellidoM,' ',cl.apellidoP) as nombreCompleto FROM ventaheader he 
+INNER JOIN ventadetalle det
+ON he.ID = det.FKVenta
+INNER JOIN clientes cl 
+ON cl.ID = he.cliente
+GROUP BY ID 

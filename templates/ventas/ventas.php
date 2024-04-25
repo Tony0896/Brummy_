@@ -17,7 +17,20 @@
     </div>
 
     <div class="forms-sample">
-     
+        <table class="mdl-data-table table responsive table-bordered table-striped datatable" style="width:100%">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Cliente</th>
+                    <th>Productos</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="ventasBody">
+            </tbody>
+        </table>
     </div>
 <?php 
     require_once('./../components/modal.php');
