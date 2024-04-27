@@ -56,13 +56,13 @@ table.dataTable thead > tr > th {
 }
 /* Buttom color blue */
 .buttom-blue {
-    border: 2px solid #01539c;
-    color: #01539c;
+    border: 2px solid #0277bd;
+    color: #0277bd;
 }
 
 .buttom-blue:hover {
-    border: 2px solid #01539c;
-    background-color: #01539c;
+    border: 2px solid #0277bd;
+    background-color: #0277bd;
     color: #fff;
 }
 /* Buttom color red */
@@ -109,6 +109,7 @@ input.form-control.capitalize {
 .nav-tabs .nav-link {
     background: #fff;
     border: 1px solid #009071;
+    padding: 8px 15px;
 }
 
 .nav-tabs .nav-link:hover,
@@ -143,7 +144,7 @@ input.form-control.capitalize {
 }
 
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-    background: #01539c;
+    background: #0277bd;
 }
 
 div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
@@ -165,6 +166,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background: transparent;
 }
 input[type="date"] {
+    position: relative;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    color: transparent;
+    background: transparent;
+}
+input[type="time"] {
     position: relative;
 }
 
@@ -239,7 +254,7 @@ input[type="date"] {
     list-style: none;
     margin: auto;
     min-height: 50px;
-    border-left: 1px dashed #01539c;
+    border-left: 1px dashed #0277bd;
     padding: 0 0 30px 25px;
     /* position: relative; */
     max-width: 450px;
@@ -257,7 +272,7 @@ input[type="date"] {
     content: " ";
     border: 8px solid rgba(255, 255, 255, 1);
     border-radius: 500%;
-    background: #01539c;
+    background: #0277bd;
     height: 30px;
     width: 30px;
     transition: all 500ms ease-in-out;
@@ -268,7 +283,7 @@ input[type="date"] {
 }
 
 .rb-container ul.rb li:hover::before {
-    border-color: #01539c;
+    border-color: #0277bd;
     transition: all 1000ms ease-in-out;
     background: #fff;
 }

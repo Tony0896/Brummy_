@@ -49,6 +49,42 @@
             $result_model = $model_catalogos->deleteRaza($data);
             return $result_model;
         }
+
+        function obtenerMotivos(){
+            $model_catalogos = $this->getConexionModelClass();
+            $result_model = $model_catalogos->obtenerMotivos();
+            return $result_model;
+        }
+
+        function guardarMotivoCita($data){
+            $model_catalogos = $this->getConexionModelClass();
+            $result_model = $model_catalogos->guardarMotivoCita($data);
+            return $result_model;
+        }
+
+        function deleteMotivoCita($data){
+            $model_catalogos = $this->getConexionModelClass();
+            $result_model = $model_catalogos->deleteMotivoCita($data);
+            return $result_model;
+        }
+
+        function obtenerMotivosRechazo(){
+            $model_catalogos = $this->getConexionModelClass();
+            $result_model = $model_catalogos->obtenerMotivosRechazo();
+            return $result_model;
+        }
+
+        function guardarMotivoRechazo($data){
+            $model_catalogos = $this->getConexionModelClass();
+            $result_model = $model_catalogos->guardarMotivoRechazo($data);
+            return $result_model;
+        }
+
+        function deleteMotivoRechazo($data){
+            $model_catalogos = $this->getConexionModelClass();
+            $result_model = $model_catalogos->deleteMotivoRechazo($data);
+            return $result_model;
+        }
         
     }
 ?>

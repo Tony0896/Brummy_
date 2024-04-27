@@ -37,6 +37,12 @@
             $result_model = $model_mascotas->eliminarMascota($data);
             return $result_model;
         }
+
+        function obtenerMascotasDuenios($data){
+            $model_mascotas = $this->getConexionModelClass();
+            $result_model = $model_mascotas->obtenerMascotasDuenios($data);
+            return $result_model;
+        }
         
     }
 ?>

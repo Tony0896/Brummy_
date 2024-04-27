@@ -2,6 +2,8 @@ $(document).ready(() => {
     // preloader.hide();
     obtenerEspecies();
     obtenerRazas();
+    obtenerMotivos();
+    obtenerMotivosRechazo();
 });
 
 function crearNuevaEspecie() {
@@ -391,6 +393,360 @@ function deleteRaza(ID) {
                             $("#modalTemplate").modal("hide");
                             $("#btnClose").off("click");
                             obtenerRazas();
+                            break;
+                        case false:
+                            preloader.hide();
+                            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                            break;
+                    }
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    preloader.hide();
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                    console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+                });
+        }
+    });
+}
+
+function obtenerMotivos() {
+    $.ajax({
+        method: "POST",
+        dataType: "JSON",
+        url: "./views/catalogos/obtenerMotivos.php",
+        data: {},
+    })
+        .done(function (results) {
+            let success = results.success;
+            let result = results.result;
+            let html = "";
+            switch (success) {
+                case true:
+                    if (result == "Sin Datos") {
+                        dataTableDestroy();
+                        $("#motivosCitaBody").html(html);
+                        dataTableCreate();
+                        preloader.hide();
+                    } else {
+                        dataTableDestroy();
+                        let html;
+                        result.forEach((data, index) => {
+                            html += `<tr>
+                                <td>${index + 1}</td>
+                                <td class="capitalize">${data.motivoCita}</td>
+                                <td>
+                                    <div style="display: flex; flex-direction: row;">
+                                        <div class="buttom-red buttom button-sinText mx-1" title="Eliminar" onclick="deleteMotivoCita(${data.ID})">
+                                            <span class="text-sm mb-0"><i class="material-icons"> delete </i></span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>`;
+                        });
+                        $("#motivosCitaBody").html(html);
+                        dataTableCreate();
+                    }
+                    break;
+                case false:
+                    preloader.hide();
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            preloader.hide();
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+            console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
+}
+
+function crearNuevoMotivo() {
+    $("#labelModal").html(`Crear Nuevo Motivo de Cita`);
+
+    $("#body_modal").html(`<br>
+        <div id="formMotivoCita">
+            <div class="coolinput">
+                <label name="Motivo" for="motivo" class="text">Motivo</label>
+                <input name="Motivo" type="text" class="capitalize obligatorio input" id="motivo" autocomplete="off" maxlength"50"/>
+            </div>
+        </div>
+
+        <div class="center-fitcomponent" style="width: 100%;">
+            <div class="buttom-blue buttom" style="margin-left: auto;margin-right: auto;" onclick="guardarMotivoCita();">
+                <span class="text-sm mb-0 span-buttom"> 
+                    Guardar
+                    <i class="material-icons"> save </i>
+                </span>
+            </div>
+        </div>
+    `);
+
+    $("#modalTemplate").modal({
+        backdrop: "static",
+        keyboard: false,
+    });
+
+    $("#modalTemplate").modal("show");
+
+    $("#btnClose").on("click", () => {
+        $("#modalTemplate").modal("hide");
+        $("#btnClose").off("click");
+    });
+}
+
+function guardarMotivoCita() {
+    let values = get_datos_completos("formMotivoCita");
+    let response = values.response;
+    let valido = values.valido;
+    if (valido) {
+        let motivoCita = String($("#motivo").val()).trim();
+
+        motivoCita.replaceAll("'", '"');
+
+        preloader.show();
+
+        $.ajax({
+            method: "POST",
+            dataType: "JSON",
+            url: "./views/catalogos/guardarMotivoCita.php",
+            data: { motivoCita },
+        })
+            .done(function (results) {
+                let success = results.success;
+                let result = results.result;
+                switch (success) {
+                    case true:
+                        $("#modalTemplate").modal("hide");
+                        $("#btnClose").off("click");
+                        msj.show("Aviso", "Guardado correctamente", [{ text1: "OK" }]);
+                        obtenerMotivos();
+                        break;
+                    case false:
+                        preloader.hide();
+                        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                        break;
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                preloader.hide();
+                msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+            });
+    } else {
+        let html =
+            '<span style="font-weight: 900;">Debes llenar estos campos para poder guardar:</span> <br> <ul style="text-align: left; margin-left: 15px; font-style: italic;"> ';
+        response.forEach((data) => {
+            html += `<li style="list-style: disc;">${data}.</li> `;
+        });
+        html += `</ul>`;
+        Swal.fire({ icon: "warning", title: "", html: html });
+    }
+}
+
+function deleteMotivoCita(ID) {
+    Swal.fire({
+        title: "",
+        text: "¿Estás seguro de querer eliminar el registro?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#7066e0",
+        cancelButtonColor: "#FF0037",
+        confirmButtonText: "OK",
+        cancelButtonText: "Cancelar",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            preloader.show();
+            $.ajax({
+                method: "POST",
+                dataType: "JSON",
+                url: "./views/catalogos/deleteMotivoCita.php",
+                data: { ID },
+            })
+                .done(function (results) {
+                    let success = results.success;
+                    let result = results.result;
+                    switch (success) {
+                        case true:
+                            $("#modalTemplate").modal("hide");
+                            $("#btnClose").off("click");
+                            obtenerMotivos();
+                            break;
+                        case false:
+                            preloader.hide();
+                            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                            break;
+                    }
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    preloader.hide();
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                    console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+                });
+        }
+    });
+}
+
+function obtenerMotivosRechazo() {
+    $.ajax({
+        method: "POST",
+        dataType: "JSON",
+        url: "./views/catalogos/obtenerMotivosRechazo.php",
+        data: {},
+    })
+        .done(function (results) {
+            let success = results.success;
+            let result = results.result;
+            let html = "";
+            switch (success) {
+                case true:
+                    if (result == "Sin Datos") {
+                        dataTableDestroy();
+                        $("#rechazosCitaBody").html(html);
+                        dataTableCreate();
+                        preloader.hide();
+                    } else {
+                        dataTableDestroy();
+                        let html;
+                        result.forEach((data, index) => {
+                            html += `<tr>
+                                <td>${index + 1}</td>
+                                <td class="capitalize">${data.motivoRechazo}</td>
+                                <td>
+                                    <div style="display: flex; flex-direction: row;">
+                                        <div class="buttom-red buttom button-sinText mx-1" title="Eliminar" onclick="deleteMotivoRechazo(${data.ID})">
+                                            <span class="text-sm mb-0"><i class="material-icons"> delete </i></span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>`;
+                        });
+                        $("#rechazosCitaBody").html(html);
+                        dataTableCreate();
+                    }
+                    break;
+                case false:
+                    preloader.hide();
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            preloader.hide();
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+            console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
+}
+
+function crearNuevoMotivoRechazo() {
+    $("#labelModal").html(`Crear Nuevo Motivo de Rechazo`);
+
+    $("#body_modal").html(`<br>
+        <div id="formMotivoCitaRechazo">
+            <div class="coolinput">
+                <label name="MotivoRechazo" for="motivoRechazo" class="text">Motivo Rechazo</label>
+                <input name="Motivo Rechazo" type="text" class="capitalize obligatorio input" id="motivoRechazo" autocomplete="off" maxlength"50"/>
+            </div>
+        </div>
+
+        <div class="center-fitcomponent" style="width: 100%;">
+            <div class="buttom-blue buttom" style="margin-left: auto;margin-right: auto;" onclick="guardarMotivoRechazo();">
+                <span class="text-sm mb-0 span-buttom">
+                    Guardar
+                    <i class="material-icons"> save </i>
+                </span>
+            </div>
+        </div>
+    `);
+
+    $("#modalTemplate").modal({
+        backdrop: "static",
+        keyboard: false,
+    });
+
+    $("#modalTemplate").modal("show");
+
+    $("#btnClose").on("click", () => {
+        $("#modalTemplate").modal("hide");
+        $("#btnClose").off("click");
+    });
+}
+
+function guardarMotivoRechazo() {
+    let values = get_datos_completos("formMotivoCitaRechazo");
+    let response = values.response;
+    let valido = values.valido;
+    if (valido) {
+        let motivoRechazo = String($("#motivoRechazo").val()).trim();
+
+        motivoRechazo.replaceAll("'", '"');
+
+        preloader.show();
+
+        $.ajax({
+            method: "POST",
+            dataType: "JSON",
+            url: "./views/catalogos/guardarMotivoRechazo.php",
+            data: { motivoRechazo },
+        })
+            .done(function (results) {
+                let success = results.success;
+                let result = results.result;
+                switch (success) {
+                    case true:
+                        $("#modalTemplate").modal("hide");
+                        $("#btnClose").off("click");
+                        msj.show("Aviso", "Guardado correctamente", [{ text1: "OK" }]);
+                        obtenerMotivosRechazo();
+                        break;
+                    case false:
+                        preloader.hide();
+                        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                        break;
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                preloader.hide();
+                msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+            });
+    } else {
+        let html =
+            '<span style="font-weight: 900;">Debes llenar estos campos para poder guardar:</span> <br> <ul style="text-align: left; margin-left: 15px; font-style: italic;"> ';
+        response.forEach((data) => {
+            html += `<li style="list-style: disc;">${data}.</li> `;
+        });
+        html += `</ul>`;
+        Swal.fire({ icon: "warning", title: "", html: html });
+    }
+}
+
+function deleteMotivoRechazo(ID) {
+    Swal.fire({
+        title: "",
+        text: "¿Estás seguro de querer eliminar el registro?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#7066e0",
+        cancelButtonColor: "#FF0037",
+        confirmButtonText: "OK",
+        cancelButtonText: "Cancelar",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            preloader.show();
+            $.ajax({
+                method: "POST",
+                dataType: "JSON",
+                url: "./views/catalogos/deleteMotivoRechazo.php",
+                data: { ID },
+            })
+                .done(function (results) {
+                    let success = results.success;
+                    let result = results.result;
+                    switch (success) {
+                        case true:
+                            $("#modalTemplate").modal("hide");
+                            $("#btnClose").off("click");
+                            obtenerMotivosRechazo();
                             break;
                         case false:
                             preloader.hide();

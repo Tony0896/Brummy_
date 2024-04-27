@@ -26,6 +26,7 @@
 
         <link rel="stylesheet" href="./libraries/datatables-1.12.1/jquery.dataTables.min.css" />
         <link rel="stylesheet" href="./libraries/datatables-1.12.1/responsive/2.3.0/responsive.dataTables.min.css" />
+        <link rel="stylesheet" href="./libraries/jsCalendar/jsCalendar.min.css" />
     </head>
 
     <body>
@@ -212,5 +213,7 @@
         <script type="text/javascript" src="./libraries/datatables-1.12.1/jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="./libraries/datatables-1.12.1/responsive/2.3.0/dataTables.responsive.min.js"></script>
         <script src="./libraries/sweetalert2.all.min.js"></script>
+        <script src="./libraries/jsCalendar/jsCalendar.lang.es.js"></script>
+        <script src="./libraries/jsCalendar/jsCalendar.min.js"></script>
     </body>
 </html>

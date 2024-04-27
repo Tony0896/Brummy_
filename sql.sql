@@ -99,3 +99,37 @@ ON he.ID = det.FKVenta
 INNER JOIN clientes cl 
 ON cl.ID = he.cliente
 GROUP BY ID 
+
+CREATE TABLE `brummybd`.`MotivosCitas` (
+    `ID` INT NOT NULL AUTO_INCREMENT , 
+    `motivoCita` VARCHAR(50), 
+    `fechaCreacion` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+    `estatus` BIT(1) NOT NULL DEFAULT b'1',
+    PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `brummybd`.`motivosrechazo` (
+    `ID` INT NOT NULL AUTO_INCREMENT , 
+    `motivoRechazo` VARCHAR(50), 
+    `fechaCreacion` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+    `estatus` BIT(1) NOT NULL DEFAULT b'1',
+    PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `brummybd`.`citas` (
+    `ID` INT NOT NULL AUTO_INCREMENT , 
+    `FKnombreCita` INT,
+    `nombreCita` VARCHAR(150), 
+    `FKnombreMascota` INT,
+    `nombreMascota` VARCHAR(50), 
+    `fechaCita` DATE,
+    `horaCita` TIME,
+    `motivoCita` VARCHAR(50), 
+    `comentariosCita` VARCHAR(255), 
+    `FKMotivo` INT,
+    `fechaCreacion` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+    `flagEstatus` VARCHAR(50) NOT NULL DEFAULT 'PENDIENTE', 
+    `estatus` INT NOT NULL DEFAULT 1,
+    PRIMARY KEY (`ID`)
+);
+

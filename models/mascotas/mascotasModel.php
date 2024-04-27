@@ -117,7 +117,7 @@ namespace mascotas\mascotasModel;
             $conexion = $db->getConectaDB();
 
             $ID = $data['ID'];
-            $motivoMovimiento = 'Cliente Eliminado';
+            $motivoMovimiento = 'Mascota Eliminada';
 
             $sql = "UPDATE Mascotas SET estatus = 0, fechaUlmitoMovimiento = current_timestamp(), motivoMovimiento = '$motivoMovimiento' WHERE ID = $ID ";
             try{
@@ -143,5 +143,37 @@ namespace mascotas\mascotasModel;
             $resultJson = json_encode( $result );
             return $resultJson;
         }
+
+        function obtenerMascotasDuenios($data){
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $ID = $data['FK_dueno'];
+
+            $sql = "SELECT * FROM mascotas WHERE estatus = 1 AND FK_dueno = $ID";
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $rowcount=mysqli_num_rows($stmt);   
+                    if ( $rowcount ) {
+                        while($row = mysqli_fetch_assoc($stmt)) {
+                            $array[] =$row;
+                        }
+                        $result = array('success' => true, 'result' => $array);
+                    } else{
+                        $result = array('success' => true, 'result' => 'Sin Datos');
+                    }
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+            
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;
+        }
+        
     }
 ?>

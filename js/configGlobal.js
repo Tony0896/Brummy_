@@ -13,6 +13,7 @@ preloader.hide = function () {
         $(".modal").css("z-index", "1051");
         $(".modals").modal("hide");
         $(".modals").data("bs.modal", null);
+        $(".modalAlerts").css("z-index", "1057");
     }, 1000);
 };
 
