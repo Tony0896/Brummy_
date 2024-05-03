@@ -8,34 +8,36 @@ namespace citas\citasModel;
     require_once ( __DIR__ . './../../conexion/dataBase.php' );
     class citasModel{ 
 
-        // function obtenerEspecies(){
-        //     $db = new ClaseConexionDB\ConexionDB();
-        //     $conexion = $db->getConectaDB();
+        function obtenerEventosMes($data){
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
 
-        //     $sql = "SELECT * FROM Especies WHERE estatus = 1";
-        //     try{
-        //         $stmt = mysqli_query($conexion, $sql);
-        //         if($stmt){
-        //             $rowcount=mysqli_num_rows($stmt);   
-        //             if ( $rowcount ) {
-        //                 while($row = mysqli_fetch_assoc($stmt)) {
-        //                     $array[] =$row;
-        //                 }
-        //                 $result = array('success' => true, 'result' => $array);
-        //             } else{
-        //                 $result = array('success' => true, 'result' => 'Sin Datos');
-        //             }
-        //         } else {
-        //             $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
-        //         }
-        //     } catch (mysqli_sql_exception $e) {
-        //         $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
-        //     }
+            $mes = $data['mes'];
+            $year = $data['anio'];
+            $sql = "SELECT fechaCita FROM citas WHERE YEAR(fechaCita) = '$year' AND MONTH(fechaCita) = '$mes'";
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $rowcount=mysqli_num_rows($stmt);   
+                    if ( $rowcount ) {
+                        while($row = mysqli_fetch_assoc($stmt)) {
+                            $array[] =$row;
+                        }
+                        $result = array('success' => true, 'result' => $array);
+                    } else{
+                        $result = array('success' => true, 'result' => 'Sin Datos');
+                    }
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
             
-        //     mysqli_close( $conexion );
-        //     $resultJson = json_encode( $result );
-        //     return $resultJson;
-        // }
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;
+        }
         
         function guardarCita($data){
             $db = new ClaseConexionDB\ConexionDB();
@@ -76,5 +78,71 @@ namespace citas\citasModel;
             $resultJson = json_encode( $result );
             return $resultJson;
         }
+
+        function obtenerEventos($data){
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $fecha = $data['fecha'];
+
+            $sql = "SELECT * FROM citas WHERE fechaCita = '$fecha' ORDER BY horaCita";
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $rowcount=mysqli_num_rows($stmt);   
+                    if ( $rowcount ) {
+                        while($row = mysqli_fetch_assoc($stmt)) {
+                            $array[] =$row;
+                        }
+                        $result = array('success' => true, 'result' => $array);
+                    } else{
+                        $result = array('success' => true, 'result' => 'Sin Datos');
+                    }
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+            
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;
+        }
+
+        function guardarEstausCita($data){
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $flagEstatus = $data['flagEstatus'];
+            $estatus = $data['estatus'];
+            $comentariosCita2 = $data['comentariosAdicionales'];
+            $ID = $data['ID'];
+            
+            $sql = "UPDATE citas SET flagEstatus = '$flagEstatus', estatus = '$estatus', comentariosCita2 = '$comentariosCita2' WHERE ID = $ID";
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $rowcount=0;
+                    if ( $rowcount ) {
+                        while($row = mysqli_fetch_assoc($stmt)) {
+                            $array[] =$row;
+                        }
+                        $result = array('success' => true, 'result' => $array);
+                    } else{
+                        $result = array('success' => true, 'result' => 'Sin Datos');
+                    }
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+            
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;
+        }
+        
     }
 ?>

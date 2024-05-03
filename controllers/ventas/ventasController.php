@@ -26,9 +26,9 @@
             return $result_model;
         }
         
-        function obtenerVentas(){
+        function obtenerVentas($data){
             $model_ventas = $this->getConexionModelClass();
-            $result_model = $model_ventas->obtenerVentas();
+            $result_model = $model_ventas->obtenerVentas($data);
             return $result_model;
         }
 

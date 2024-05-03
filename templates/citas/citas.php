@@ -25,7 +25,7 @@
     }
     .jsCalendar tbody td.jsCalendar-selected {
         background-color: #0277bdbd;
-        color: #fff;
+        color: #fff !important;
     }
     thead {
         border-top-left-radius: 10px;
@@ -34,6 +34,9 @@
     .card {
         box-shadow: none;
         background-color: transparent;
+    }
+    .jsCalendar tbody td:hover {
+        cursor: pointer;
     }
 </style>
 <script type="text/javascript" src="./functions/citas/citas.js"></script>
@@ -50,12 +53,12 @@
                 id="tnAcordionCalendar"
                 style="background-color: #009071 !important;color: #FFF;font-weight: bold;border-radius: 10px;"
             >
-                
             </button>
         </h2>
         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
             <div style="display: flex;justify-content: center;padding-bottom: 15px;padding-top: 10px;">
                 <div class="auto-jsCalendar material-theme green" id="calendar" data-language="es"></div>
+                <input type="hidden" id="fechaActual">
             </div>
         </div>
     </div>
@@ -65,9 +68,9 @@
     <div class="auto-jsCalendar material-theme green" id="calendar" data-language="es"></div>
 </div> -->
 <div class="row mt-3">
-    <div class="col-md-12 mb-0">
+    <div class="col-md-12 mb-0" style="padding: 0;">
         <div class="card">
-            <div class="card-body">
+            <div class="card-body" style="padding: 0;">
                 <div class="divNotas">
                     <h4 class="card-title">Citas Agendadas</h4>
                     <div class="buttom-green buttom" id="btnNuevaCita">
@@ -78,17 +81,10 @@
         </div>
     </div>
 </div>
-<div class="row mt-3">
-    <div class="col-md-12 mb-0">
-        <div class="card2">
-            <div class="card-body">
-                <div>
-                    <h4><small class="text-muted"> No hay citas agendadas para este día </small></h4>
-                </div>
-            </div>
-        </div>
-    </div>
+<div id="divEventos">
+    
 </div>
+
 
 <!-- <button id="my-button-a">Select</button>
 <button id="my-button-b">Unselect</button>

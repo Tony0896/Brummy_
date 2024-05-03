@@ -14,15 +14,27 @@
             return $model_class = new ClaseCitasModelo\citasModel();
         }
 
-        // function obtenerEspecies(){
-        //     $model_citas = $this->getConexionModelClass();
-        //     $result_model = $model_citas->obtenerEspecies();
-        //     return $result_model;
-        // }
+        function obtenerEventosMes($data){
+            $model_citas = $this->getConexionModelClass();
+            $result_model = $model_citas->obtenerEventosMes($data);
+            return $result_model;
+        }
 
         function guardarCita($data){
             $model_citas = $this->getConexionModelClass();
             $result_model = $model_citas->guardarCita($data);
+            return $result_model;
+        }
+        
+        function obtenerEventos($data){
+            $model_citas = $this->getConexionModelClass();
+            $result_model = $model_citas->obtenerEventos($data);
+            return $result_model;
+        }
+
+        function guardarEstausCita($data){
+            $model_citas = $this->getConexionModelClass();
+            $result_model = $model_citas->guardarEstausCita($data);
             return $result_model;
         }
         

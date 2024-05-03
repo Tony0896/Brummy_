@@ -1,14 +1,48 @@
 $(document).ready(() => {
-    preloader.hide();
-    obtenerVentas();
+    // preloader.hide();
+    let fechaNow = new Date().toLocaleString("sv-SE").split(" ")[0];
+    let mes = fechaNow.split("-")[1];
+    let anio = fechaNow.split("-")[0];
+
+    const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    for (let i = 0; i < months.length; i++) {
+        let m = i;
+        m++;
+        if (mes == m) {
+            $("#mesVentas").append(`<option value="${m}" selected>${months[i]}</option>`);
+        } else {
+            $("#mesVentas").append(`<option value="${m}">${months[i]}</option>`);
+        }
+    }
+
+    for (let i = 3; i > 0; i--) {
+        let new_anio = Number(anio) - i;
+        $("#anioVentas").append(`<option value="${new_anio}">${new_anio}</option>`);
+    }
+    $("#anioVentas").append(`<option value="${anio}" selected>${anio}</option>`);
+
+    for (let i = 1; i < 4; i++) {
+        let new_anio = Number(anio) + i;
+        $("#anioVentas").append(`<option value="${new_anio}">${new_anio}</option>`);
+    }
+
+    obtenerVentas(mes, anio);
+
+    $("#mesVentas").change(() => {
+        obtenerVentas($("#mesVentas").val(), $("#anioVentas").val());
+    });
+    $("#anioVentas").change(() => {
+        obtenerVentas($("#mesVentas").val(), $("#anioVentas").val());
+    });
 });
 
-function obtenerVentas() {
+function obtenerVentas(mes, anio) {
+    preloader.show();
     $.ajax({
         method: "POST",
         dataType: "JSON",
         url: "./views/ventas/obtenerVentas.php",
-        data: {},
+        data: { mes, anio },
     })
         .done(function (results) {
             let success = results.success;

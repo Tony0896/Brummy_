@@ -3,7 +3,7 @@ $(document).ready(() => {
     obtenerEspecies();
     obtenerRazas();
     obtenerMotivos();
-    obtenerMotivosRechazo();
+    // obtenerMotivosRechazo();
 });
 
 function crearNuevaEspecie() {

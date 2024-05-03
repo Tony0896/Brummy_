@@ -63,6 +63,7 @@ namespace ventas\ventasModel;
             $FKProducto = $data['FKProducto'];
             $label = $data['label'];
             $total = $data['total'];
+            $newStock = $data['newStock'];
 
             $sql = "INSERT INTO ventaDetalle (FKVenta, FlagProducto, FKProducto, cantidad, total)
             VALUES ( '$dataID', '$FlagProducto', '$FKProducto', '$label', '$total' )";
@@ -79,6 +80,20 @@ namespace ventas\ventasModel;
                     } else{
                         $result = array('success' => true, 'result' => 'Sin Datos');
                     }
+
+                    $sql = "UPDATE inventario SET stockReal = '$newStock' WHERE ID = $FKProducto";
+
+                    try{
+                        $stmt = mysqli_query($conexion, $sql);
+                        if($stmt){
+                            
+                        } else {
+                            $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                        }
+                    } catch (mysqli_sql_exception $e) {
+                        $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+                    }
+
                 } else {
                     $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
                 }
@@ -91,11 +106,14 @@ namespace ventas\ventasModel;
             return $resultJson;
         }
         
-        function obtenerVentas(){
+        function obtenerVentas($data){
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
-            $sql = "SELECT * FROM vwventasgeneral ORDER BY ID DESC";
+            $mes = $data['mes'];
+            $anio = $data['anio'];
+
+            $sql = "SELECT * FROM vwventasgeneral WHERE YEAR(Fecha) = '$anio' AND MONTH(Fecha) = '$mes' ORDER BY ID DESC";
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){

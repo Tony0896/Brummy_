@@ -16,6 +16,50 @@
 //     inventory_menu;
 // }
 
+$(document).ready(() => {
+    new Chart(document.getElementById("bar-chart"), {
+        type: "bar",
+        data: {
+            labels: ["1 estrellas", "2 estrellas", "3 estrellas", "4 estrellas", "5 estrellas"],
+            datasets: [
+                {
+                    label: "Calificaciones",
+                    backgroundColor: ["#009071", "#009071", "#009071", "#009071", "#009071"],
+                    data: [0, 0, 0, 2, 3, 5],
+                },
+            ],
+        },
+        options: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: "",
+            },
+        },
+    });
+
+    new Chart(document.getElementById("bar-chart2"), {
+        type: "horizontalBar",
+        data: {
+            labels: ["Shampoo", "Croquetas Dog Chow", "Correa 1.5 metros", "Bolsas para heces", "Premios ganador"],
+            datasets: [
+                {
+                    label: "Vendidos",
+                    backgroundColor: ["#009071", "#009071", "#009071", "#009071", "#009071"],
+                    data: [10, 9, 8, 7, 6, 5],
+                },
+            ],
+        },
+        options: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: "",
+            },
+        },
+    });
+});
+
 function activeSubmenu(id_element_submenu) {
     $(".nav-item").attr("class", "nav-item");
     $("#" + id_element_submenu + "_li").attr("class", "nav-item active");
@@ -65,6 +109,7 @@ function cargaTemplate(id) {
 function cargarTemplateCatalogos() {
     $("#contenido").load("templates/catalogos/catalogos.php", function (responseTxt, statusTxt, xhr) {
         if (statusTxt != "error") {
+            changeViewMenuIcon();
             // documentReadyVacantes();
         }
     });
@@ -73,6 +118,7 @@ function cargarTemplateCatalogos() {
 function cargaTemplateVentas() {
     $("#contenido").load("templates/ventas/ventas.php", function (responseTxt, statusTxt, xhr) {
         if (statusTxt != "error") {
+            changeViewMenuIcon();
             // documentReadyVacantes();
         }
     });
@@ -80,6 +126,7 @@ function cargaTemplateVentas() {
 function cargaTemplateClientes() {
     $("#contenido").load("templates/clientes/clientes.php", function (responseTxt, statusTxt, xhr) {
         if (statusTxt != "error") {
+            changeViewMenuIcon();
             // documentReadyVacantes();
         }
     });
@@ -87,6 +134,7 @@ function cargaTemplateClientes() {
 function cargaTemplateMascotas() {
     $("#contenido").load("templates/mascotas/mascotas.php", function (responseTxt, statusTxt, xhr) {
         if (statusTxt != "error") {
+            changeViewMenuIcon();
             // documentReadyVacantes();
         }
     });
@@ -95,6 +143,7 @@ function cargaTemplateMascotas() {
 function cargaTemplateCitas() {
     $("#contenido").load("templates/citas/citas.php", function (responseTxt, statusTxt, xhr) {
         if (statusTxt != "error") {
+            changeViewMenuIcon();
             // documentReadyVacantes();
         }
     });
@@ -102,6 +151,7 @@ function cargaTemplateCitas() {
 function cargaTemplateInventario() {
     $("#contenido").load("templates/inventario/inventario.php", function (responseTxt, statusTxt, xhr) {
         if (statusTxt != "error") {
+            changeViewMenuIcon();
             // documentReadyVacantes();
         }
     });

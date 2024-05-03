@@ -126,6 +126,7 @@ CREATE TABLE `brummybd`.`citas` (
     `horaCita` TIME,
     `motivoCita` VARCHAR(50), 
     `comentariosCita` VARCHAR(255), 
+    `comentariosCita2` VARCHAR(255), 
     `FKMotivo` INT,
     `fechaCreacion` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
     `flagEstatus` VARCHAR(50) NOT NULL DEFAULT 'PENDIENTE', 

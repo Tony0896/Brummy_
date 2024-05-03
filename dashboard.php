@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <!-- Required meta tags -->
         <meta charset="utf-8" />
@@ -29,6 +29,19 @@
         <link rel="stylesheet" href="./libraries/jsCalendar/jsCalendar.min.css" />
     </head>
 
+    <style>
+        .card {
+            box-shadow: none;
+            background-color: transparent;
+        }
+        .table.dashTable thead > tr > th {
+            background-color: #009071;
+            color: #fff;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        
+    </style>
     <body>
         <div class="modal modals fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
             <div class="modal-dialog modal-sm">
@@ -71,7 +84,7 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav ms-auto"></ul>
-                    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-bs-toggle="offcanvas">
+                    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-bs-toggle="offcanvas" id="btnHideDash">
                         <span class="material-icons"> menu </span>
                     </button>
                 </div>
@@ -150,29 +163,102 @@
                             <div class="col-md-12 grid-margin stretch-card">
                                 <div class="card">
                                     <div class="card-body" id="contenido">
-                                        <h4 class="card-title">Default form</h4>
-                                        <div class="forms-sample">
-                                            <div class="form-floating mb-3">
-                                                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" />
-                                                <label for="floatingInput">Email address</label>
+                                        <div class="row">
+                                            <div class="col-sm-12 mb-4">
+                                                <div class="statistics-details d-flex align-items-center justify-content-between">
+                                                    <div>
+                                                        <p class="statistics-title">Ganancias del día</p>
+                                                        <h3 class="rate-percentage">$0.00</h3>
+                                                        
+                                                    </div>
+                                                    <div>
+                                                        <p class="statistics-title">Citas agendadas(HOY)</p>
+                                                        <h3 class="rate-percentage">12</h3>
+                                                        
+                                                    </div>
+                                                    <div>
+                                                        <p class="statistics-title">Citas atendidas(HOY)</p>
+                                                        <h3 class="rate-percentage">1</h3>
+                                                        
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="form-floating mb-3">
-                                                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" />
-                                                <label for="floatingPassword">Password</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input type="password" class="form-control" id="floatingConfirmPasswords" placeholder="Password" />
-                                                <label for="floatingConfirmPasswords">Confirm Password</label>
-                                            </div>
+                                        </div>
 
-                                            <div class="form-check form-check-flat form-check-primary">
-                                                <label class="form-check-label">
-                                                    <input type="checkbox" class="form-check-input" />
-                                                    Remember me
-                                                </label>
+                                        <div class="row">
+                                            <div class="col-md-6 grid-margin stretch-card">
+                                                <div class="card2 mb-2">
+                                                    <div class="card-body">
+                                                        <h4 class="statistics-title">Proximas Citas (5)</h4>
+                                                        <div id="div_citas">
+                                                            <table class="mdl-data-table table responsive table-bordered table-striped dashTable" style="width:100%">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>#</th>
+                                                                        <th>Cliente</th>
+                                                                        <th>Mascota</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>1</td>
+                                                                        <td>CLiente</td>
+                                                                        <td>Mascota</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <button type="submit" class="btn btn-primary me-2">Submit</button>
-                                            <button class="btn btn-light">Cancel</button>
+                                            <div class="col-md-6 grid-margin stretch-card">
+                                                <div class="card2 mb-2">
+                                                    <div class="card-body">
+                                                        <h4 class="statistics-title">Últimas ventas (5)</h4>
+                                                        <div id="div_citas">
+                                                            <table class="mdl-data-table table responsive table-bordered table-striped dashTable" style="width:100%">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>#</th>
+                                                                        <th>Nombre</th>
+                                                                        <th>Costo</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>1</td>
+                                                                        <td>baño</td>
+                                                                        <td>$100.00</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6 grid-margin stretch-card">
+                                                <div class="card2 mb-2">
+                                                    <div class="card-body">
+                                                        <h4 class="statistics-title">TOP 5 Productos más vendidos</h4>
+                                                        <div id="div_citas">
+                                                            <canvas id="bar-chart2" width="800" height="450"></canvas>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 grid-margin stretch-card">
+                                                <div class="card2 mb-2">
+                                                    <div class="card-body">
+                                                        <h4 class="statistics-title">Satisfacción cliente</h4>
+                                                        <div id="div_citas">
+                                                            <canvas id="bar-chart" width="800" height="450"></canvas>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -215,5 +301,7 @@
         <script src="./libraries/sweetalert2.all.min.js"></script>
         <script src="./libraries/jsCalendar/jsCalendar.lang.es.js"></script>
         <script src="./libraries/jsCalendar/jsCalendar.min.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script> -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     </body>
 </html>

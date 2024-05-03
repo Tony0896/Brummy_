@@ -114,6 +114,7 @@ function confirmarAgregarProducto() {
                             <input type="hidden" id="${random}_stock" value="${stockReal}">
                             <input type="hidden" id="${random}_costo" value="${Number(precioVenta).toFixed(2)}">
                             <input type="hidden" id="${random}_FKProducto" value="${IDproducto}">
+                            <input type="hidden" id="${random}_Flagtipo" value="${Flagtipo}">
                             <div>
                                 <span class="capitalize" id="${random}_FlagProducto">${nombre}</span>
                                 <p class="capitalize">${Flagtipo}</p>
@@ -185,12 +186,14 @@ function guardarVenta() {
                                     let FKProducto = $("#" + random + "_FKProducto").val();
                                     let label = $("#" + random + "_label").text();
                                     let total = Number(String($("#" + random + "_total").text()).replace("$", ""));
+                                    let stock = $("#" + random + "_stock").val();
+                                    let newStock = Number(stock) - Number(label);
 
                                     $.ajax({
                                         method: "POST",
                                         dataType: "JSON",
                                         url: "./views/ventas/guardarDetalleVenta.php",
-                                        data: { dataID, FlagProducto, FKProducto, label, total },
+                                        data: { dataID, FlagProducto, FKProducto, label, total, newStock },
                                     })
                                         .done(function (results) {
                                             let success = results.success;
@@ -235,6 +238,13 @@ function addACuenta(ID) {
     let random = String(ID).replace("_add", "");
     let stockReal = String($("#" + random + "_stock").val()).replace("_stock", "");
     let cantidadActual = Number(String($("#" + random + "_label").text()).replace("_label", "")).toFixed();
+    let Flagtipo = String($("#" + random + "_Flagtipo").val()).replace("_Flagtipo", "");
+    if (Flagtipo == "Producto") {
+        if (cantidadActual == stockReal) {
+            msj.show("Aviso", "No se cuenta con el stock suficiente para poder agregar más productos", [{ text1: "OK" }]);
+            return false;
+        }
+    }
     let costoProducto = Number(String($("#" + random + "_costo").val()).replace("_costo", "")).toFixed(2);
     cantidadActual = Number(cantidadActual) + 1;
     costoProducto = Number(Number(costoProducto) * cantidadActual);

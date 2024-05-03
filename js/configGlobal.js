@@ -158,3 +158,41 @@ function FormatDate(fecha) {
     n = String(n.toLocaleString("es-CL")).split(",")[0];
     return n;
 }
+
+function volteaFecha(fecha, tipo) {
+    if (tipo == 1) {
+        //? recibe 2024-04-27 => 27-04-2024
+        let anio = fecha.split("-")[0];
+        let mes = fecha.split("-")[1];
+        let day = fecha.split("-")[2];
+
+        let nuevaFecha = day + "-" + mes + "-" + anio;
+        return nuevaFecha;
+    } else if (tipo == 2) {
+        //? recibe 27-04-2024 => 2024-04-27
+        let anio = fecha.split("-")[2];
+        let mes = fecha.split("-")[1];
+        let day = fecha.split("-")[0];
+
+        let nuevaFecha = anio + "-" + mes + "-" + day;
+        return nuevaFecha;
+    }
+}
+
+localStorage.removeItem("btnHideDash");
+
+$("#btnHideDash").click(() => {
+    if (localStorage.getItem("btnHideDash")) {
+        if (localStorage.getItem("btnHideDash") == 1) {
+            localStorage.setItem("btnHideDash", 0);
+        } else if (localStorage.getItem("btnHideDash") == 0) {
+            localStorage.setItem("btnHideDash", 1);
+        }
+    } else {
+        localStorage.setItem("btnHideDash", 1);
+    }
+});
+
+function changeViewMenuIcon() {
+    $("#btnHideDash").trigger("click");
+}

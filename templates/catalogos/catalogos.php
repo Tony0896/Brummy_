@@ -22,11 +22,11 @@
                 Motivos
             </button>
         </li>
-        <li class="nav-item" role="presentation">
+        <!-- <li class="nav-item" role="presentation">
             <button class="nav-link" id="rechazosCita-tab" data-bs-toggle="tab" data-bs-target="#rechazosCita" type="button" role="tab" aria-controls="rechazosCita" aria-selected="false" style="border-top-left-radius: 10px;border-top-right-radius: 10px;">
                 Rechazos
             </button>
-        </li>
+        </li> -->
         <!-- <li class="nav-item" role="presentation">
             <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">
                 Contact
@@ -95,7 +95,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="tab-pane fade" id="rechazosCita" role="tabpanel" aria-labelledby="rechazosCita-tab"> 
+        <!-- <div class="tab-pane fade" id="rechazosCita" role="tabpanel" aria-labelledby="rechazosCita-tab"> 
             <div class="row" style="margin-bottom: 0.7em;">
                 <div class="col-md-12 mb-2" style="display: flex;justify-content: end;">
                     <div class="buttom-green buttom" onclick="crearNuevoMotivoRechazo()">
@@ -114,7 +114,7 @@
                 <tbody id="rechazosCitaBody">
                 </tbody>
             </table>
-        </div>
+        </div> -->
         
         <!-- <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab"> data => contact-tab </div> -->
     </div>

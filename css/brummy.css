@@ -824,3 +824,7 @@ h2 {
 .form-check-primary.form-check label input[type="checkbox"]:checked + .input-helper:before {
     background: #009071;
 }
+
+.text-primary {
+    color: #0277bd !important;
+}
