@@ -16,24 +16,27 @@
         </div>
     </div>
     
-
-    <div class="forms-sample">
-        <table class="mdl-data-table table responsive table-bordered table-striped datatable" style="width:100%">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Mascota</th>
-                    <th>Dueño</th>
-                    <th>Fecha N.</th>
-                    <th>Sexo</th>
-                    <th>Color</th>
-                    <th>Última actividad</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="mascotasBody">
-            </tbody>
-        </table>
+    <div class="card2">
+        <div class="card-body">
+            <div class="forms-sample">
+                <table class="mdl-data-table table responsive table-bordered table-striped datatable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Mascota</th>
+                            <th>Dueño</th>
+                            <th>Fecha N.</th>
+                            <th>Sexo</th>
+                            <th>Color</th>
+                            <th>Última actividad</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="mascotasBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
 <?php 

@@ -16,23 +16,27 @@
         </div>
     </div>
 
-    <div class="forms-sample">
-        <table class="mdl-data-table table responsive table-bordered table-striped datatable" style="width:100%">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Codigo</th>
-                    <th>Nombre</th>
-                    <th>Tipo</th>
-                    <th>Precio</th>
-                    <th>Stock</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="productosBody">
-            </tbody>
-        </table>
-    </div>
+    <div class="card2">
+        <div class="card-body">
+            <div class="forms-sample">
+                <table class="mdl-data-table table responsive table-bordered table-striped datatable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Codigo</th>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productosBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>  
 
 <?php 
     require_once('./../components/modal.php');

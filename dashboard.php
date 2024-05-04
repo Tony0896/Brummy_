@@ -110,7 +110,7 @@ if( !$boolean_session ){
             </nav>
             <div class="container-fluid page-body-wrapper">
                 <nav class="sidebar sidebar-offcanvas" id="sidebar" style="position: fixed; user-select: none;">
-                    <ul class="nav">
+                    <ul class="nav" id="navSide">
                         <li class="nav-item">
                             <a class="nav-link" href="./dashboard.php">
                                 <span class="material-icons me-2"> dashboard </span>
@@ -118,56 +118,7 @@ if( !$boolean_session ){
                             </a>
                         </li>
                         <li class="nav-item nav-category" style="padding-top: 0px"><hr style="margin: 5px 0px" /></li>
-                        <li class="nav-item" id="apps_menu_li">
-                            <a class="nav-link" href="#" id="apps_menu" onclick="cargaTemplate(this.id)">
-                                <span class="material-icons me-2"> apps </span>
-                                <span class="menu-title">Cátalogos</span>
-                            </a>
-                        </li>
-                        <li class="nav-item" id="paid_menu_li">
-                            <a class="nav-link tagAMenu" href="#" id="paid_menu" onclick="cargaTemplate(this.id)">
-                                <span class="material-icons me-2"> paid </span>
-                                <span class="menu-title">Venta</span>
-                            </a>
-                        </li>
-                        <li class="nav-item" id="people_menu_li">
-                            <a class="nav-link tagAMenu" href="#" id="people_menu" onclick="cargaTemplate(this.id)">
-                                <span class="material-icons me-2"> people </span>
-                                <span class="menu-title">Clientes</span>
-                            </a>
-                        </li>
-                        <li class="nav-item" id="pets_menu_li">
-                            <a class="nav-link tagAMenu" href="#" id="pets_menu" onclick="cargaTemplate(this.id)">
-                                <span class="material-icons me-2"> pets </span>
-                                <span class="menu-title">Mascotas</span>
-                            </a>
-                        </li>
-                        <li class="nav-item" id="event_menu_li">
-                            <a class="nav-link tagAMenu" href="#" id="event_menu" onclick="cargaTemplate(this.id)">
-                                <span class="material-icons me-2"> event </span>
-                                <span class="menu-title">Citas</span>
-                            </a>
-                        </li>
-                        <li class="nav-item" id="inventory_menu_li">
-                            <a class="nav-link tagAMenu" href="#" id="inventory_menu" onclick="cargaTemplate(this.id)">
-                                <span class="material-icons me-2"> inventory_2 </span>
-                                <span class="menu-title">Inventario</span>
-                            </a>
-                        </li>
-                        <li class="nav-item nav-category" style="padding-top: 0px"><hr style="margin: 5px 0px" /></li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="collapse" href="#userOptions" aria-expanded="false" aria-controls="userOptions">
-                                <span class="material-icons" style="margin-right: 10px;"> account_circle </span>
-                                <span class="menu-title"><?php echo $_SESSION['nombre']." ".$_SESSION['apellidoPaterno']; ?></span>
-                            </a>
-                            <div class="collapse" id="userOptions">
-                                <ul class="nav flex-column sub-menu">
-                                    <li class="nav-item tagAMenu"><a class="nav-link" href="#">My Profile</a></li>
-                                    <!-- <li class="nav-item tagAMenu"><a class="nav-link" href="#">FAQ</a></li> -->
-                                    <li class="nav-item tagAMenu"><a class="nav-link" href="#" onclick="cerrarSesion()">Cerrar sesión</a></li>
-                                </ul>
-                            </div>
-                        </li>
+                        
                     </ul>
                 </nav>
                 <!-- partial -->
@@ -177,7 +128,7 @@ if( !$boolean_session ){
                             <div class="col-md-12 grid-margin stretch-card">
                                 <div class="card">
                                     <div class="card-body" id="contenido">
-                                        <div class="row">
+                                        <div class="row dahsboardContenido" style="display:none;">
                                             <div class="col-sm-12 mb-4">
                                                 <div class="statistics-details d-flex align-items-center justify-content-between">
                                                     <div>
@@ -199,7 +150,7 @@ if( !$boolean_session ){
                                             </div>
                                         </div>
 
-                                        <div class="row">
+                                        <div class="row dahsboardContenido" style="display:none;">
                                             <div class="col-md-6 grid-margin stretch-card">
                                                 <div class="card2 mb-2">
                                                     <div class="card-body">
@@ -252,7 +203,7 @@ if( !$boolean_session ){
                                             </div>
                                         </div>
 
-                                        <div class="row">
+                                        <div class="row dahsboardContenido" style="display:none;">
                                             <div class="col-md-6 grid-margin stretch-card">
                                                 <div class="card2 mb-2">
                                                     <div class="card-body">

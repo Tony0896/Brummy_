@@ -16,7 +16,107 @@
 //     inventory_menu;
 // }
 
+{
+    /* <li class="nav-item" id="apps_menu_li">
+    <a class="nav-link" href="#" id="apps_menu" onclick="cargaTemplate(this.id)">
+        <span class="material-icons me-2"> apps </span>
+        <span class="menu-title">Cátalogos</span>
+    </a>
+</li>
+<li class="nav-item" id="paid_menu_li">
+    <a class="nav-link tagAMenu" href="#" id="paid_menu" onclick="cargaTemplate(this.id)">
+        <span class="material-icons me-2"> paid </span>
+        <span class="menu-title">Venta</span>
+    </a>
+</li>
+<li class="nav-item" id="people_menu_li">
+    <a class="nav-link tagAMenu" href="#" id="people_menu" onclick="cargaTemplate(this.id)">
+        <span class="material-icons me-2"> people </span>
+        <span class="menu-title">Clientes</span>
+    </a>
+</li>
+<li class="nav-item" id="pets_menu_li">
+    <a class="nav-link tagAMenu" href="#" id="pets_menu" onclick="cargaTemplate(this.id)">
+        <span class="material-icons me-2"> pets </span>
+        <span class="menu-title">Mascotas</span>
+    </a>
+</li>
+<li class="nav-item" id="event_menu_li">
+    <a class="nav-link tagAMenu" href="#" id="event_menu" onclick="cargaTemplate(this.id)">
+        <span class="material-icons me-2"> event </span>
+        <span class="menu-title">Citas</span>
+    </a>
+</li>
+<li class="nav-item" id="inventory_menu_li">
+    <a class="nav-link tagAMenu" href="#" id="inventory_menu" onclick="cargaTemplate(this.id)">
+        <span class="material-icons me-2"> inventory_2 </span>
+        <span class="menu-title">Inventario</span>
+    </a>
+</li>
+<li class="nav-item nav-category" style="padding-top: 0px"><hr style="margin: 5px 0px" /></li>
+<li class="nav-item">
+    <a class="nav-link" data-bs-toggle="collapse" href="#userOptions" aria-expanded="false" aria-controls="userOptions">
+        <span class="material-icons" style="margin-right: 10px;"> account_circle </span>
+        <span class="menu-title"><?php echo $_SESSION['nombre']." ".$_SESSION['apellidoPaterno']; ?></span>
+    </a>
+    <div class="collapse" id="userOptions">
+        <ul class="nav flex-column sub-menu">
+            <li class="nav-item tagAMenu"><a class="nav-link" href="#">My Profile</a></li>
+            <!-- <li class="nav-item tagAMenu"><a class="nav-link" href="#">FAQ</a></li> -->
+            <li class="nav-item tagAMenu"><a class="nav-link" href="#" onclick="cerrarSesion()">Cerrar sesión</a></li>
+        </ul>
+    </div>
+</li> */
+}
+
 $(document).ready(() => {
+    $.ajax({
+        method: "POST",
+        dataType: "json",
+        url: "views/login/cargaPermisos.php",
+        data: {},
+    })
+        .done(function (result) {
+            let success = result.success;
+            let results = result.result;
+            switch (success) {
+                case true:
+                    results.forEach((data, index) => {
+                        if (data.ID_modulo == 1) {
+                            $(".dahsboardContenido").css("display", "flex");
+                            cargaDataDash();
+                        }
+
+                        if (data.ID_modulo != 1 && data.ID_modulo != 2) {
+                            console.log(data);
+                            $("#navSide").append(`
+                                <li class="nav-item" id="${data.id_element}_li">
+                                    <a class="nav-link tagAMenu" href="#" id="${data.id_element}" onclick="cargaTemplate(this.id, '${data.permiso}')">
+                                        <span class="material-icons me-2"> ${data.icono} </span>
+                                        <span class="menu-title">${data.titulo}</span>
+                                    </a>
+                                </li>
+                            `);
+                        }
+                    });
+
+                    break;
+                case false:
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Aviso",
+                        text: "Algo salió mal.",
+                    });
+
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.log("accesoUsuarioView  - Server: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
+});
+
+function cargaDataDash() {
     new Chart(document.getElementById("bar-chart"), {
         type: "bar",
         data: {
@@ -58,14 +158,14 @@ $(document).ready(() => {
             },
         },
     });
-});
+}
 
 function activeSubmenu(id_element_submenu) {
     $(".nav-item").attr("class", "nav-item");
     $("#" + id_element_submenu + "_li").attr("class", "nav-item active");
 }
 
-function cargaTemplate(id) {
+function cargaTemplate(id, permiso) {
     preloader.show();
     switch (id) {
         case "apps_menu":

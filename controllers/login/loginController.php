@@ -3,7 +3,7 @@
     // ini_set('display_errors', 1);
     // ini_set('display_startup_errors', 1);
     // error_reporting(E_ALL);
-
+    session_start();
     use login\loginModel AS ClaseLoginModelo;
     require_once __DIR__ . '/../../models/login/loginModel.php';
     
@@ -21,6 +21,13 @@
         function creaSession($data){
             $model_login = $this->getConexionModelClass();
             $result_model = $model_login->creaSession($data);
+            return $result_model;
+        }
+
+        function cargaPermisos(){
+            $model_login = $this->getConexionModelClass();
+            $ID_usuario = $_SESSION['ID_usuario'];
+            $result_model = $model_login->cargaPermisos($ID_usuario);
             return $result_model;
         }
         
