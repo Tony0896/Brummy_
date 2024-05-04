@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="./css/main.css" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <link href="./css/CDN/sweetalert2.min.css" rel="stylesheet">
     </head>
     <body class="body-cisa">
         <div class="limiter">
@@ -31,7 +32,7 @@
                         </div>
                         <div id="err"></div>
                         <div class="container-login100-form-btn">
-                            <button class="login100-form-btn" id="btn_sesion" onclick="irDash()">
+                            <button class="login100-form-btn" id="btn_sesion">
                                 Ingresar
                                 <i class="bi bi-box-arrow-in-right" style="margin-left: 20px" aria-hidden="true"></i>
                             </button>
@@ -75,8 +76,6 @@
         </footer> -->
     </body>
 </html>
-<script>
-    function irDash() {
-        window.location.href = "dashboard.php";
-    }
-</script>
+<script src="./libraries/sweetalert2.all.min.js"></script>
+<script src="./vendors/js/vendor.bundle.base.js"></script>
+<script src="./js/login.js"></script>

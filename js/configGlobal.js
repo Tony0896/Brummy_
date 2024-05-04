@@ -196,3 +196,23 @@ $("#btnHideDash").click(() => {
 function changeViewMenuIcon() {
     $("#btnHideDash").trigger("click");
 }
+
+function cerrarSesion() {
+    $.ajax({
+        method: "GET",
+        dataType: "json",
+        url: "views/login/cerrarSession.php",
+    })
+        .done(function (result) {
+            let login = result.success;
+
+            switch (login) {
+                case true:
+                    window.location.href = "/Brummy/";
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.log("destruirAccesoUsuarioView - Server: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
+}

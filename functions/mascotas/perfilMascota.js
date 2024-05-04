@@ -65,7 +65,6 @@ function verPerfilMascota(ID) {
 }
 
 function cambioTablero(id) {
-    console.log(id);
     let oldtext = "",
         newText = "";
     if ($("#" + id).prop("checked")) {

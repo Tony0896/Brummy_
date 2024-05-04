@@ -1,0 +1,28 @@
+<?php
+    namespace login\loginController;
+    // ini_set('display_errors', 1);
+    // ini_set('display_startup_errors', 1);
+    // error_reporting(E_ALL);
+
+    use login\loginModel AS ClaseLoginModelo;
+    require_once __DIR__ . '/../../models/login/loginModel.php';
+    
+    class loginController {
+        function getConexionModelClass(){
+            return $model_class = new ClaseLoginModelo\loginModel();
+        }
+
+        function validarLogin($data){
+            $model_login = $this->getConexionModelClass();
+            $result_model = $model_login->validarLogin($data);
+            return $result_model;
+        }
+
+        function creaSession($data){
+            $model_login = $this->getConexionModelClass();
+            $result_model = $model_login->creaSession($data);
+            return $result_model;
+        }
+        
+    }
+?>

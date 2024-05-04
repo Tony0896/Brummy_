@@ -1,3 +1,22 @@
+<?php
+    session_start();
+if(isset ( $_SESSION['ID_usuario'] ) ){
+    $ID_usuario = $_SESSION['ID_usuario']; 
+    if($ID_usuario == ''){
+        $boolean_session = false;
+    } else {
+        $boolean_session = true;
+    }
+} else {
+    $boolean_session = false;
+}
+
+if( !$boolean_session ){
+    session_unset(); 
+    session_destroy();
+    header("Location: /Brummy/");
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -80,7 +99,7 @@
                 <div class="navbar-menu-wrapper d-flex align-items-top">
                     <ul class="navbar-nav">
                         <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-                            <h1 class="welcome-text">Good Morning, <span class="text-black fw-bold">John Doe</span></h1>
+                            <h1 class="welcome-text">Hola!, <span class="text-black fw-bold"><?php echo $_SESSION['nombre']." ".$_SESSION['apellidoPaterno']; ?></span></h1>
                         </li>
                     </ul>
                     <ul class="navbar-nav ms-auto"></ul>
@@ -138,19 +157,14 @@
                         <li class="nav-item nav-category" style="padding-top: 0px"><hr style="margin: 5px 0px" /></li>
                         <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="collapse" href="#userOptions" aria-expanded="false" aria-controls="userOptions">
-                                <img
-                                    class="img-xs rounded-circle me-2"
-                                    src="./images/faces/profile/profile.jpg"
-                                    alt="Profile image"
-                                    style="width: 28px; height: 28px"
-                                />
-                                <span class="menu-title">John Doe</span>
+                                <span class="material-icons" style="margin-right: 10px;"> account_circle </span>
+                                <span class="menu-title"><?php echo $_SESSION['nombre']." ".$_SESSION['apellidoPaterno']; ?></span>
                             </a>
                             <div class="collapse" id="userOptions">
                                 <ul class="nav flex-column sub-menu">
-                                    <li class="nav-item"><a class="nav-link" href="">My Profile</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="">FAQ</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="">Cerrar sesión</a></li>
+                                    <li class="nav-item tagAMenu"><a class="nav-link" href="#">My Profile</a></li>
+                                    <!-- <li class="nav-item tagAMenu"><a class="nav-link" href="#">FAQ</a></li> -->
+                                    <li class="nav-item tagAMenu"><a class="nav-link" href="#" onclick="cerrarSesion()">Cerrar sesión</a></li>
                                 </ul>
                             </div>
                         </li>
