@@ -37,6 +37,12 @@
             $result_model = $model_citas->guardarEstausCita($data);
             return $result_model;
         }
+
+        function validaCita($data){
+            $model_citas = $this->getConexionModelClass();
+            $result_model = $model_citas->validaCita($data);
+            return $result_model;
+        }
         
     }
 ?>

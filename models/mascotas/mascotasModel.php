@@ -8,11 +8,26 @@ namespace mascotas\mascotasModel;
     require_once ( __DIR__ . './../../conexion/dataBase.php' );
     class mascotasModel{ 
 
+        function InsertHistoriaMascota($FK_mascota, $nombre, $FK_modulo, $nombreModulo, $motivo, $FK_Usuario, $nameUsuario, $ID_mov){
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $sql = "CALL InsertHistoriaMascota(CURRENT_DATE(), $FK_mascota, '$nombre', $FK_modulo, '$nombreModulo', '$motivo', $FK_Usuario, '$nameUsuario', $ID_mov)";
+
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+
+                }
+            } catch (mysqli_sql_exception $e) { }
+            mysqli_close( $conexion );
+        }
+
         function obtenerMascotas(){
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
-            $sql = "SELECT ms.*, CONCAT(cl.nombre, ' ' ,cl.apellidoM, ' ' ,cl.apellidoP) as NombreCliente FROM mascotas ms LEFT JOIN clientes cl ON cl.ID = ms.FK_dueno WHERE ms.estatus = 1";
+            $sql = "SELECT ms.*, CONCAT(cl.nombre, ' ' ,cl.apellidoP, ' ' ,cl.apellidoM) as NombreCliente FROM mascotas ms LEFT JOIN clientes cl ON cl.ID = ms.FK_dueno WHERE ms.estatus = 1";
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
@@ -60,15 +75,27 @@ namespace mascotas\mascotasModel;
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
-                    $rowcount=0;
-                    if ( $rowcount ) {
-                        while($row = mysqli_fetch_assoc($stmt)) {
-                            $array[] =$row;
+                    $result = array('success' => true, 'result' => 'Sin Datos');
+                    $sql = "SELECT * FROM mascotas ORDER BY ID DESC LIMIT 1";
+                    try{
+                        $stmt = mysqli_query($conexion, $sql);
+                        if($stmt){
+                            $rowcount=mysqli_num_rows($stmt);   
+                            if ( $rowcount ) {
+                                while($row = mysqli_fetch_assoc($stmt)) {
+                                    $FK_mascota = $row['ID'];
+                                    $nombre = $row['nombre'];
+                                    $FK_modulo = 6;
+                                    $nombreModulo = 'Mascotas';
+                                    $motivo = 'Nueva Mascota Registrada';
+                                    $FK_Usuario = $_SESSION['ID_usuario'];
+                                    $nameUsuario = $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'];
+                                    $ID_mov = $row['ID'];
+                                }
+                                $this->InsertHistoriaMascota($FK_mascota, $nombre, $FK_modulo, $nombreModulo, $motivo, $FK_Usuario, $nameUsuario, $ID_mov);
+                            }
                         }
-                        $result = array('success' => true, 'result' => $array);
-                    } else{
-                        $result = array('success' => true, 'result' => 'Sin Datos');
-                    }
+                    } catch (mysqli_sql_exception $e) { }
                 } else {
                     $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
                 }
@@ -87,7 +114,7 @@ namespace mascotas\mascotasModel;
 
             $ID = $data['ID'];
 
-            $sql = "SELECT ms.*, CONCAT(cl.nombre, ' ' ,cl.apellidoM, ' ' ,cl.apellidoP) as NombreCliente FROM mascotas ms LEFT JOIN clientes cl ON cl.ID = ms.FK_dueno WHERE ms.estatus = 1 AND ms.ID = $ID";
+            $sql = "SELECT ms.*, CONCAT(cl.nombre, ' ' ,cl.apellidoP, ' ' ,cl.apellidoM) as NombreCliente FROM mascotas ms LEFT JOIN clientes cl ON cl.ID = ms.FK_dueno WHERE ms.estatus = 1 AND ms.ID = $ID";
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
@@ -123,7 +150,30 @@ namespace mascotas\mascotasModel;
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
-                    $rowcount=0;
+                    $result = array('success' => true, 'result' => 'Sin Datos');
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+            
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;
+        }
+
+        function obtenerMascotasDuenios($data){
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $ID = $data['FK_dueno'];
+
+            $sql = "SELECT * FROM mascotas WHERE estatus = 1 AND FK_dueno = $ID";
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $rowcount=mysqli_num_rows($stmt);   
                     if ( $rowcount ) {
                         while($row = mysqli_fetch_assoc($stmt)) {
                             $array[] =$row;
@@ -144,13 +194,13 @@ namespace mascotas\mascotasModel;
             return $resultJson;
         }
 
-        function obtenerMascotasDuenios($data){
+        function traerHistorialMascota($data){
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
-            $ID = $data['FK_dueno'];
+            $ID = $data['ID'];
 
-            $sql = "SELECT * FROM mascotas WHERE estatus = 1 AND FK_dueno = $ID";
+            $sql = "SELECT ID, fecha, FK_mascota, nombre, FK_modulo, nombre_modulo, motivo_movimiento FROM historial_mascota WHERE estatus = 1 AND FK_mascota = $ID ORDER BY ID DESC";
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){

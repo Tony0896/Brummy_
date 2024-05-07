@@ -30,6 +30,30 @@
             $result_model = $model_login->cargaPermisos($ID_usuario);
             return $result_model;
         }
+
+        function dataHeader(){
+            $model_login = $this->getConexionModelClass();
+            $result_model = $model_login->dataHeader();
+            return $result_model;
+        }
+
+        function getProximasCitas(){
+            $model_login = $this->getConexionModelClass();
+            $result_model = $model_login->getProximasCitas();
+            return $result_model;
+        }
+
+        function getLastVentas(){
+            $model_login = $this->getConexionModelClass();
+            $result_model = $model_login->getLastVentas();
+            return $result_model;
+        }
+
+        function topProductos(){
+            $model_login = $this->getConexionModelClass();
+            $result_model = $model_login->topProductos();
+            return $result_model;
+        }
         
     }
 ?>

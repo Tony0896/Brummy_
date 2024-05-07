@@ -158,13 +158,13 @@ function guardarVenta() {
         efectivo = Number($("#efectivo").val());
         cambio = Number($("#cambio").val());
     }
-    console.log(FlagExacto, efectivo, cambio);
+    let nameCliente = $("#clientes").find("option:selected").text();
 
     $.ajax({
         method: "POST",
         dataType: "JSON",
         url: "./views/ventas/guardarHeaderVenta.php",
-        data: { cliente, price, FlagExacto, efectivo, cambio },
+        data: { cliente, price, FlagExacto, efectivo, cambio, nameCliente },
     })
         .done(function (results) {
             let success = results.success;

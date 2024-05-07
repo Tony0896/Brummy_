@@ -6,7 +6,21 @@ namespace clientes\clientesModel;
 
     use conexionDB\Code AS ClaseConexionDB;
     require_once ( __DIR__ . './../../conexion/dataBase.php' );
-    class clientesModel{ 
+    class clientesModel{
+
+        function InsertHistoriaCliente($FK_Cliente, $nombre, $FK_modulo, $nombreModulo, $motivo, $FK_Usuario, $nameUsuario, $ID_mov){
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $sql = "CALL InsertHistoriaCliente(CURRENT_DATE(), $FK_Cliente, '$nombre', $FK_modulo, '$nombreModulo', '$motivo', $FK_Usuario, '$nameUsuario', $ID_mov)";
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+
+                }
+            } catch (mysqli_sql_exception $e) { }
+            mysqli_close( $conexion );
+        }
 
         function obtenerClientes(){
             $db = new ClaseConexionDB\ConexionDB();
@@ -53,15 +67,27 @@ namespace clientes\clientesModel;
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
-                    $rowcount=0;
-                    if ( $rowcount ) {
-                        while($row = mysqli_fetch_assoc($stmt)) {
-                            $array[] =$row;
+                    $result = array('success' => true, 'result' => 'Sin Datos');
+                    $sql = "SELECT * FROM Clientes ORDER BY ID DESC LIMIT 1";
+                    try{
+                        $stmt = mysqli_query($conexion, $sql);
+                        if($stmt){
+                            $rowcount=mysqli_num_rows($stmt);   
+                            if ( $rowcount ) {
+                                while($row = mysqli_fetch_assoc($stmt)) {
+                                    $FK_Cliente = $row['ID'];
+                                    $nombre = $row['nombre'].' '.$row['apellidoP'].' '.$row['apellidoM'];
+                                    $FK_modulo = 5;
+                                    $nombreModulo = 'Clientes';
+                                    $motivo = 'Nuevo Cliente Registrado';
+                                    $FK_Usuario = $_SESSION['ID_usuario'];
+                                    $nameUsuario = $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'];
+                                    $ID_mov = $row['ID'];
+                                }
+                                $this->InsertHistoriaCliente($FK_Cliente, $nombre, $FK_modulo, $nombreModulo, $motivo, $FK_Usuario, $nameUsuario, $ID_mov);
+                            }
                         }
-                        $result = array('success' => true, 'result' => $array);
-                    } else{
-                        $result = array('success' => true, 'result' => 'Sin Datos');
-                    }
+                    } catch (mysqli_sql_exception $e) { }
                 } else {
                     $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
                 }
@@ -121,15 +147,7 @@ namespace clientes\clientesModel;
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
-                    $rowcount=0;
-                    if ( $rowcount ) {
-                        while($row = mysqli_fetch_assoc($stmt)) {
-                            $array[] =$row;
-                        }
-                        $result = array('success' => true, 'result' => $array);
-                    } else{
-                        $result = array('success' => true, 'result' => 'Sin Datos');
-                    }
+                    $result = array('success' => true, 'result' => 'Sin Datos');
                 } else {
                     $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
                 }
@@ -153,7 +171,30 @@ namespace clientes\clientesModel;
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
-                    $rowcount=0;
+                    $result = array('success' => true, 'result' => 'Sin Datos');
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+            
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;
+        }
+        
+        function traerHistorialCliente($data){
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $ID = $data['ID'];
+
+            $sql = "SELECT ID, fecha, FK_cliente, nombre, FK_modulo, nombre_modulo, motivo_movimiento FROM historial_cliente WHERE estatus = 1 AND FK_cliente = $ID ORDER BY ID DESC";
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $rowcount=mysqli_num_rows($stmt);   
                     if ( $rowcount ) {
                         while($row = mysqli_fetch_assoc($stmt)) {
                             $array[] =$row;

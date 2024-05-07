@@ -23,6 +23,7 @@ function verPerfilMascota(ID) {
             let success = results.success;
             let result = results.result;
             let html = "";
+            let tdSinData = `<span class='material-icons'> remove </span> &nbsp; <span class='material-icons'> remove </span>`;
             switch (success) {
                 case true:
                     let nombreMascota, fechaMascota, relacionEspecie, sexoMascota, colorMascota, rasgosMascota, FK_dueno;
@@ -35,11 +36,11 @@ function verPerfilMascota(ID) {
                             fechaMascota = data.fechaNacimiento;
                             relacionEspecie = `${data.especie} - ${data.raza}`;
                             sexoMascota = data.sexo;
-                            colorMascota = data.color;
-                            rasgosMascota = data.rasgosParticulares;
+                            colorMascota = data.color ? data.color : tdSinData;
+                            rasgosMascota = data.rasgosParticulares ? data.rasgosParticulares : tdSinData;
                             FK_dueno = data.NombreCliente;
                         });
-
+                        traerHistorialMascota(ID);
                         $("#nombreMascota").html(nombreMascota);
                         $("#fechaMascota").html(fechaMascota);
                         $("#relacionEspecie").html(relacionEspecie);
@@ -80,7 +81,6 @@ function cambioTablero(id) {
 }
 
 function eliminarMascota(ID) {
-    console.log(ID);
     $.ajax({
         method: "POST",
         dataType: "JSON",
@@ -94,6 +94,45 @@ function eliminarMascota(ID) {
                 case true:
                     preloader.show();
                     regresaMascotas();
+                    break;
+                case false:
+                    preloader.hide();
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            preloader.hide();
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+            console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
+}
+
+function traerHistorialMascota(ID) {
+    $.ajax({
+        method: "POST",
+        dataType: "JSON",
+        url: "./views/mascotas/traerHistorialMascota.php",
+        data: { ID },
+    })
+        .done(function (results) {
+            let success = results.success;
+            let result = results.result;
+            let html = "";
+            switch (success) {
+                case true:
+                    if (result == "Sin Datos") {
+                    } else {
+                        result.forEach((data, index) => {
+                            html += `
+                            <li class="rb-item" ng-repeat="itembx">
+                                <div class="timestamp">${volteaFecha(data.fecha, 1)} </div>
+                                <div class="item-title">${data.motivo_movimiento}</div>
+                            </li> `;
+                        });
+                        $("#historialMascotaSpace").html(html);
+                        preloader.hide();
+                    }
                     break;
                 case false:
                     preloader.hide();

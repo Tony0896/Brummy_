@@ -48,15 +48,7 @@ namespace catalogos\catalogosModel;
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
-                    $rowcount=0;
-                    if ( $rowcount ) {
-                        while($row = mysqli_fetch_assoc($stmt)) {
-                            $array[] =$row;
-                        }
-                        $result = array('success' => true, 'result' => $array);
-                    } else{
-                        $result = array('success' => true, 'result' => 'Sin Datos');
-                    }
+                    $result = array('success' => true, 'result' => 'Sin Datos');
                 } else {
                     $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
                 }
@@ -111,15 +103,7 @@ namespace catalogos\catalogosModel;
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
-                    $rowcount=0;
-                    if ( $rowcount ) {
-                        while($row = mysqli_fetch_assoc($stmt)) {
-                            $array[] =$row;
-                        }
-                        $result = array('success' => true, 'result' => $array);
-                    } else{
-                        $result = array('success' => true, 'result' => 'Sin Datos');
-                    }
+                    $result = array('success' => true, 'result' => 'Sin Datos');
                 } else {
                     $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
                 }
@@ -142,15 +126,7 @@ namespace catalogos\catalogosModel;
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
-                    $rowcount=0;
-                    if ( $rowcount ) {
-                        while($row = mysqli_fetch_assoc($stmt)) {
-                            $array[] =$row;
-                        }
-                        $result = array('success' => true, 'result' => $array);
-                    } else{
-                        $result = array('success' => true, 'result' => 'Sin Datos');
-                    }
+                    $result = array('success' => true, 'result' => 'Sin Datos');
                 } else {
                     $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
                 }
@@ -173,15 +149,7 @@ namespace catalogos\catalogosModel;
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
-                    $rowcount=0;
-                    if ( $rowcount ) {
-                        while($row = mysqli_fetch_assoc($stmt)) {
-                            $array[] =$row;
-                        }
-                        $result = array('success' => true, 'result' => $array);
-                    } else{
-                        $result = array('success' => true, 'result' => 'Sin Datos');
-                    }
+                    $result = array('success' => true, 'result' => 'Sin Datos');
                 } else {
                     $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
                 }
@@ -233,15 +201,7 @@ namespace catalogos\catalogosModel;
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
-                    $rowcount=0;
-                    if ( $rowcount ) {
-                        while($row = mysqli_fetch_assoc($stmt)) {
-                            $array[] =$row;
-                        }
-                        $result = array('success' => true, 'result' => $array);
-                    } else{
-                        $result = array('success' => true, 'result' => 'Sin Datos');
-                    }
+                    $result = array('success' => true, 'result' => 'Sin Datos');
                 } else {
                     $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
                 }
@@ -264,15 +224,7 @@ namespace catalogos\catalogosModel;
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
-                    $rowcount=0;
-                    if ( $rowcount ) {
-                        while($row = mysqli_fetch_assoc($stmt)) {
-                            $array[] =$row;
-                        }
-                        $result = array('success' => true, 'result' => $array);
-                    } else{
-                        $result = array('success' => true, 'result' => 'Sin Datos');
-                    }
+                    $result = array('success' => true, 'result' => 'Sin Datos');
                 } else {
                     $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
                 }
@@ -324,15 +276,7 @@ namespace catalogos\catalogosModel;
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
-                    $rowcount=0;
-                    if ( $rowcount ) {
-                        while($row = mysqli_fetch_assoc($stmt)) {
-                            $array[] =$row;
-                        }
-                        $result = array('success' => true, 'result' => $array);
-                    } else{
-                        $result = array('success' => true, 'result' => 'Sin Datos');
-                    }
+                    $result = array('success' => true, 'result' => 'Sin Datos');
                 } else {
                     $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
                 }
@@ -355,15 +299,7 @@ namespace catalogos\catalogosModel;
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
-                    $rowcount=0;
-                    if ( $rowcount ) {
-                        while($row = mysqli_fetch_assoc($stmt)) {
-                            $array[] =$row;
-                        }
-                        $result = array('success' => true, 'result' => $array);
-                    } else{
-                        $result = array('success' => true, 'result' => 'Sin Datos');
-                    }
+                    $result = array('success' => true, 'result' => 'Sin Datos');
                 } else {
                     $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
                 }

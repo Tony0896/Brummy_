@@ -24,13 +24,18 @@ function obtenerClientes() {
                     } else {
                         dataTableDestroy();
                         let html;
+                        let tdSinData = `<span class='material-icons'> remove </span> &nbsp; <span class='material-icons'> remove </span>`;
                         result.forEach((data, index) => {
                             html += `<tr>
                                 <td>${index + 1}</td>
                                 <td class="capitalize">${data.nombre} ${data.apellidoP} ${data.apellidoM}</td>
-                                <td>${data.telefono}</td>
-                                <td>${data.correo}</td>
-                                <td><div> <div>${data.motivoMovimiento}</div> <div>${data.fechaUlmitoMovimiento}</div> </div></td>
+                                <td ${data.telefono ? "" : 'style="text-align: center;"'}>${data.telefono ? data.telefono : tdSinData}</td>
+                                <td ${data.correo ? "" : 'style="text-align: center;"'}>${data.correo ? data.correo : tdSinData}</td>
+                                <td><div> <div>${volteaFecha(String(data.fechaUlmitoMovimiento).split(" ")[0], 1)} ${
+                                String(String(data.fechaUlmitoMovimiento).split(" ")[1]).split(":")[0]
+                            }:${String(String(data.fechaUlmitoMovimiento).split(" ")[1]).split(":")[1]}</div> <div>${
+                                data.motivoMovimiento
+                            }</div> </div></td>
                                 <td>
                                     <div style="display: flex; flex-direction: row;">
                                         <div class="buttom-blue buttom button-sinText mx-1" title="Ver Perfil" onclick="verPerfilCliente(${data.ID})">
@@ -377,102 +382,64 @@ function eliminarCliente(ID) {
     });
 }
 
-function HistorialCliente() {
-    // $.ajax({
-    //     method: "POST",
-    //     dataType: "JSON",
-    //     url: "./views/clientes/obtenerCliente.php",
-    //     data: { ID },
-    // })
-    //     .done(function (results) {
-    //         let success = results.success;
-    //         let result = results.result;
-    //         let html = "";
-    //         switch (success) {
-    //             case true:
-    //                 if (result == "Sin Datos") {
-    //                     Swal.fire({ icon: "warning", title: "Sin datos.", text: "" });
-    //                 } else {
-    //                     result.forEach((data, index) => {
-    //                         let nombreModal = data.nombre;
-    //                         let apellidoPModal = data.apellidoP;
-    //                         let apellidoMModal = data.apellidoM;
-    //                         let telefonoModal = data.telefono;
-    //                         let correoModal = data.correo;
-    //                         let motivoMovimientoModal = data.motivoMovimiento;
-    //                         let fechaUlmitoMovimientoModal = data.fechaUlmitoMovimiento;
-    //                         let IDModal = data.ID;
+function HistorialCliente(ID) {
+    $.ajax({
+        method: "POST",
+        dataType: "JSON",
+        url: "./views/clientes/traerHistorialCliente.php",
+        data: { ID },
+    })
+        .done(function (results) {
+            let success = results.success;
+            let result = results.result;
+            let html = "";
+            switch (success) {
+                case true:
+                    if (result == "Sin Datos") {
+                    } else {
+                        result.forEach((data, index) => {
+                            html += `
+                            <li class="rb-item" ng-repeat="itembx">
+                                <div class="timestamp">${volteaFecha(data.fecha, 1)} </div>
+                                <div class="item-title">${data.motivo_movimiento}</div>
+                            </li> `;
+                        });
+                        $("#labelModal").html(`Historial Cliente`);
 
-    $("#labelModal").html(`Historial Cliente`);
+                        $("#body_modal").html(`<br>
+                            <div>
+                                <div class="rb-container" style="max-height: 500px; overflow-y: scroll;padding-top: 15px;pointer-events: all;padding-left: 15px; text-align: center;">
+                                    <ul class="rb" style="margin: 0;">
+                                       ${html}  
+                                    </ul>
+                                </div>
+                            </div>
+                        `);
 
-    $("#body_modal").html(`<br>
-        <div>
-            <div class="rb-container" style="max-height: 500px; overflow-y: scroll;padding-top: 15px;pointer-events: all;padding-left: 15px; text-align: center;">
-                <ul class="rb" style="margin: 0;">
-                    <li class="rb-item" ng-repeat="itembx">
-                        <div class="timestamp">15-04-2024 </div>
-                        <div class="item-title">Aplicación de Vacuna sextuple</div>
-                        <div class="timestamp">Mascota </div>
-                    </li>
-                    
-                    <li class="rb-item" ng-repeat="itembx">
-                        <div class="timestamp">15-04-2024 </div>
-                        <div class="item-title">Revisión General</div>
-                        <div class="timestamp">Mascota </div>
-                    </li>
-                    
-                    <li class="rb-item" ng-repeat="itembx">
-                        <div class="timestamp">13-04-2024 </div>
-                        <div class="item-title">Agenda de cita: 15-04-2024, para Vacuna</div>
-                        <div class="timestamp">Mascota </div>
-                    </li>
-                    
-                    <li class="rb-item" ng-repeat="itembx">
-                        <div class="timestamp">02-04-2024 </div>
-                        <div class="item-title">Acude a baño</div>
-                        <div class="timestamp">Mascota </div>
-                    </li>
+                        $("#modalTemplate").modal({
+                            backdrop: "static",
+                            keyboard: false,
+                        });
 
-                    <li class="rb-item" ng-repeat="itembx">
-                        <div class="timestamp">01-04-2024 </div>
-                        <div class="item-title">Agenda de cita: 02-04-2024, para baño</div>
-                        <div class="timestamp">Mascota </div>
-                    </li>  
-                    
-                    <li class="rb-item" ng-repeat="itembx">
-                        <div class="timestamp">28-03-2024 </div>
-                        <div class="item-title">Compra de juguete</div>
-                        <div class="timestamp">Mascota </div>
-                    </li>   
-                </ul>
-            </div>
-        </div>
-    `);
+                        $("#modalTemplate").modal("show");
 
-    $("#modalTemplate").modal({
-        backdrop: "static",
-        keyboard: false,
-    });
+                        $("#btnClose").on("click", () => {
+                            $("#modalTemplate").modal("hide");
+                            $("#btnClose").off("click");
+                        });
 
-    $("#modalTemplate").modal("show");
-
-    $("#btnClose").on("click", () => {
-        $("#modalTemplate").modal("hide");
-        $("#btnClose").off("click");
-    });
-    //                 });
-    //                 preloader.hide();
-    //             }
-    //             break;
-    //         case false:
-    //             preloader.hide();
-    //             msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
-    //             break;
-    //     }
-    // })
-    // .fail(function (jqXHR, textStatus, errorThrown) {
-    //     preloader.hide();
-    //     msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
-    //     console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
-    // });
+                        preloader.hide();
+                    }
+                    break;
+                case false:
+                    preloader.hide();
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            preloader.hide();
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+            console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
 }

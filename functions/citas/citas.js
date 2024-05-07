@@ -238,6 +238,8 @@ $(document).ready(() => {
                                                         switch (success) {
                                                             case true:
                                                                 if (result == "Sin Datos") {
+                                                                    $("#nombreMascota").html(html2);
+                                                                    $("#nombreMascota").trigger("change");
                                                                     preloader.hide();
                                                                 } else {
                                                                     result.forEach((data, index) => {
@@ -276,75 +278,7 @@ $(document).ready(() => {
                                         });
 
                                         $("#btnGuardarCita").click(() => {
-                                            let values = get_datos_completos("nuevaCita");
-                                            let response = values.response;
-                                            let valido = values.valido;
-                                            if (valido) {
-                                                let FKnombreCita = $("#nombreCita").val();
-                                                let nombreCita = String($("#nombreCita").find("option:selected").text());
-                                                let FKnombreMascota = $("#nombreMascota").val();
-                                                let nombreMascota = String($("#nombreMascota").find("option:selected").text());
-                                                let fechaCita = $("#fechaCita").val();
-                                                let horaCita = $("#horaCita").val();
-                                                let motivoCita = $("#motivoCita").find("option:selected").text();
-                                                let comentariosCita = String($("#comentariosCita").val());
-                                                let FKMotivo = $("#motivoCita").val();
-
-                                                nombreCita.replaceAll("'", '"');
-                                                nombreMascota.replaceAll("'", '"');
-                                                motivoCita.replaceAll("'", '"');
-                                                comentariosCita.replaceAll("'", '"');
-
-                                                preloader.show();
-                                                $.ajax({
-                                                    method: "POST",
-                                                    dataType: "JSON",
-                                                    url: "./views/citas/guardarCita.php",
-                                                    data: {
-                                                        FKnombreCita,
-                                                        nombreCita,
-                                                        FKnombreMascota,
-                                                        nombreMascota,
-                                                        fechaCita,
-                                                        horaCita,
-                                                        motivoCita,
-                                                        comentariosCita,
-                                                        FKMotivo,
-                                                    },
-                                                })
-                                                    .done(function (results) {
-                                                        let success = results.success;
-                                                        let result = results.result;
-                                                        switch (success) {
-                                                            case true:
-                                                                $("#modalTemplate").modal("hide");
-                                                                $("#btnClose").off("click");
-                                                                msj.show("Aviso", "Guardado correctamente", [{ text1: "OK" }]);
-                                                                preloader.hide();
-                                                                validaEventos(fechaCita);
-                                                                break;
-                                                            case false:
-                                                                preloader.hide();
-                                                                msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
-                                                                break;
-                                                        }
-                                                    })
-                                                    .fail(function (jqXHR, textStatus, errorThrown) {
-                                                        preloader.hide();
-                                                        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
-                                                        console.log(
-                                                            "error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown
-                                                        );
-                                                    });
-                                            } else {
-                                                let html =
-                                                    '<span style="font-weight: 900;">Debes llenar estos campos para poder guardar:</span> <br> <ul style="text-align: left; margin-left: 15px; font-style: italic;"> ';
-                                                response.forEach((data) => {
-                                                    html += `<li style="list-style: disc;">${data}.</li> `;
-                                                });
-                                                html += `</ul>`;
-                                                Swal.fire({ icon: "warning", title: "", html: html });
-                                            }
+                                            validacioesCita();
                                         });
 
                                         preloader.hide();
@@ -391,16 +325,19 @@ function validaEventos(fechaCita) {
     if (fechaActual1 == fechaCita) {
         let myCalendar = jsCalendar.get("#calendar");
         myCalendar.select([fechaActual]);
+        cargaBolitasCalendar();
         recargaEventosDay(fechaActual);
     } else {
         if (mesCita == mesActual && anioActual == anioCita) {
             let myCalendar = jsCalendar.get("#calendar");
             myCalendar.select([diaCita + "-" + mesCita + "-" + anioCita]);
+            cargaBolitasCalendar();
         }
     }
 }
 
 function recargaEventosDay(oldFecha) {
+    cargaBolitasCalendar();
     preloader.show();
     let fecha = volteaFecha(oldFecha, 2);
     $.ajax({
@@ -429,56 +366,72 @@ function recargaEventosDay(oldFecha) {
                         </div>`);
                     } else {
                         let html = "",
+                            colorText = "",
                             TextEstatus = "";
                         result.forEach((data, index) => {
                             TextEstatus = "";
                             if (data.estatus == 1) {
                                 TextEstatus = `<h4 class="card-title text-success" style="margin: 0px;"><strong>${data.flagEstatus}</strong></h4>`;
+                                colorText = "#009071";
                             } else if (data.estatus == 2) {
                                 TextEstatus = `<h4 class="card-title text-primary" style="margin: 0px;"><strong>${data.flagEstatus}</strong></h4>`;
+                                colorText = "#0277BD";
                             } else if (data.estatus == 3) {
                                 TextEstatus = `<h4 class="card-title text-danger" style="margin: 0px;"><strong>${data.flagEstatus}</strong></h4>`;
+                                colorText = "#F95F53";
                             } else if (data.estatus == 4) {
                                 TextEstatus = `<h4 class="card-title text-warning" style="margin: 0px;"><strong>${data.flagEstatus}</strong></h4>`;
+                                colorText = "#FFAF00";
                             }
 
-                            html += `<div class="row mt-3">
+                            html += `
+                            <div class="row mt-3">
                                 <div class="col-md-12 mb-0" style="padding: 0;">
                                     <div class="card2">
-                                        <div class="card-body" style="border-left: 10px solid #009071;border-radius: 10px;">
-                                            
-                                                    <div class="row">
-                                                        <div class="col-md-2 my-2" style="display: flex;align-items: baseline;">
-                                                            <h4 class="card-title" style="margin: 0px;">
-                                                                ${String(data.horaCita).split(":")[0]}:${String(data.horaCita).split(":")[1]}
-                                                            </h4>
-                                                        </div>
-                                                        <div class="col-md-4 my-2" style="display: flex;align-items: baseline;">
-                                                            <span style="margin-right: 15px;" class="capitalize"> 
-                                                                <strong> ${String(data.motivoCita).trim()} </strong>
-                                                            </span>
-                                                        </div>
-                                                        <div class="col-md-3 my-2" style="display: flex;align-items: baseline;">
-                                                            ${TextEstatus}
-                                                        </div>
-                                                        <div class="col-md-3 my-2" style="display: flex;align-items: baseline;">
-                                                            <div class="buttom-green buttom" style="margin: 0;" onclick="marcarCita(${data.ID})">
-                                                                <span class="text-sm mb-0"> <i class="material-icons" style="margin-left: 0;"> task_alt </i></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                
+                                        <div class="card-body" style="border-left: 10px solid ${colorText};border-radius: 10px; padding: 1rem 1.5rem;">                        
                                             <div class="row">
-                                                <div class="col-md-12 my-2">Cliente: <strong class="capitalize">
-                                                    ${data.nombreCita} - ${data.nombreMascota}
-                                                </strong></div>
-                                                <div class="col-md-12 my-2">Comentarios: <strong class="capitalize">
-                                                ${
-                                                    String(data.comentariosCita).trim()
-                                                        ? String(data.comentariosCita).trim()
-                                                        : "Sin comentarios adicionales"
-                                                } </strong></div>
+                                                <div class="col-md-8 my-2"> 
+                                                    <div class="row">
+                                                        <div class="col-md-12 my-2"> <h4 class="card-title">
+                                                        ${data.nombreCita} Y  ${data.nombreMascota} </h4> <div> ${TextEstatus} </div></div>
+                                                        <div class="col-md-12 my-2"> <span class="capitalize"> ${
+                                                            String(data.comentariosCita).trim()
+                                                                ? String(data.comentariosCita).trim()
+                                                                : "Sin comentarios adicionales"
+                                                        } </span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 my-2" style="display: flex;flex-direction: column;">
+                                                    <div style="display: flex;margin-bottom: 12px;"> <span class="material-icons" style="margin-right: 15px;color: #0277bd;"> schedule </span> <strong class="capitalize" style="font-weight: 500;"> ${
+                                                        String(data.horaCita).split(":")[0]
+                                                    }:${String(data.horaCita).split(":")[1]} </strong></div> 
+                                                    <div style="display: flex;margin-bottom: 12px;"> <span class="material-icons" style="margin-right: 15px;color: #0277bd;"> checklist </span> <strong class="capitalize" style="font-weight: 500;"> ${String(
+                                                        data.motivoCita
+                                                    ).trim()} </strong> </div> 
+                                                    <div class="col-md-4 my-0"> 
+                                                        <div class="buttom-blue buttom" onclick="marcarCita(${data.ID})">
+                                                            <span class="text-sm mb-0">Acciones <i class="material-icons"> date_range </i></span>
+                                                        </div>    
+                                                    </div>
+                                                </div>
                                             </div>
+                                            <!-- <div class="row">
+                                                <div class="col-md-4 my-2"> 
+                                                    <div class="buttom-green buttom" onclick="AtendidiaCita(${data.ID})">
+                                                        <span class="text-sm mb-0">Atendidia <i class="material-icons"> check_circle </i></span>
+                                                    </div> 
+                                                </div>
+                                                <div class="col-md-4 my-2"> 
+                                                    <div class="buttom-blue buttom" onclick="ReagendarCita(${data.ID})">
+                                                        <span class="text-sm mb-0">Reagendar <i class="material-icons"> date_range </i></span>
+                                                    </div>    
+                                                </div>
+                                                <div class="col-md-4 my-2"> 
+                                                    <div class="buttom-red buttom" onclick="CancelarCita(${data.ID})">
+                                                        <span class="text-sm mb-0">Cancelar <i class="material-icons"> cancel </i></span>
+                                                    </div>    
+                                                </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -525,6 +478,7 @@ function cargaEventosMes(fecha) {
                             fechaInsert = [...fechaInsert, volteaFecha(data.fechaCita, 1)];
                         });
                         myCalendar.select(fechaInsert);
+                        cargaBolitasCalendar();
                         preloader.hide();
                     }
                     break;
@@ -624,4 +578,145 @@ function guardarEstausCita(ID) {
             msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
             console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
         });
+}
+
+function validacioesCita() {
+    let values = get_datos_completos("nuevaCita");
+    let response = values.response;
+    let valido = values.valido;
+    if (valido) {
+        preloader.show();
+        let fechaCita = $("#fechaCita").val();
+        let horaCita = $("#horaCita").val();
+
+        $.ajax({
+            method: "POST",
+            dataType: "JSON",
+            url: "./views/citas/validaCita.php",
+            data: { fechaCita, horaCita },
+        })
+            .done(function (results) {
+                let success = results.success;
+                let result = results.result;
+                let disponible = true;
+                switch (success) {
+                    case true:
+                        if (result == "Sin Datos") {
+                            guardarCita();
+                        } else {
+                            disponible = false;
+                            let Texto = "";
+                            result.forEach((data, index) => {
+                                Texto += ` ${data.nombreCita} y ${data.nombreMascota} que podria empalmarse. ¿Deseas continuar?`;
+                            });
+                            Swal.fire({
+                                title: "Hay una cita ya agendada de:",
+                                text: Texto,
+                                icon: "question",
+                                showCancelButton: true,
+                                confirmButtonColor: "#7066e0",
+                                cancelButtonColor: "#FF0037",
+                                confirmButtonText: "OK",
+                                cancelButtonText: "Cancelar",
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    guardarCita();
+                                }
+                            });
+                            preloader.hide();
+                        }
+
+                        break;
+                    case false:
+                        preloader.hide();
+                        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                        break;
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                preloader.hide();
+                msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+            });
+    } else {
+        let html =
+            '<span style="font-weight: 900;">Debes llenar estos campos para poder guardar:</span> <br> <ul style="text-align: left; margin-left: 15px; font-style: italic;"> ';
+        response.forEach((data) => {
+            html += `<li style="list-style: disc;">${data}.</li> `;
+        });
+        html += `</ul>`;
+        Swal.fire({ icon: "warning", title: "", html: html });
+    }
+}
+
+function guardarCita() {
+    let FKnombreCita = $("#nombreCita").val();
+    let nombreCita = String($("#nombreCita").find("option:selected").text());
+    let FKnombreMascota = $("#nombreMascota").val();
+    let nombreMascota = String($("#nombreMascota").find("option:selected").text());
+    let fechaCita = $("#fechaCita").val();
+    let horaCita = $("#horaCita").val();
+    let motivoCita = $("#motivoCita").find("option:selected").text();
+    let comentariosCita = String($("#comentariosCita").val());
+    let FKMotivo = $("#motivoCita").val();
+
+    nombreCita.replaceAll("'", '"');
+    nombreMascota.replaceAll("'", '"');
+    motivoCita.replaceAll("'", '"');
+    comentariosCita.replaceAll("'", '"');
+
+    preloader.show();
+    $.ajax({
+        method: "POST",
+        dataType: "JSON",
+        url: "./views/citas/guardarCita.php",
+        data: {
+            FKnombreCita,
+            nombreCita,
+            FKnombreMascota,
+            nombreMascota,
+            fechaCita,
+            horaCita,
+            motivoCita,
+            comentariosCita,
+            FKMotivo,
+        },
+    })
+        .done(function (results) {
+            let success = results.success;
+            let result = results.result;
+            switch (success) {
+                case true:
+                    $("#modalTemplate").modal("hide");
+                    $("#btnClose").off("click");
+                    msj.show("Aviso", "Guardado correctamente", [{ text1: "OK" }]);
+                    preloader.hide();
+                    validaEventos(fechaCita);
+                    break;
+                case false:
+                    preloader.hide();
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            preloader.hide();
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+            console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
+}
+
+function cargaBolitasCalendar() {
+    let campos,
+        contenido = "";
+    campos = document.querySelectorAll("#calendar table tbody tr td.jsCalendar-selected");
+
+    [].slice.call(campos).forEach(function (campo) {
+        contenido = $(campo).get(0).innerHTML;
+        if (!contenido.includes("mbsc-calendar-marks mbsc-ios mbsc-ltr")) {
+            $(campo).append(
+                '<div> <div class="mbsc-calendar-marks mbsc-ios mbsc-ltr"> <div class="mbsc-calendar-mark  mbsc-ios"> </div> </div> </div>'
+            );
+        }
+    });
 }

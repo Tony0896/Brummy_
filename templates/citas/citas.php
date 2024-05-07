@@ -24,8 +24,9 @@
         color: #fff;
     }
     .jsCalendar tbody td.jsCalendar-selected {
-        background-color: #0277bdbd;
-        color: #fff !important;
+        /* background-color: #0277bdbd;
+        color: #fff !important; */
+        border: 2px solid #e6e6e600;
     }
     thead {
         border-top-left-radius: 10px;
@@ -37,6 +38,18 @@
     }
     .jsCalendar tbody td:hover {
         cursor: pointer;
+    }
+    .jsCalendar tbody td.jsCalendar-selected:hover {
+        cursor: pointer;
+        background-color: #e6e6e6;
+    }
+    .jsCalendar tbody td.jsCalendar-selected.jsCalendar-current:hover{
+        background-color: #009071;
+        border-radius: 18px;
+        color: #fff;
+    }
+    .jsCalendar tbody td.jsCalendar-selected.jsCalendar-current > div > div > div{
+        background: rgb(70 196 243 / 0%)
     }
 </style>
 <script type="text/javascript" src="./functions/citas/citas.js"></script>
@@ -81,7 +94,7 @@
         </div>
     </div>
 </div>
-<div id="divEventos">
+<div id="divEventos" style="padding-left: 15px;">
     
 </div>
 

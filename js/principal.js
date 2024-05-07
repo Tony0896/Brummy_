@@ -88,7 +88,6 @@ $(document).ready(() => {
                         }
 
                         if (data.ID_modulo != 1 && data.ID_modulo != 2) {
-                            console.log(data);
                             $("#navSide").append(`
                                 <li class="nav-item" id="${data.id_element}_li">
                                     <a class="nav-link tagAMenu" href="#" id="${data.id_element}" onclick="cargaTemplate(this.id, '${data.permiso}')">
@@ -99,6 +98,24 @@ $(document).ready(() => {
                             `);
                         }
                     });
+                    let name = $(".welcome-text span").text();
+
+                    $("#navSide").append(`
+                        <li class="nav-item nav-category" style="padding-top: 0px"><hr style="margin: 5px 0px" /></li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="collapse" href="#userOptions" aria-expanded="false" aria-controls="userOptions">
+                                <span class="material-icons" style="margin-right: 10px;"> account_circle </span>
+                                <span class="menu-title">${name}</span>
+                            </a>
+                            <div class="collapse" id="userOptions">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item tagAMenu"><a class="nav-link" href="#">My Profile</a></li>
+                                    <!-- <li class="nav-item tagAMenu"><a class="nav-link" href="#">FAQ</a></li> -->
+                                    <li class="nav-item tagAMenu"><a class="nav-link" href="#" onclick="cerrarSesion()">Cerrar sesión</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    `);
 
                     break;
                 case false:
@@ -117,6 +134,179 @@ $(document).ready(() => {
 });
 
 function cargaDataDash() {
+    $.ajax({
+        method: "POST",
+        dataType: "json",
+        url: "views/login/dataHeader.php",
+        data: {},
+    })
+        .done(function (result) {
+            let success = result.success;
+            let results = result.result;
+            switch (success) {
+                case true:
+                    results.forEach((data, index) => {
+                        $("#gananciasDia").html(`$${Number(data.cuenta).toFixed(2)}`);
+                        $("#citasAgendadasCita").html(`${Number(data.cuentaAgenda)}`);
+                        $("#citasAtendidasDia").html(`${Number(data.cuentaAtendidas)}`);
+                    });
+
+                    break;
+                case false:
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Aviso",
+                        text: "Algo salió mal.",
+                    });
+
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.log("accesoUsuarioView  - Server: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
+
+    $.ajax({
+        method: "POST",
+        dataType: "json",
+        url: "views/login/getProximasCitas.php",
+        data: {},
+    })
+        .done(function (result) {
+            let success = result.success;
+            let results = result.result;
+            let html = "";
+            switch (success) {
+                case true:
+                    results.forEach((data, index) => {
+                        html += `
+                            <tr>
+                                <td>${Number(index + 1)}</td>
+                                <td>${data.nombreCita}</td>
+                                <td>${data.nombreMascota}</td>
+                            </tr>
+                        `;
+                    });
+
+                    $("#bodyCitasDashbora").html(html);
+
+                    break;
+                case false:
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Aviso",
+                        text: "Algo salió mal.",
+                    });
+
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.log("accesoUsuarioView  - Server: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
+
+    $.ajax({
+        method: "POST",
+        dataType: "json",
+        url: "views/login/getLastVentas.php",
+        data: {},
+    })
+        .done(function (result) {
+            let success = result.success;
+            let results = result.result;
+            let html = "";
+            switch (success) {
+                case true:
+                    results.forEach((data, index) => {
+                        html += `
+                            <tr>
+                                <td>${Number(index + 1)}</td>
+                                <td>${data.FlagProducto}</td>
+                                <td>$${Number(data.total).toFixed(2)}</td>
+                            </tr>
+                        `;
+                    });
+                    $("#bodyVentasDashbora").html(html);
+                    break;
+                case false:
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Aviso",
+                        text: "Algo salió mal.",
+                    });
+
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.log("accesoUsuarioView  - Server: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
+
+    $.ajax({
+        method: "POST",
+        dataType: "json",
+        url: "views/login/topProductos.php",
+        data: {},
+    })
+        .done(function (result) {
+            let success = result.success;
+            let results = result.result;
+            let colores = [];
+            let sumasProductos = [];
+            let productos = [];
+            switch (success) {
+                case true:
+                    results.forEach((data, index) => {
+                        colores = [...colores, "#009071"];
+                        productos = [...productos, data.FlagProducto];
+                        sumasProductos = [...sumasProductos, Number(data.suma)];
+                    });
+
+                    new Chart(document.getElementById("bar-chart2"), {
+                        type: "horizontalBar",
+                        data: {
+                            labels: productos,
+                            datasets: [
+                                {
+                                    label: "Vendidos",
+                                    backgroundColor: colores,
+                                    data: sumasProductos,
+                                },
+                            ],
+                        },
+                        options: {
+                            legend: { display: false },
+                            title: {
+                                display: true,
+                                text: "",
+                            },
+                            scales: {
+                                xAxes: [
+                                    {
+                                        ticks: {
+                                            beginAtZero: true,
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                    });
+
+                    break;
+                case false:
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Aviso",
+                        text: "Algo salió mal.",
+                    });
+
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.log("accesoUsuarioView  - Server: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
+
     new Chart(document.getElementById("bar-chart"), {
         type: "bar",
         data: {
@@ -126,27 +316,6 @@ function cargaDataDash() {
                     label: "Calificaciones",
                     backgroundColor: ["#009071", "#009071", "#009071", "#009071", "#009071"],
                     data: [0, 0, 0, 2, 3, 5],
-                },
-            ],
-        },
-        options: {
-            legend: { display: false },
-            title: {
-                display: true,
-                text: "",
-            },
-        },
-    });
-
-    new Chart(document.getElementById("bar-chart2"), {
-        type: "horizontalBar",
-        data: {
-            labels: ["Shampoo", "Croquetas Dog Chow", "Correa 1.5 metros", "Bolsas para heces", "Premios ganador"],
-            datasets: [
-                {
-                    label: "Vendidos",
-                    backgroundColor: ["#009071", "#009071", "#009071", "#009071", "#009071"],
-                    data: [10, 9, 8, 7, 6, 5],
                 },
             ],
         },

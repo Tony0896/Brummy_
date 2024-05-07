@@ -8,6 +8,21 @@ namespace citas\citasModel;
     require_once ( __DIR__ . './../../conexion/dataBase.php' );
     class citasModel{ 
 
+        function InsertHistoriaMascota($FK_mascota, $nombre, $FK_modulo, $nombreModulo, $motivo, $FK_Usuario, $nameUsuario, $ID_mov){
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $sql = "CALL InsertHistoriaMascota(CURRENT_DATE(), $FK_mascota, '$nombre', $FK_modulo, '$nombreModulo', '$motivo', $FK_Usuario, '$nameUsuario', $ID_mov)";
+
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+
+                }
+            } catch (mysqli_sql_exception $e) { }
+            mysqli_close( $conexion );
+        }
+
         function obtenerEventosMes($data){
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
@@ -52,21 +67,34 @@ namespace citas\citasModel;
             $motivoCita = $data['motivoCita'];
             $comentariosCita = $data['comentariosCita'];
             $FKMotivo = $data['FKMotivo'];
+            $fechaHoraCita = $data['fechaCita'].' '.$data['horaCita'];
 
-            $sql = "INSERT INTO citas (FKnombreCita, nombreCita, FKnombreMascota, nombreMascota, fechaCita, horaCita, motivoCita, comentariosCita, FKMotivo)
-            VALUES ('$FKnombreCita', '$nombreCita', '$FKnombreMascota', '$nombreMascota', '$fechaCita', '$horaCita', '$motivoCita', '$comentariosCita', '$FKMotivo')";
+            $sql = "INSERT INTO citas (FKnombreCita, nombreCita, FKnombreMascota, nombreMascota, fechaCita, horaCita, motivoCita, comentariosCita, FKMotivo, fechaHoraCita)
+            VALUES ('$FKnombreCita', '$nombreCita', '$FKnombreMascota', '$nombreMascota', '$fechaCita', '$horaCita', '$motivoCita', '$comentariosCita', '$FKMotivo', '$fechaHoraCita')";
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
-                    $rowcount=0;
-                    if ( $rowcount ) {
-                        while($row = mysqli_fetch_assoc($stmt)) {
-                            $array[] =$row;
+                    $result = array('success' => true, 'result' => 'Sin Datos');
+                    $sql = "SELECT ID FROM citas ORDER BY ID DESC LIMIT 1";
+                    try{
+                        $stmt = mysqli_query($conexion, $sql);
+                        if($stmt){
+                            $rowcount=mysqli_num_rows($stmt);   
+                            if ( $rowcount ) {
+                                while($row = mysqli_fetch_assoc($stmt)) {
+                                    $FK_mascota = $data['FKnombreCita'];
+                                    $nombre = $data['nombreMascota'];
+                                    $FK_modulo = 7;
+                                    $nombreModulo = 'Citas';
+                                    $motivo = 'Nueva Cita: '. $fechaCita. ' '.$horaCita;
+                                    $FK_Usuario = $_SESSION['ID_usuario'];
+                                    $nameUsuario = $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'];
+                                    $ID_mov = $row['ID'];
+                                }
+                                $this->InsertHistoriaMascota($FK_mascota, $nombre, $FK_modulo, $nombreModulo, $motivo, $FK_Usuario, $nameUsuario, $ID_mov);
+                            }
                         }
-                        $result = array('success' => true, 'result' => $array);
-                    } else{
-                        $result = array('success' => true, 'result' => 'Sin Datos');
-                    }
+                    } catch (mysqli_sql_exception $e) { }
                 } else {
                     $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
                 }
@@ -123,7 +151,38 @@ namespace citas\citasModel;
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
-                    $rowcount=0;
+                    $result = array('success' => true, 'result' => 'Sin Datos');
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+            
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;
+        }
+  
+        function validaCita($data){
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $fechaCita = $data['fechaCita'];
+            $horaCita = $data['horaCita'];
+
+            $datetime = $fechaCita.' '.$horaCita;
+
+            $horaMas = strtotime($datetime.' + 30 minute');
+            $horaMenos = strtotime($datetime.' - 30 minute');
+            $horaMas1 = date('Y-m-d H:i:s', $horaMas);
+            $horaMenos1 = date('Y-m-d H:i:s', $horaMenos);
+
+            $sql = "SELECT * FROM citas WHERE fechaHoraCita BETWEEN '$horaMenos1' AND '$horaMas1' AND estatus = 1";
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $rowcount=mysqli_num_rows($stmt);   
                     if ( $rowcount ) {
                         while($row = mysqli_fetch_assoc($stmt)) {
                             $array[] =$row;
@@ -143,6 +202,5 @@ namespace citas\citasModel;
             $resultJson = json_encode( $result );
             return $resultJson;
         }
-        
     }
 ?>

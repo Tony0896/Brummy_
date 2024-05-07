@@ -43,6 +43,12 @@
             $result_model = $model_clientes->eliminarCliente($data);
             return $result_model;
         }
+
+        function traerHistorialCliente($data){
+            $model_clientes = $this->getConexionModelClass();
+            $result_model = $model_clientes->traerHistorialCliente($data);
+            return $result_model;
+        }
         
     }
 ?>

@@ -41,7 +41,7 @@ if( !$boolean_session ){
         <link rel="stylesheet" href="./css/vertical-layout-light/style.css" />
         <link rel="stylesheet" href="./css/brummy.css" />
         <!-- endinject -->
-        <link rel="shortcut icon" href="./images/favicon.png" />
+        <link rel="shortcut icon" href="./images/cuadrado_sin_fondo.png" />
 
         <link rel="stylesheet" href="./libraries/datatables-1.12.1/jquery.dataTables.min.css" />
         <link rel="stylesheet" href="./libraries/datatables-1.12.1/responsive/2.3.0/responsive.dataTables.min.css" />
@@ -89,10 +89,10 @@ if( !$boolean_session ){
                     </div>
                     <div>
                         <a class="navbar-brand brand-logo" href="./dashboard.php">
-                            <img src="./images/logo.svg" alt="logo" />
+                            <img src="./images/large.png" alt="logo" />
                         </a>
                         <a class="navbar-brand brand-logo-mini" href="./dashboard.php">
-                            <img src="./images/logo-mini.svg" alt="logo" />
+                            <img src="./images/cuadrado_sin_fondo.png" alt="logo" />
                         </a>
                     </div>
                 </div>
@@ -125,25 +125,25 @@ if( !$boolean_session ){
                 <div class="main-panel" style="margin-left: auto">
                     <div class="content-wrapper">
                         <div class="row">
-                            <div class="col-md-12 grid-margin stretch-card">
+                            <div class="col-md-12 grid-margin stretch-card p-0">
                                 <div class="card">
-                                    <div class="card-body" id="contenido">
+                                    <div class="card-body" id="contenido" style="padding: 1rem;">
                                         <div class="row dahsboardContenido" style="display:none;">
                                             <div class="col-sm-12 mb-4">
                                                 <div class="statistics-details d-flex align-items-center justify-content-between">
                                                     <div>
                                                         <p class="statistics-title">Ganancias del día</p>
-                                                        <h3 class="rate-percentage">$0.00</h3>
+                                                        <h3 class="rate-percentage" id="gananciasDia">$0.00</h3>
                                                         
                                                     </div>
                                                     <div>
                                                         <p class="statistics-title">Citas agendadas(HOY)</p>
-                                                        <h3 class="rate-percentage">12</h3>
+                                                        <h3 class="rate-percentage" id="citasAgendadasCita">0</h3>
                                                         
                                                     </div>
                                                     <div>
                                                         <p class="statistics-title">Citas atendidas(HOY)</p>
-                                                        <h3 class="rate-percentage">1</h3>
+                                                        <h3 class="rate-percentage" id="citasAtendidasDia">0</h3>
                                                         
                                                     </div>
                                                 </div>
@@ -154,7 +154,7 @@ if( !$boolean_session ){
                                             <div class="col-md-6 grid-margin stretch-card">
                                                 <div class="card2 mb-2">
                                                     <div class="card-body">
-                                                        <h4 class="statistics-title">Proximas Citas (5)</h4>
+                                                        <h4 class="statistics-title">Próximas Citas (5)</h4>
                                                         <div id="div_citas">
                                                             <table class="mdl-data-table table responsive table-bordered table-striped dashTable" style="width:100%">
                                                                 <thead>
@@ -164,12 +164,8 @@ if( !$boolean_session ){
                                                                         <th>Mascota</th>
                                                                     </tr>
                                                                 </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>1</td>
-                                                                        <td>CLiente</td>
-                                                                        <td>Mascota</td>
-                                                                    </tr>
+                                                                <tbody id="bodyCitasDashbora">
+                                                                    
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -189,12 +185,8 @@ if( !$boolean_session ){
                                                                         <th>Costo</th>
                                                                     </tr>
                                                                 </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>1</td>
-                                                                        <td>baño</td>
-                                                                        <td>$100.00</td>
-                                                                    </tr>
+                                                                <tbody id="bodyVentasDashbora">
+
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -267,6 +259,6 @@ if( !$boolean_session ){
         <script src="./libraries/jsCalendar/jsCalendar.lang.es.js"></script>
         <script src="./libraries/jsCalendar/jsCalendar.min.js"></script>
         <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script> -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
     </body>
 </html>

@@ -88,7 +88,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 mb-2" style="display: flex;align-items: center;">
+            <div class="col-md-4 mb-2" style="display: flex;">
                 <div class="card2">
                     <div class="card-body">
                         <div class="divNotas">
@@ -136,31 +136,8 @@
                         </div>
                         
                         <div class="rb-container" style="max-height: 500px; overflow-y: scroll;padding-top: 15px;pointer-events: all;padding-left: 15px; text-align: center;">
-                            <ul class="rb" style="margin: 0;">
-                                <li class="rb-item" ng-repeat="itembx">
-                                    <div class="timestamp">15-04-2024 </div>
-                                    <div class="item-title">Aplicación de Vacuna sextuple</div>
-                                </li>
+                            <ul class="rb" style="margin: 0;" id="historialMascotaSpace">
                                 
-                                <li class="rb-item" ng-repeat="itembx">
-                                    <div class="timestamp">15-04-2024 </div>
-                                    <div class="item-title">Revisión General</div>
-                                </li>
-                                
-                                <li class="rb-item" ng-repeat="itembx">
-                                    <div class="timestamp">13-04-2024 </div>
-                                    <div class="item-title">Agenda de cita: 15-04-2024, para Vacuna</div>
-                                </li>
-                                
-                                <li class="rb-item" ng-repeat="itembx">
-                                    <div class="timestamp">02-04-2024 </div>
-                                    <div class="item-title">Acude a baño</div>
-                                </li>
-                                
-                                <li class="rb-item" ng-repeat="itembx">
-                                    <div class="timestamp">01-04-2024 </div>
-                                    <div class="item-title">Agenda de cita: 02-04-2024, para baño</div>
-                                </li>   
                             </ul>
                         </div>
                     </div>

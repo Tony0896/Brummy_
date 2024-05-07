@@ -7,6 +7,21 @@ namespace ventas\ventasModel;
     use conexionDB\Code AS ClaseConexionDB;
     require_once ( __DIR__ . './../../conexion/dataBase.php' );
     class ventasModel{
+
+        function InsertHistoriaCliente($FK_Cliente, $nombre, $FK_modulo, $nombreModulo, $motivo, $FK_Usuario, $nameUsuario, $ID_mov){
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $sql = "CALL InsertHistoriaCliente(CURRENT_DATE(), $FK_Cliente, '$nombre', $FK_modulo, '$nombreModulo', '$motivo', $FK_Usuario, '$nameUsuario', $ID_mov)";
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+
+                }
+            } catch (mysqli_sql_exception $e) { }
+            mysqli_close( $conexion );
+        }
+        
         function guardarHeaderVenta($data){
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
@@ -31,7 +46,17 @@ namespace ventas\ventasModel;
                             if ( $rowcount ) {
                                 while($row = mysqli_fetch_assoc($stmt)) {
                                     $array[] =$row;
+
+                                    $FK_Cliente = $data['cliente'];
+                                    $nombre = $data['nameCliente'];
+                                    $FK_modulo = 4;
+                                    $nombreModulo = 'Ventas';
+                                    $motivo = 'Compra por : $'.$price ;
+                                    $FK_Usuario = $_SESSION['ID_usuario'];
+                                    $nameUsuario = $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'];
+                                    $ID_mov = $row['IDHeader'];
                                 }
+                                $this->InsertHistoriaCliente($FK_Cliente, $nombre, $FK_modulo, $nombreModulo, $motivo, $FK_Usuario, $nameUsuario, $ID_mov);
                                 $result = array('success' => true, 'result' => $array);
                             } else{
                                 $result = array('success' => true, 'result' => 'Sin Datos');
@@ -71,15 +96,7 @@ namespace ventas\ventasModel;
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
-                    $rowcount=0;
-                    if ( $rowcount ) {
-                        while($row = mysqli_fetch_assoc($stmt)) {
-                            $array[] =$row;
-                        }
-                        $result = array('success' => true, 'result' => $array);
-                    } else{
-                        $result = array('success' => true, 'result' => 'Sin Datos');
-                    }
+                    $result = array('success' => true, 'result' => 'Sin Datos');
 
                     $sql = "UPDATE inventario SET stockReal = '$newStock' WHERE ID = $FKProducto";
 

@@ -24,6 +24,7 @@ function obtenerMascotas() {
                     } else {
                         dataTableDestroy();
                         let html;
+                        let tdSinData = `<span class='material-icons'> remove </span> &nbsp; <span class='material-icons'> remove </span>`;
                         result.forEach((data, index) => {
                             html += `<tr>
                                 <td>${index + 1}</td>
@@ -36,8 +37,12 @@ function obtenerMascotas() {
                                 <td>${data.NombreCliente}</td>
                                 <td>${data.fechaNacimiento}</td>
                                 <td>${data.sexo}</td>
-                                <td>${data.color}</td>
-                                <td><div> <div>${data.motivoMovimiento}</div> <div>${data.fechaUlmitoMovimiento}</div> </div></td>
+                                <td>${data.color ? data.color : tdSinData}</td>
+                                <td><div> <div>${volteaFecha(String(data.fechaUlmitoMovimiento).split(" ")[0], 1)} ${
+                                String(String(data.fechaUlmitoMovimiento).split(" ")[1]).split(":")[0]
+                            }:${String(String(data.fechaUlmitoMovimiento).split(" ")[1]).split(":")[1]}</div> <div>${
+                                data.motivoMovimiento
+                            }</div> </div></td>
                                 <td>
                                     <div style="display: flex; flex-direction: row;">
                                         <div class="buttom-blue buttom button-sinText mx-1" title="Ver Perfil" onclick="verMascota(${data.ID})">

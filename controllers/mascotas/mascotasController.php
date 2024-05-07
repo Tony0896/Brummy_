@@ -44,5 +44,10 @@
             return $result_model;
         }
         
+        function traerHistorialMascota($data){
+            $model_mascotas = $this->getConexionModelClass();
+            $result_model = $model_mascotas->traerHistorialMascota($data);
+            return $result_model;
+        }
     }
 ?>
