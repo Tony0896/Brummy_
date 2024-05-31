@@ -882,7 +882,7 @@ h2 {
 .header_upload {
 flex: 1;
 width: 100%;
-border: 2px dashed royalblue;
+border: 2px dashed #009071;
 border-radius: 10px;
 display: flex;
 align-items: center;
