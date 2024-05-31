@@ -853,3 +853,10 @@ h2 {
     background: rgb(70, 196, 243);
     position: relative;
 }
+
+.msj_validacion{
+    font-size: 12px;
+    /* color: red; */
+    font-family: cursive;
+    padding-left: 5px;
+}

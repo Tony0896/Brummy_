@@ -1,4 +1,4 @@
-const preloader = function () {};
+const preloader = function () { };
 
 preloader.show = function () {
     $(".modals").modal({ backdrop: "static", keyboard: false });
@@ -119,7 +119,7 @@ function get_datos_completos(form) {
     }
 }
 
-const msj = function () {};
+const msj = function () { };
 
 msj.show = function (title, subtile, buttons) {
     let buttonOne = "",
@@ -128,7 +128,7 @@ msj.show = function (title, subtile, buttons) {
     $("#subtitleAlert").html(subtile);
     buttons[0].text2
         ? ((buttonTwo = `<button class="reject cookie-button acceptOne">${buttons[0].text2}</button>`),
-          (buttonOne = `<button class="accept cookie-button">${buttons[0].text1}</button>`))
+            (buttonOne = `<button class="accept cookie-button">${buttons[0].text1}</button>`))
         : (buttonOne = `<button class="accept cookie-button px-3 acceptOne" style="width: fit-content;">${buttons[0].text1}</button>`);
 
     $("#btnAlert").html(buttonOne + buttonTwo);
@@ -215,4 +215,138 @@ function cerrarSesion() {
         .fail(function (jqXHR, textStatus, errorThrown) {
             console.log("destruirAccesoUsuarioView - Server: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
         });
+}
+
+function validarCaracteresForm(arr_data_form) {
+
+    console.log("Retornando informacion del formulario");
+
+    console.table(arr_data_form);
+
+    let cant_componets = arr_data_form.arr_components.length;
+    let flag_form , val_element , val_label , id_element;
+    let msj = "Correcto!";
+    let regex_correo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    for (let index = 0; index < cant_componets; index++) {
+        val_element = $(`#${arr_data_form.arr_components[index]}`).val();
+        id_element = arr_data_form.arr_components[index];
+        val_label = $(`label[for='${arr_data_form.arr_components[index]}']`).text();
+        switch (arr_data_form.arr_tipo_val[index]) {
+            
+            case 'str':
+                
+                ocultarMsjErrors(id_element , id_element +"_error"); 
+                if (arr_data_form.arr_required[index] == 1 && val_element.length == 0) {
+                    msj = "El " + val_label + " esta vacio"; 
+                    $(`#${id_element}_error`).text(msj).css("color", "red");
+                    console.log(msj);
+                    flag_form = false;
+                }else if (!isNaN(val_element)){
+                    msj = "El " + val_label + " no es texto"; 
+                    $(`#${id_element}_error`).text(msj).css("color", "red");
+                    console.log(msj);
+                    flag_form = false;
+                } else if (!(val_element.length >= arr_data_form.arr_min_components[index] && val_element.length <= arr_data_form.arr_max_components[index])){
+                    msj = "El " + val_label + " no es esta dentro del rango permitido"; 
+                    $(`#${id_element}_error`).text(msj).css("color", "red");
+                    console.log(msj);
+                    flag_form = false;
+                }else{
+                    $(`#${id_element}_error`).text(msj).css("color", "green");
+                    flag_form = true;
+                }
+                console.log("Entramos al str" + index);
+                
+                if (!flag_form) return flag_form;
+                break;
+            case 'number':
+            
+                ocultarMsjErrors(id_element , id_element +"_error"); 
+                if (arr_data_form.arr_required[index] == 1 && val_element.length == 0) {
+                    msj = "El " + val_label + " esta vacio"; 
+                    $(`#${id_element}_error`).text(msj).css("color", "red");
+                    console.log(msj);
+                    flag_form = false;
+                }else if (isNaN(val_element)){
+                    msj = "El " + val_label + " no es numero"; 
+                    $(`#${id_element}_error`).text(msj).css("color", "red");
+                    console.log(msj);
+                    flag_form = false;
+                } else if (!(val_element.length >= arr_data_form.arr_min_components[index] && val_element.length <= arr_data_form.arr_max_components[index])){
+                    msj = "El " + val_label + " no es esta dentro del rango permitido"; 
+                    $(`#${id_element}_error`).text(msj).css("color", "red");
+                    console.log(msj);
+                    flag_form = false;
+                }else{
+                    $(`#${id_element}_error`).text(msj).css("color", "green");
+                    flag_form = true;
+                }
+                console.log("Entramos al number" + index);
+                
+                if (!flag_form) return flag_form;
+
+                break;
+
+            case 'email':
+                ocultarMsjErrors(id_element , id_element +"_error"); 
+                if (arr_data_form.arr_required[index] == 1 && val_element.length == 0) {
+                    msj = "El " + val_label + " esta vacio"; 
+                    $(`#${id_element}_error`).text(msj).css("color", "red");
+                    console.log(msj);
+                    flag_form = false;
+                }else if (!regex_correo.test(val_element)){
+                    msj = "El " + val_label + " no es un correo"; 
+                    $(`#${id_element}_error`).text(msj).css("color", "red");
+                    console.log(msj);
+                    flag_form = false;
+                } else if (!(val_element.length >= arr_data_form.arr_min_components[index] && val_element.length <= arr_data_form.arr_max_components[index])){
+                    msj = "El " + val_label + " no es esta dentro del rango permitido"; 
+                    $(`#${id_element}_error`).text(msj).css("color", "red");
+                    console.log(msj);
+                    flag_form = false;
+                }else{
+                    $(`#${id_element}_error`).text(msj).css("color", "green");
+                    flag_form = true;
+                }
+
+                console.log("Entramos al email" + index);
+
+                if (!flag_form) return flag_form;
+                break;
+
+            case 'all':
+                
+                console.log("Entramos al all" + index);
+                break;
+
+            case 'double':
+                
+                console.log("Entramos al double" + index);
+                break;
+
+
+            default:
+                flag_form = false;
+                break;
+        }
+        // console.log("PROPIEDADES ELEMENTO NO: " + index);
+        // console.log(arr_data_form.arr_components[index]);
+        // console.log(arr_data_form.arr_required[index]);
+    }
+
+    
+    // return msj;
+
+    // console.log(msj);
+
+
+}
+
+function ocultarMsjErrors(id_elemento , id_error) {
+    $(`#${id_elemento}`).focus(function (e) { 
+        e.preventDefault();
+        $(`#${id_error}`).text('').css("color", "red");    
+    });
+    console.log("ocultando el error : " + id_error);
 }

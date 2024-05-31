@@ -76,26 +76,31 @@ function crearCliente() {
             <div class="coolinput">
                 <label name="Nombre" for="nombre" class="text">Nombre</label>
                 <input name="Nombre" type="text" class="input capitalize obligatorio" id="nombre" autocomplete="off" maxlength"20"/>
+                <span><strong class="msj_validacion" id="nombre_error" ></strong></span>
             </div>
 
             <div class="coolinput">
                 <label name="Apellido Paterno" for="apellidoP" class="text">Apellido Paterno</label>
                 <input name="Apellido Paterno" type="text" class="input capitalize obligatorio" id="apellidoP" autocomplete="off" maxlength"20"/>
+                <span><strong class="msj_validacion" id="apellidoP_error" ></strong></span>
             </div>
 
             <div class="coolinput">
                 <label name="Apellido Materno" for="apellidoM" class="text">Apellido Materno</label>
                 <input name="Apellido Materno" type="text" class="input capitalize" id="apellidoM" autocomplete="off" maxlength"20"/>
+                <span><strong class="msj_validacion" id="apellidoM_error" ></strong></span>
             </div>
 
             <div class="coolinput">
                 <label name="Teléfono" for="telefono" class="text">Teléfono</label>
                 <input name="Teléfono" type="text" class="input capitalize" id="telefono" autocomplete="off" maxlength"20"/>
+                <span><strong class="msj_validacion" id="telefono_error" ></strong></span>
             </div>
             
             <div class="coolinput">
                 <label name="Correo" for="correo" class="text">Correo</label>
                 <input name="Correo" type="text" class="input" id="correo" autocomplete="off" maxlength"100"/>
+                <span><strong class="msj_validacion" id="correo_error" ></strong></span>
             </div>
         </div>
 
@@ -235,6 +240,22 @@ function guardarCliente() {
         let apellidoM = String($("#apellidoM").val()).trim();
         let telefono = String($("#telefono").val()).trim();
         let correo = String($("#correo").val()).trim();
+
+        let arr_data_form = {
+            'arr_components' : ['nombre' , 'apellidoP' , 'apellidoM' , 'telefono' , 'correo'],
+            'arr_max_components' : [10 , 10 , 10 , 15 , 50],
+            'arr_min_components' : [5 , 5 , 5 , 10 , 10],
+            'arr_tipo_val' : ['str' , 'str' , 'str' , 'number' , 'email'],
+            'arr_required' : [1 , 1 , 0 ,1 , 0],
+        }
+
+        let resp_val_form = validarCaracteresForm(arr_data_form);
+
+        if(!resp_val_form) console.log("No paso filtro validacion formulario"); return false;
+
+        console.log(resp_val_form);
+
+        return false;
 
         nombre.replaceAll("'", '"');
         apellidoP.replaceAll("'", '"');
