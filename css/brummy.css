@@ -854,9 +854,52 @@ h2 {
     position: relative;
 }
 
+/* * MENSAJES VALIDACION IMPUTS */
+
 .msj_validacion{
     font-size: 12px;
     /* color: red; */
     font-family: cursive;
     padding-left: 5px;
+}
+
+/* * UPLOAD FILES */
+
+.container_upload {
+    height: 300px;
+    /* width: 300px; */
+    border-radius: 10px;
+    box-shadow: 4px 4px 30px rgba(0, 0, 0, .2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    gap: 5px;
+    background-color: rgba(0, 110, 255, 0.041);
+}
+
+.header_upload {
+flex: 1;
+width: 100%;
+border: 2px dashed royalblue;
+border-radius: 10px;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+}
+
+.header_upload svg {
+height: 100px;
+}
+
+.header_upload p {
+text-align: center;
+color: black;
+}
+
+
+#file {
+display: none;
 }
