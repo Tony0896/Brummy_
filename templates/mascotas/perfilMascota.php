@@ -92,8 +92,8 @@
                 <div class="card2">
                     <div class="card-body">
                         <div class="divNotas">
-                            <h4 class="card-title">Comentario</h4>
-                            <div class="buttom-green buttom" onclick="crearComentario()">
+                            <h4 class="card-title">Comentarios</h4>
+                            <div class="buttom-green buttom" onclick="crearComentarioMascota()">
                                 <span class="text-sm mb-0">Crear <i class="material-icons"> add_circle </i></span>
                             </div>
                         </div>

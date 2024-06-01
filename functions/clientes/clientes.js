@@ -251,11 +251,9 @@ function guardarCliente() {
 
         let resp_val_form = validarCaracteresForm(arr_data_form);
 
-        if(!resp_val_form) console.log("No paso filtro validacion formulario"); return false;
+        if(!resp_val_form){ console.log("No paso filtro validacion formulario"); return false; }
 
         console.log(resp_val_form);
-
-        return false;
 
         nombre.replaceAll("'", '"');
         apellidoP.replaceAll("'", '"');
