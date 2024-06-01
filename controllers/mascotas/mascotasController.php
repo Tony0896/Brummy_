@@ -14,6 +14,12 @@
             return $model_class = new ClaseMascotasModelo\mascotasModel();
         }
 
+        function obtenerComentarios( $data ){
+            $model_mascotas = $this->getConexionModelClass();
+            $result_model = $model_mascotas->obtenerComentarios($data);
+            return $result_model;
+        }
+
         function obtenerMascotas(){
             $model_mascotas = $this->getConexionModelClass();
             $result_model = $model_mascotas->obtenerMascotas();
