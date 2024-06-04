@@ -236,7 +236,7 @@ namespace mascotas\mascotasModel;
     
             $ID = $data['ID'];
     
-            $sql = "SELECT ID , redaccion , fecha_comentario_up , FK_usuario_up FROM comentarios_mascota WHERE estatus = 1 AND FK_mascota = $ID ORDER BY ID DESC";
+            $sql = "SELECT ID , redaccion , fecha_comentario_up , FK_usuario_up  , CONCAT( nombre_usa_mov_up , ' ', apellidop_usa_mov_up , ' ' , apellidom_usa_mov_up ) nombre_completo_up FROM comentarios_mascota WHERE estatus = 1 AND FK_mascota = $ID ORDER BY ID DESC";
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
