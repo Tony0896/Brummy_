@@ -43,7 +43,7 @@ function obtenerMascotas() {
                                 }</div> </div></td>
                                 <td>
                                     <div style="display: flex; flex-direction: row;">
-                                        <div class="buttom-blue buttom button-sinText mx-1" title="Ver Perfil" onclick="verMascota(${data.ID})">
+                                        <div class="buttom-blue buttom button-sinText mx-1" title="Ver Perfil" onclick="verMascota(${data.ID} , ${data.FK_dueno})">
                                             <span class="text-sm mb-0"><i class="material-icons"> pets </i></span>
                                         </div>
                                     </div>
@@ -290,8 +290,9 @@ function guardarMascota() {
     }
 }
 
-function verMascota(ID) {
+function verMascota(ID , FK_dueno) {
     localStorage.setItem("IDMascota", ID);
+    localStorage.setItem("FK_dueno", FK_dueno);
     $("#contenido").load("templates/mascotas/perfilMascota.php", function (responseTxt, statusTxt, xhr) {
         if (statusTxt != "error") {
             // documentReadyVacantes();
@@ -305,66 +306,68 @@ function obtenerComentarios() {
 
     let id_mascota = localStorage.getItem("IDMascota");
 
-    $.ajax({
-        method: "POST",
-        dataType: "JSON",
-        url: "./views/mascotas/obtenerComentarios.php",
-        data: { ID: id_mascota },
-    })
-        .done(function (results) {
-            let success = results.success;
-            let result = results.result;
+    axios
+        .post("./views/mascotas/obtenerComentarios.php" , { ID : id_mascota})
+        .then((response) => {
+            console.log(response);
+            if (response.status === 200) {
+                let success = response.data.success;
+                let result = response.data.result;
 
-            switch (success) {
-                case true:
-                    if (result == "Sin Datos") {
-                    } else {
-                        let template_comentario = "";
-                        result.forEach((data, index) => {
-                            template_comentario += `
-                            <div class="card_comentario">
-                                <div class="container_comentario">
-                                    <div class="left">
-                                        <div class="status-ind"></div>
-                                    </div>
-                                    <div class="right">
-                                        <div class="text-wrap">
-                                            <p class="text-content">
-                                                <a class="text-link" onClick="eliminarComentario(${data.ID});">${data.redaccion}</a>
-                                            </p>
-                                            <p class="time">${data.fecha_comentario_up}</p>
-                                            <p class="time">${data.FK_usuario}</p>
+                switch (success) {
+                    case true:
+                        if (result == "Sin Datos") {
+                        } else {
+                            let template_comentario = "";
+                            result.forEach((data, index) => {
+                                template_comentario += `
+                                <div class="card_comentario">
+                                    <div class="container_comentario">
+                                        <div class="left">
+                                            <div class="status-ind"></div>
                                         </div>
-                                        <div class="button-wrap">
-                                            <button class="primary-cta">Eliminar</button>
-                                            <button class="secondary-cta">Editar</button>
+                                        <div class="right">
+                                            <div class="text-wrap">
+                                                <p class="text-content">
+                                                    <a class="text-link" onClick="eliminarComentario(${data.ID});">${data.redaccion}</a>
+                                                </p>
+                                                <p class="time">${data.fecha_comentario_up}</p>
+                                                <p class="time">${data.FK_usuario_up}</p>
+                                            </div>
+                                            <div class="button-wrap">
+                                                <button class="primary-cta">Eliminar</button>
+                                                <button class="secondary-cta">Editar</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            `;
-                        });
+                                `;
+                            });
 
-                        $("#content_comentario").html(template_comentario);
+                            $("#content_comentario").html(template_comentario);
 
-                    }
-                    break;
-                case false:
-                    preloader.hide();
-                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
-                    break;
+                        }
+                        break;
+                    case false:
+                        preloader.hide();
+                        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                        break;
+                }
+
             }
         })
-        .fail(function (jqXHR, textStatus, errorThrown) {
+        .catch((error) => {
             preloader.hide();
             msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
-            console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
-        });
+            // console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+            console.error("Ocurrio un error : " + error);
+        })
+        .finally(() => {
+            // siempre sera ejecutado
+        })
 }
 
 function crearComentarioMascota() {
-
-    const ID_MASCOTA = localStorage.getItem("IDMascota");
 
     $("#labelModal").html(`Agregar nuevo Comentario`);
     
@@ -415,10 +418,60 @@ function guardarComentario() {
 
     let resp_val_form = validarCaracteresForm(arr_data_form);
 
-    if(!resp_val_form){ console.log("No paso filtro validacion formulario"); return false; }
-
     console.log(resp_val_form);
 
+    if(!resp_val_form){ console.log("No paso filtro validacion formulario"); return false; }
 
+    const ID_MASCOTA = localStorage.getItem("IDMascota");
+    const FK_dueno = localStorage.getItem("FK_dueno");
+    const contenido_comentario = $("#contenido_comentario").val();
+
+    let arr_data = {
+        ID_MASCOTA  : ID_MASCOTA,
+        contenido_comentario : contenido_comentario,
+        FK_dueno : FK_dueno
+    };
+
+    preloader.show();
+
+    axios
+    .post("./views/mascotas/guardarComentario.php" , {arr_data : arr_data})
+    .then((response) => {
+        if (response.status == 200) {
+            let success = response.data.success;
+            let result = response.data.result;
+            
+            switch (success) {
+                case true:
+                    if (result == "error_execute_query") {
+                    } else {
+                        msj.show("Aviso", "Se registro el comentario correctamente", [{ text1: "OK" }]);
+                        preloader.hide();
+                        $("#modalTemplate").modal("hide");
+                        obtenerComentarios();
+                    }
+                break;
+                
+                case false:
+                    preloader.hide();
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                break;
+
+                default:
+                    // ocurrio algo raro
+                    break;
+            }
+        }
+
+    })
+    .catch((error) => {
+        preloader.hide();
+        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+        // console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        console.error("Ocurrio un error : " + error);
+    })
+    .finally(()=> {
+        // siempre se ejecuta
+    });
 
 }

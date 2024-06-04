@@ -226,12 +226,17 @@ namespace mascotas\mascotasModel;
         }
         
         function obtenerComentarios($data){
+
+            $request_body = file_get_contents('php://input');
+
+            $data = json_decode($request_body , true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
     
             $ID = $data['ID'];
     
-            $sql = "SELECT ID , redaccion , fecha_comentario_up , FK_usuario FROM comentarios_mascota WHERE estatus = 1 AND FK_mascota = $ID ORDER BY ID DESC";
+            $sql = "SELECT ID , redaccion , fecha_comentario_up , FK_usuario_up FROM comentarios_mascota WHERE estatus = 1 AND FK_mascota = $ID ORDER BY ID DESC";
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
@@ -249,6 +254,49 @@ namespace mascotas\mascotasModel;
                 }
             } catch (mysqli_sql_exception $e) {
                 $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+            
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;
+        }
+
+        function guardarComentario($data) {
+            $request_body = file_get_contents('php://input');
+
+            $data = json_decode($request_body , true);
+
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $FK_usuario_up = $_SESSION['ID_usuario'];
+            $nombre_usa_mov_up = $_SESSION['nombre'];
+            $apellidop_usa_mov_up = $_SESSION['apellidoPaterno'];
+            $apellidom_usa_mov_up = $_SESSION['apellidoMaterno'];
+            $redaccion = $data['arr_data']['contenido_comentario'];
+            $FK_mascota = $data['arr_data']['ID_MASCOTA'];
+            $estatus = 1;
+            $FK_cliente = $data['arr_data']['FK_dueno'];
+
+            $sql = "INSERT INTO comentarios_mascota(redaccion, estatus, FK_mascota, FK_cliente, FK_usuario_up, nombre_usa_mov_up, apellidop_usa_mov_up, apellidom_usa_mov_up, fecha_comentario_up) 
+            VALUES ('$redaccion', '$estatus', '$FK_mascota', '$FK_cliente', '$FK_usuario_up', '$nombre_usa_mov_up', '$apellidop_usa_mov_up', '$apellidom_usa_mov_up', current_timestamp()) ";
+
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $result = array('success' => true, 'result' => 'Sin Datos');
+                    $sql = "SELECT * FROM comentarios_mascota ORDER BY ID DESC LIMIT 1";
+                    try{
+                        $stmt = mysqli_query($conexion, $sql);
+                        if($stmt){
+                            $result = array('success' => true, 'result' => true);
+                        }
+                    } catch (mysqli_sql_exception $e) { }
+                } else {
+                    $result = array('success' => false, 'result' => 'error_execute_query', "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => 'error_conection_sql', "result_query_sql_error"=>$e->getMessage() );
             }
             
             mysqli_close( $conexion );

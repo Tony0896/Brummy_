@@ -221,10 +221,10 @@ function validarCaracteresForm(arr_data_form) {
 
     console.log("Retornando informacion del formulario");
 
-    console.table(arr_data_form);
+    console.log(arr_data_form);
 
     let cant_componets = arr_data_form.arr_components.length;
-    let flag_form , val_element , val_label , id_element;
+    let flag_form , flag_val ,val_element , val_label , id_element;
     let msj = "Correcto!";
     let regex_correo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -255,10 +255,11 @@ function validarCaracteresForm(arr_data_form) {
                 }else{
                     $(`#${id_element}_error`).text(msj).css("color", "green");
                     flag_form = true;
+                    flag_val = true ;
                 }
                 console.log("Entramos al str" + index);
                 
-                if (!flag_form) return flag_form;
+                if (!flag_form || flag_val) return flag_form;
                 break;
             case 'number':
             
@@ -281,10 +282,11 @@ function validarCaracteresForm(arr_data_form) {
                 }else{
                     $(`#${id_element}_error`).text(msj).css("color", "green");
                     flag_form = true;
+                    flag_val = true ;
                 }
                 console.log("Entramos al number" + index);
                 
-                if (!flag_form) return flag_form;
+                if (!flag_form || flag_val) return flag_form;
 
                 break;
 
@@ -308,11 +310,12 @@ function validarCaracteresForm(arr_data_form) {
                 }else{
                     $(`#${id_element}_error`).text(msj).css("color", "green");
                     flag_form = true;
+                    flag_val = true ;
                 }
 
                 console.log("Entramos al email" + index);
 
-                if (!flag_form) return flag_form;
+                if (!flag_form || flag_val) return flag_form;
                 break;
 
             case 'all':
