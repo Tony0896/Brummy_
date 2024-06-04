@@ -335,7 +335,7 @@ function obtenerComentarios() {
                                                 <p class="time">${data.nombre_completo_up}</p>
                                             </div>
                                             <div class="button-wrap">
-                                                <button class="primary-cta">Eliminar</button>
+                                                <button class="primary-cta" onClick ="eliminarComentarioMascota(${data.ID})" >Eliminar</button>
                                                 <button class="secondary-cta">Editar</button>
                                             </div>
                                         </div>
@@ -473,5 +473,57 @@ function guardarComentario() {
     .finally(()=> {
         // siempre se ejecuta
     });
+
+}
+
+function eliminarComentarioMascota(id_comentario) {
+
+    preloader.show();
+
+    const FK_dueno = localStorage.getItem("FK_dueno");
+
+    const arr_data = {
+        FK_dueno : FK_dueno,
+        id_comentario : id_comentario
+    };
+
+    axios
+    .post('./views/mascotas/eliminarComentarioMascota.php'  , {arr_data : arr_data})
+    .then((response)=> {
+
+        if (response.status == 200) {
+            let success = response.data.success;
+            let result = response.data.result;
+            switch (success) {
+                case true:
+                    console.info(2);
+                    if (result == "error_execute_query") {
+                    } else {
+                        msj.show("Aviso", "Se elimino el comentario correctamente", [{ text1: "OK" }]);
+                        preloader.hide();
+                        obtenerComentarios();
+                    }
+                break;
+                case false:
+                    preloader.hide();
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                break;
+                default:
+                break;
+            }
+        }
+
+    })
+    .catch((error) => {
+
+        preloader.hide();
+        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+        // console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        console.error("Ocurrio un error : " + error);
+
+    })
+    .finally(() => {
+
+    })
 
 }

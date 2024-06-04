@@ -353,3 +353,7 @@ function ocultarMsjErrors(id_elemento , id_error) {
     });
     console.log("ocultando el error : " + id_error);
 }
+
+// function fechaConFormato(fecha, formato) {
+    
+// }
