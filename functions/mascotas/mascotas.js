@@ -336,7 +336,7 @@ function obtenerComentarios() {
                                             </div>
                                             <div class="button-wrap">
                                                 <button class="primary-cta" onClick ="eliminarComentarioMascota(${data.ID})" >Eliminar</button>
-                                                <button class="secondary-cta">Editar</button>
+                                                <button class="secondary-cta" onClick ='editarComentarioMascota(${data.ID} , ${JSON.stringify(data.redaccion)})' >Editar</button>
                                             </div>
                                         </div>
                                     </div>
@@ -525,5 +525,100 @@ function eliminarComentarioMascota(id_comentario) {
     .finally(() => {
 
     })
+
+}
+
+
+function editarComentarioMascota(id_comentario , comentario_mascota) {
+
+    $("#labelModal").html(`Editar Comentario`);
+    
+    $("#body_modal").html(`<br>
+        <div id="formMascotas">
+            <div class="coolinput">
+                <label name="Contenido Comentario" for="contenido_comentario" class="text">Editar Contenido Comentario</label>  
+                <textarea name="Contenido Comentario" class="input capitalize obligatorio" id="contenido_comentario_update" autocomplete="off" maxlength"200"/ cols="30" rows="10">${comentario_mascota}</textarea>  
+                <span><strong class="msj_validacion" id="contenido_comentario_error" ></strong></span>
+            </div>
+        </div>
+
+        <div class="center-fitcomponent" style="width: 100%;">
+            <div class="buttom-blue buttom" style="margin-left: auto;margin-right: auto;" onclick="actualizarComentarioMascota(${id_comentario});">
+                <span class="text-sm mb-0 span-buttom">
+                    Editar
+                    <i class="material-icons"> edit </i>
+                </span>
+            </div>
+        </div>
+    `);
+
+    $("#modalTemplate").modal({
+        backdrop: "static",
+        keyboard: false,
+    });
+
+    $("#modalTemplate").modal("show");
+
+    $("#btnClose").on("click", () => {
+        $("#modalTemplate").modal("hide");
+        $("#btnClose").off("click");
+    });
+    
+}
+
+function actualizarComentarioMascota(id_comentario) {
+
+    let comentario_act = $("#contenido_comentario_update").val();
+
+    const arr_data = {
+        comentario_act : comentario_act,
+        id_comentario : id_comentario
+    };
+
+    axios
+    .post('./views/mascotas/actualizarComentarioMascota.php' , { arr_data : arr_data})
+    .then((response) => {
+
+        if (response.status == 200) {
+            
+            let success = response.data.success;
+            let result = response.data.result;
+
+            switch (success) {
+                case true:
+
+                if (result) {
+                    if (result == "error_execute_query") {
+                    } else {
+                        msj.show("Aviso", "Se Actualizo el comentario correctamente", [{ text1: "OK" }]);
+                        preloader.hide();
+                        $("#modalTemplate").modal("hide");
+                        obtenerComentarios();
+                    }
+                }
+                    
+                    break;
+                case false:
+                
+                break;
+            
+                default:
+                    break;
+            }
+
+        }
+
+    })
+    .catch((error) => {
+        preloader.hide();
+        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+        // console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        console.error("Ocurrio un error : " + error);
+    })
+    .finally(() => {
+
+    })
+
+
 
 }

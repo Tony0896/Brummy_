@@ -339,6 +339,40 @@ namespace mascotas\mascotasModel;
             return $resultJson;
         }
 
+        function actualizarComentarioMascota(){
+            $request_body = file_get_contents('php://input');
+
+            $data = json_decode($request_body , true);
+
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $FK_usuario_up = $_SESSION['ID_usuario'];
+            $nombre_usa_mov_up = $_SESSION['nombre'];
+            $apellidop_usa_mov_up = $_SESSION['apellidoPaterno'];
+            $apellidom_usa_mov_up = $_SESSION['apellidoMaterno'];
+            $id_comentario = $data['arr_data']['id_comentario']; 
+            $redaccion = $data['arr_data']['comentario_act'];
+
+            $sql = "UPDATE comentarios_mascota SET redaccion = '$redaccion' , FK_usuario_up = $FK_usuario_up, nombre_usa_mov_up = '$nombre_usa_mov_up', apellidop_usa_mov_up = '$apellidop_usa_mov_up',
+            apellidom_usa_mov_up = '$apellidom_usa_mov_up', fecha_comentario_up  = current_timestamp() WHERE ID = $id_comentario";
+
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $result = array('success' => true, 'result' => true);
+                } else {
+                    $result = array('success' => false, 'result' => 'error_execute_query', "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => 'error_conection_sql', "result_query_sql_error"=>$e->getMessage() );
+            }
+
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;
+        }
+
     }
 
     

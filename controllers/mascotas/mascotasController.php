@@ -14,6 +14,12 @@
             return $model_class = new ClaseMascotasModelo\mascotasModel();
         }
 
+        function actualizarComentarioMascota( $data ){
+            $model_mascotas = $this->getConexionModelClass();
+            $result_model = $model_mascotas->actualizarComentarioMascota($data);
+            return $result_model;
+        }
+
         function eliminarComentarioMascota( $data ){
             $model_mascotas = $this->getConexionModelClass();
             $result_model = $model_mascotas->eliminarComentarioMascota($data);
