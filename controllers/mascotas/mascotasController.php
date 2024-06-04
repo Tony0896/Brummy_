@@ -14,6 +14,30 @@
             return $model_class = new ClaseMascotasModelo\mascotasModel();
         }
 
+        function actualizarComentarioMascota( $data ){
+            $model_mascotas = $this->getConexionModelClass();
+            $result_model = $model_mascotas->actualizarComentarioMascota($data);
+            return $result_model;
+        }
+
+        function eliminarComentarioMascota( $data ){
+            $model_mascotas = $this->getConexionModelClass();
+            $result_model = $model_mascotas->eliminarComentarioMascota($data);
+            return $result_model;
+        }
+
+        function guardarComentario( $data ){
+            $model_mascotas = $this->getConexionModelClass();
+            $result_model = $model_mascotas->guardarComentario($data);
+            return $result_model;
+        }
+
+        function obtenerComentarios( $data ){
+            $model_mascotas = $this->getConexionModelClass();
+            $result_model = $model_mascotas->obtenerComentarios($data);
+            return $result_model;
+        }
+
         function obtenerMascotas(){
             $model_mascotas = $this->getConexionModelClass();
             $result_model = $model_mascotas->obtenerMascotas();

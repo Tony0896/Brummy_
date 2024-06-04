@@ -92,13 +92,13 @@
                 <div class="card2">
                     <div class="card-body">
                         <div class="divNotas">
-                            <h4 class="card-title">Comentario</h4>
-                            <div class="buttom-green buttom" onclick="editComentarios()">
-                                <span class="text-sm mb-0">Editar <i class="material-icons"> edit </i></span>
+                            <h4 class="card-title">Comentarios</h4>
+                            <div class="buttom-green buttom" onclick="crearComentarioMascota()">
+                                <span class="text-sm mb-0">Crear <i class="material-icons"> add_circle </i></span>
                             </div>
                         </div>
-                        <div>
-                            <h4><small class="text-muted"> Sin comentarios adicionales </small> </h4>
+                        <div id = "content_comentario">
+                            <!-- <h4><small class="text-muted"> Sin comentarios adicionales </small> </h4> -->
                         </div>
                     </div>
                 </div>
