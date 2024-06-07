@@ -235,7 +235,7 @@ iframe {
 }
 
 .container-login100 {
-    width: 100%;
+    width: 80%;
     min-height: 90vh;
     display: -webkit-box;
     display: -webkit-flex;

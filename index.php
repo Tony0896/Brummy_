@@ -12,7 +12,7 @@
             <div class="container-login100">
                 <div class="wrap-login100">
                     <div class="login100-pic js-tilt" style="transform: perspective(300px) rotateX(0deg) rotateY(0deg)">
-                        <img src="../files_cloud/TMS_HERMOSILLO.png" alt="IMG" id="logo" class="img-100" />
+                        <img src="./images/logo cuadrado.png" alt="IMG" id="logo" class="img-100" />
                     </div>
                     <div class="login100-form validate-form" id="div_login">
                         <span class="login100-form-title"> Inicio de sesi&oacute;n </span>
