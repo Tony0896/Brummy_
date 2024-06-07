@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="./css/main.css" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
         <link href="./css/CDN/sweetalert2.min.css" rel="stylesheet">
+        <link rel="shortcut icon" href="./images/cuadrado_sin_fondo.png" />
     </head>
     <body class="body-cisa">
         <div class="limiter">
