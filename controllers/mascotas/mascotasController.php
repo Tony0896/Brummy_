@@ -14,6 +14,12 @@
             return $model_class = new ClaseMascotasModelo\mascotasModel();
         }
 
+        function guardarEdicionMascota( $data ){
+            $model_mascotas = $this->getConexionModelClass();
+            $result_model = $model_mascotas->guardarEdicionMascota($data);
+            return $result_model;
+        }
+
         function actualizarComentarioMascota( $data ){
             $model_mascotas = $this->getConexionModelClass();
             $result_model = $model_mascotas->actualizarComentarioMascota($data);

@@ -329,7 +329,7 @@ function obtenerComentarios() {
                                         <div class="right">
                                             <div class="text-wrap">
                                                 <p class="text-content">
-                                                    <a class="text-link" onClick="eliminarComentario(${data.ID});">${data.redaccion}</a>
+                                                    <a class="">${data.redaccion}</a>
                                                 </p>
                                                 <p class="time">${data.fecha_comentario_up}</p>
                                                 <p class="time">${data.nombre_completo_up}</p>

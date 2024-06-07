@@ -373,6 +373,53 @@ namespace mascotas\mascotasModel;
             return $resultJson;
         }
 
+
+        function guardarEdicionMascota(){
+            $request_body = file_get_contents('php://input');
+
+            $data = json_decode($request_body , true);
+
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $FK_usuario_up = $_SESSION['ID_usuario'];
+            $nombre_usa_mov_up = $_SESSION['nombre'];
+            $apellidop_usa_mov_up = $_SESSION['apellidoPaterno'];
+            $apellidom_usa_mov_up = $_SESSION['apellidoMaterno'];
+
+            $editNombreMascota =  $data['arr_data']['editNombreMascota'];
+            $editFechaMascota =  $data['arr_data']['editFechaMascota'];
+
+            $ID =  $data['arr_data']['ID'];
+            $raza =  $data['arr_data']['raza'];
+            $especie =  $data['arr_data']['especie'];
+            $FK_especie =  $data['arr_data']['FK_especie'];
+            $FK_raza =  $data['arr_data']['FK_raza'];
+
+            $editSexoMascota =  $data['arr_data']['editSexoMascota'];
+            $editColorMascota =  $data['arr_data']['editColorMascota'];
+            $editRasgosMascota =  $data['arr_data']['editRasgosMascota'];
+            $Edit_FK_dueno =  $data['arr_data']['Edit_FK_dueno'];
+
+            $sql = "UPDATE mascotas SET nombre='$editNombreMascota',fechaNacimiento='$editFechaMascota',FK_especie=$FK_especie,especie='$especie',raza='$raza',FK_raza='$FK_raza',sexo='$editSexoMascota',color='$editColorMascota',
+            rasgosParticulares='$editRasgosMascota', fechaUlmitoMovimiento = current_timestamp(),FK_dueno='$Edit_FK_dueno' WHERE ID = $ID";
+
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $result = array('success' => true, 'result' => true);
+                } else {
+                    $result = array('success' => false, 'result' => 'error_execute_query', "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => 'error_conection_sql', "result_query_sql_error"=>$e->getMessage() );
+            }
+
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;
+        }
+
     }
 
     
