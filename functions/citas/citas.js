@@ -417,11 +417,6 @@ function recargaEventosDay(oldFecha) {
                                                         })" style="margin-right: 10px;">
                                                             <span class="text-sm mb-0"> <i class="material-icons" style="margin-left: 0;"> link </i></span>
                                                         </div>
-                                                        <div class="buttom-red buttom" onclick="verDetalleEncuesta(${
-                                                            data.ID
-                                                        })" style="margin-right: 10px;">
-                                                            <span class="text-sm mb-0"> <i class="material-icons" style="margin-left: 0;"> visibility </i></span>
-                                                        </div>
                                                     </div>
                                                     <input id="foo_${data.ID}" value="" style="opacity: 0;height: 0;">
                                                     <button class="btn" data-clipboard-target="#foo_${data.ID}" id="btn_foo_${
