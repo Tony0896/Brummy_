@@ -408,30 +408,27 @@ function recargaEventosDay(oldFecha) {
                                                     <div style="display: flex;margin-bottom: 12px;"> <span class="material-icons" style="margin-right: 15px;color: #0277bd;"> checklist </span> <strong class="capitalize" style="font-weight: 500;"> ${String(
                                                         data.motivoCita
                                                     ).trim()} </strong> </div> 
-                                                    <div class="col-md-4 my-0"> 
-                                                        <div class="buttom-blue buttom" onclick="marcarCita(${data.ID})">
-                                                            <span class="text-sm mb-0">Acciones <i class="material-icons"> date_range </i></span>
-                                                        </div>    
+                                                    <div class="my-0" style="display: flex;"> 
+                                                        <div class="buttom-blue buttom" onclick="marcarCita(${data.ID})" style="margin-right: 10px;">
+                                                            <span class="text-sm mb-0"> <i class="material-icons" style="margin-left: 0;"> date_range </i></span>
+                                                        </div>
+                                                        <div class="buttom-green buttom" onclick="generarLinkEncuesta(${
+                                                            data.ID
+                                                        })" style="margin-right: 10px;">
+                                                            <span class="text-sm mb-0"> <i class="material-icons" style="margin-left: 0;"> link </i></span>
+                                                        </div>
+                                                        <div class="buttom-red buttom" onclick="verDetalleEncuesta(${
+                                                            data.ID
+                                                        })" style="margin-right: 10px;">
+                                                            <span class="text-sm mb-0"> <i class="material-icons" style="margin-left: 0;"> visibility </i></span>
+                                                        </div>
                                                     </div>
+                                                    <input id="foo_${data.ID}" value="" style="opacity: 0;height: 0;">
+                                                    <button class="btn" data-clipboard-target="#foo_${data.ID}" id="btn_foo_${
+                                data.ID
+                            }" style="height: 0;padding: 0;opacity: 0;"></button>
                                                 </div>
                                             </div>
-                                            <!-- <div class="row">
-                                                <div class="col-md-4 my-2"> 
-                                                    <div class="buttom-green buttom" onclick="AtendidiaCita(${data.ID})">
-                                                        <span class="text-sm mb-0">Atendidia <i class="material-icons"> check_circle </i></span>
-                                                    </div> 
-                                                </div>
-                                                <div class="col-md-4 my-2"> 
-                                                    <div class="buttom-blue buttom" onclick="ReagendarCita(${data.ID})">
-                                                        <span class="text-sm mb-0">Reagendar <i class="material-icons"> date_range </i></span>
-                                                    </div>    
-                                                </div>
-                                                <div class="col-md-4 my-2"> 
-                                                    <div class="buttom-red buttom" onclick="CancelarCita(${data.ID})">
-                                                        <span class="text-sm mb-0">Cancelar <i class="material-icons"> cancel </i></span>
-                                                    </div>    
-                                                </div>
-                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -439,6 +436,7 @@ function recargaEventosDay(oldFecha) {
                         });
                         $("#divEventos").html(html);
                         preloader.hide();
+                        new ClipboardJS(".btn");
                     }
                     break;
                 case false:
@@ -719,4 +717,41 @@ function cargaBolitasCalendar() {
             );
         }
     });
+}
+
+function generarLinkEncuesta(ID) {
+    preloader.show();
+    $.ajax({
+        method: "POST",
+        dataType: "JSON",
+        url: "./views/citas/generarLinkEncuesta.php",
+        data: {
+            ID,
+        },
+    })
+        .done(function (results) {
+            let success = results.success;
+            let result = results.result;
+            switch (success) {
+                case true:
+                    preloader.hide();
+                    let data = window.btoa(`data#-${ID}`);
+                    let url = getCurrentURL() + "/Brummy/pages/encuesta/index.php?data=" + data;
+                    $(`#foo_${ID}`).val(url);
+                    setTimeout(function () {
+                        $(`#btn_foo_${ID}`).trigger("click");
+                        msj.show("Aviso", "URL Copiada correctamente", [{ text1: "OK" }]);
+                    }, 1500);
+                    break;
+                case false:
+                    preloader.hide();
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            preloader.hide();
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+            console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
 }

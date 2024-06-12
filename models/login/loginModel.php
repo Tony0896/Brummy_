@@ -118,6 +118,9 @@ namespace login\loginModel;
         }
 
         function dataHeader(){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -183,6 +186,9 @@ namespace login\loginModel;
         }
 
         function getProximasCitas(){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -212,6 +218,9 @@ namespace login\loginModel;
         }
 
         function getLastVentas(){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -241,6 +250,9 @@ namespace login\loginModel;
         }
              
         function topProductos(){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+            
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 

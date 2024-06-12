@@ -178,17 +178,21 @@ function cargaDataDash() {
             let html = "";
             switch (success) {
                 case true:
-                    results.forEach((data, index) => {
-                        html += `
-                            <tr>
-                                <td>${Number(index + 1)}</td>
-                                <td>${data.nombreCita}</td>
-                                <td>${data.nombreMascota}</td>
-                            </tr>
-                        `;
-                    });
+                    if (results == "Sin Datos") {
+                        $("#bodyCitasDashbora").html(html);
+                    } else {
+                        results.forEach((data, index) => {
+                            html += `
+                                <tr>
+                                    <td>${Number(index + 1)}</td>
+                                    <td>${data.nombreCita}</td>
+                                    <td>${data.nombreMascota}</td>
+                                </tr>
+                            `;
+                        });
 
-                    $("#bodyCitasDashbora").html(html);
+                        $("#bodyCitasDashbora").html(html);
+                    }
 
                     break;
                 case false:
@@ -367,6 +371,16 @@ function cargaTemplate(id, permiso) {
             activeSubmenu(id);
             break;
 
+        case "grade_menu":
+            cargaTemplateEncuestas();
+            activeSubmenu(id);
+            break;
+
+        case "bar_chart_menu":
+            cargaTemplateKPI();
+            activeSubmenu(id);
+            break;
+
         default:
             preloader.hide();
             console.log("sin menu");
@@ -417,8 +431,27 @@ function cargaTemplateCitas() {
         }
     });
 }
+
 function cargaTemplateInventario() {
     $("#contenido").load("templates/inventario/inventario.php", function (responseTxt, statusTxt, xhr) {
+        if (statusTxt != "error") {
+            changeViewMenuIcon();
+            // documentReadyVacantes();
+        }
+    });
+}
+
+function cargaTemplateEncuestas() {
+    $("#contenido").load("templates/encuestas/encuestas.php", function (responseTxt, statusTxt, xhr) {
+        if (statusTxt != "error") {
+            changeViewMenuIcon();
+            // documentReadyVacantes();
+        }
+    });
+}
+
+function cargaTemplateKPI() {
+    $("#contenido").load("templates/satisfaccion/satisfaccion.php", function (responseTxt, statusTxt, xhr) {
         if (statusTxt != "error") {
             changeViewMenuIcon();
             // documentReadyVacantes();

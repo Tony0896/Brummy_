@@ -23,6 +23,9 @@ namespace ventas\ventasModel;
         }
         
         function guardarHeaderVenta($data){
+
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -52,8 +55,8 @@ namespace ventas\ventasModel;
                                     $FK_modulo = 4;
                                     $nombreModulo = 'Ventas';
                                     $motivo = 'Compra por : $'.$price ;
-                                    $FK_Usuario = $_SESSION['ID_usuario'];
-                                    $nameUsuario = $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'];
+                                    $FK_Usuario = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1 ;
+                                    $nameUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
                                     $ID_mov = $row['IDHeader'];
                                 }
                                 $this->InsertHistoriaCliente($FK_Cliente, $nombre, $FK_modulo, $nombreModulo, $motivo, $FK_Usuario, $nameUsuario, $ID_mov);
@@ -80,6 +83,9 @@ namespace ventas\ventasModel;
         }
         
         function guardarDetalleVenta($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -124,6 +130,9 @@ namespace ventas\ventasModel;
         }
         
         function obtenerVentas($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -156,6 +165,9 @@ namespace ventas\ventasModel;
         }
 
         function obtenerVenta($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+            
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
