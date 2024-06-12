@@ -38,6 +38,9 @@ namespace inventario\inventarioModel;
         }
 
         function guardarProducto($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -70,6 +73,9 @@ namespace inventario\inventarioModel;
         }
 
         function obtenerProducto($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -100,6 +106,9 @@ namespace inventario\inventarioModel;
         }
 
         function actualizaProducto($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -130,6 +139,9 @@ namespace inventario\inventarioModel;
         }
         
         function eliminarProdcuto($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+            
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 

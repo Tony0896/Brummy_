@@ -52,6 +52,9 @@ namespace clientes\clientesModel;
         }
         
         function guardaCliente($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -101,6 +104,9 @@ namespace clientes\clientesModel;
         }
         
         function obtenerCliente($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+            
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -131,6 +137,10 @@ namespace clientes\clientesModel;
         }
 
         function actualizaCliente($data){
+
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -161,6 +171,9 @@ namespace clientes\clientesModel;
         }
 
         function eliminarCliente($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -185,6 +198,9 @@ namespace clientes\clientesModel;
         }
         
         function traerHistorialCliente($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+            
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 

@@ -53,6 +53,10 @@ namespace mascotas\mascotasModel;
         }
 
         function guardarMascota($data){
+
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+            
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -109,6 +113,10 @@ namespace mascotas\mascotasModel;
         }
 
         function obtenerMascota($data){
+
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -140,6 +148,9 @@ namespace mascotas\mascotasModel;
         }
 
         function eliminarMascota($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -164,6 +175,9 @@ namespace mascotas\mascotasModel;
         }
 
         function obtenerMascotasDuenios($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -195,6 +209,9 @@ namespace mascotas\mascotasModel;
         }
 
         function traerHistorialMascota($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+            
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 

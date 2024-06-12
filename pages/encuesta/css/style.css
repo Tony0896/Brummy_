@@ -1,0 +1,306 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Raleway";
+    background-color: #e6e6e6;
+}
+
+.card {
+    width: 600px;
+    margin: 75px auto 0;
+    background-color: #fff;
+    box-shadow: 0 3px 30px rgba(0, 0, 0, 0.14);
+    color: #444;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 15px;
+}
+
+.card .card-header {
+    position: relative;
+    height: 68px;
+}
+
+.card .card-header .profile-img {
+    width: 96px;
+    height: 96px;
+    border-radius: 1000px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 6px solid #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.card .card-body .full-name {
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 10px 0 0;
+}
+
+.card .card-footer {
+    display: table;
+    width: 100%;
+    border-top: 1px solid #e6e6e6;
+}
+
+.card .card-footer .col {
+    display: table-cell;
+    padding: 5px 10px;
+    font-size: 15px;
+}
+
+.card .card-footer .count {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.vr {
+    border-right: 1px solid #e6e6e6;
+}
+
+.nbox {
+    width: 100%;
+    margin-left: 20%;
+}
+
+p {
+    padding: 0 20px 0 20px;
+    width: 600px;
+    font-size: 20px;
+}
+
+.nbox p {
+    padding: 0;
+    width: 600px;
+    font-size: 18px;
+}
+.nring {
+    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+    margin-top: 10px;
+    border: 0.5px solid #000;
+    box-sizing: border-box;
+    background: linear-gradient(to right, #00a7b5, #2d72c2, #0039b5);
+}
+.nring input {
+    display: none;
+}
+.nring label {
+    display: block;
+    cursor: pointer;
+    width: 70px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.2s;
+    background: #fff;
+    color: #000;
+    font-size: 20px;
+    border-right: 1px solid #000;
+}
+.nring input[type="radio"]:hover ~ label,
+.nring input[type="radio"]:checked ~ label {
+    background: transparent;
+}
+/*  */
+.nring,
+.caritas {
+    width: 350px;
+}
+.leyenda {
+    text-align: left;
+}
+.caritas label img {
+    width: 40px;
+    height: 40px;
+}
+.send {
+    font-size: 20px;
+    width: 150px;
+    height: 50px;
+    border: none;
+    border-radius: 8px;
+    background-color: #124f90;
+    color: white;
+    margin: 20px;
+}
+.datos-cliente {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #124f90;
+    color: white;
+}
+/*  */
+.caritas {
+    flex-direction: row-reverse;
+    position: relative;
+    display: flex;
+    margin-top: 5px;
+    border: transparent;
+    box-sizing: border-box;
+    background: linear-gradient(to right, #fa0303, #ffee04, #28d306);
+    border-radius: 90px;
+}
+
+.caritas input {
+    display: none;
+}
+.caritas label {
+    display: block;
+    width: 70px;
+    height: 65px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+    background: #fff;
+}
+.title {
+    text-align: initial;
+    margin-left: 20px;
+}
+.rat10 {
+    border-right: none !important;
+}
+
+.caritas input[type="radio"]:hover ~ label,
+.caritas input[type="radio"]:checked ~ label {
+    background: transparent;
+}
+
+.rating {
+    text-align: left;
+}
+/* Preloader */
+.loader {
+    width: 100px;
+    height: 100px;
+    animation: loading infinite linear 1s;
+    margin: 100px auto;
+    border-radius: 50%;
+    position: relative;
+    background: linear-gradient(
+        to bottom,
+        rgba(242, 246, 248, 1) 0%,
+        rgba(216, 225, 231, 1) 50%,
+        rgba(181, 198, 208, 1) 51%,
+        rgba(224, 239, 249, 1) 100%
+    );
+    border-width: 4px;
+}
+.white_circle {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    border-radius: 40px;
+    background-color: white;
+    box-shadow: 2px 2px 1px 2px rgba(180, 180, 180, 0.5);
+}
+.card-preloader {
+    height: 400px;
+    padding-top: 10px;
+}
+.card-content {
+    padding-top: 10px;
+}
+.card-exist {
+    padding: 10px 0 15px 0px;
+}
+.card-sended {
+    padding: 10px 0 15px 0px;
+}
+@keyframes loading {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media screen and (max-width: 575px) {
+    .card {
+        width: 96%;
+    }
+
+    .card .card-footer .col {
+        padding: 0 10px;
+    }
+
+    .card .card-footer .count {
+        display: block;
+        margin-bottom: 5px;
+    }
+    p {
+        width: 100%;
+        font-size: 16px;
+    }
+    .nbox {
+        margin: 0;
+    }
+    .nring,
+    .caritas {
+        width: 90%;
+        margin-left: 5%;
+    }
+    .nbox p {
+        margin-left: 20px;
+        width: 90%;
+        font-size: 16px;
+    }
+}
+
+/***** STARS *******/
+
+.rating {
+    margin: 10px;
+    display: inline-block;
+    opacity: 1;
+}
+
+.rating input {
+    display: none;
+    opacity: 1;
+}
+
+.rating label {
+    float: right;
+    cursor: pointer;
+    color: #ccc;
+    transition: color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.rating label:before {
+    content: "\2605";
+    font-size: 35px;
+    margin-left: 2px;
+    transition: color 0.3s;
+}
+
+.rating input:checked ~ label,
+.rating label:hover,
+.rating label:hover ~ label {
+    color: #ffc300;
+    transform: scale(1.2);
+    transition: color 0.3s, transform 0.3s, box-shadow 0.3s;
+    animation: bounce 0.5s ease-in-out alternate;
+}
+
+@keyframes bounce {
+    to {
+        transform: scale(1.3);
+    }
+}
+
+/***** STARS *******/

@@ -38,6 +38,10 @@ namespace catalogos\catalogosModel;
         }
         
         function guardarEspecie($data){
+            
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -91,6 +95,9 @@ namespace catalogos\catalogosModel;
         }
 
         function guardarRaza($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+            
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -117,6 +124,9 @@ namespace catalogos\catalogosModel;
         }
 
         function deleteEspecie($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -140,6 +150,9 @@ namespace catalogos\catalogosModel;
         }
 
         function deleteRaza($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -192,6 +205,9 @@ namespace catalogos\catalogosModel;
         }
 
         function guardarMotivoCita($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -215,6 +231,10 @@ namespace catalogos\catalogosModel;
         }
         
         function deleteMotivoCita($data){
+
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+            
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 

@@ -216,3 +216,7 @@ function cerrarSesion() {
             console.log("destruirAccesoUsuarioView - Server: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
         });
 }
+
+function getCurrentURL() {
+    return window.location.origin;
+}
