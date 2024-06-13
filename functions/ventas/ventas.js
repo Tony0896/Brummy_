@@ -69,7 +69,7 @@ function obtenerVentas(mes, anio) {
                                 <td>VTA-${data.ID}</td>
                                 <td class="capitalize">${data.nombreCompleto}</td>
                                 <td>${data.cantidad}</td>
-                                <td>${FormatDate(data.Fecha)}</td>
+                                <td>${FormatDate(data.Fecha + " 00:00")}</td>
                                 <td>$${data.price}</td>
                                 <td>
                                     <div style="display: flex; flex-direction: row;">
