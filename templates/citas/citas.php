@@ -69,8 +69,15 @@
             </button>
         </h2>
         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-            <div style="display: flex;justify-content: center;padding-bottom: 15px;padding-top: 10px;">
-                <div class="auto-jsCalendar material-theme green" id="calendar" data-language="es"></div>
+            <div style="display: flex;justify-content: center;padding-bottom: 15px;padding-top: 10px;flex-direction: row;">
+                <div>
+                    <div class="auto-jsCalendar material-theme green" id="calendar" data-language="es"></div>
+                    <div style="display: flex;justify-content: end;">
+                        <div class="buttom-green buttom" id="irHoy">
+                            <span class="text-sm mb-0"><i class="material-icons" style="margin-left: 0;"> today </i></span>
+                        </div>
+                    </div>
+                </div>
                 <input type="hidden" id="fechaActual">
             </div>
         </div>
