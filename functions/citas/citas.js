@@ -308,6 +308,33 @@ $(document).ready(() => {
                 console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
             });
     });
+
+    $("#irHoy").click(() => {
+        let dateOld = $("#fechaActual").val();
+        let monthOld = dateOld.split("-")[1];
+        let yearOld = dateOld.split("-")[2];
+        let dateSelected;
+        let year = new Date().toLocaleDateString("es-MX", { year: "numeric" });
+        let month = new Date().toLocaleDateString("es-MX", {
+            month: "2-digit",
+        });
+        let day = new Date().toLocaleDateString("es-MX", { day: "2-digit" });
+
+        dateSelected = day + "-" + month + "-" + year;
+        myCalendar.set(dateSelected);
+        $("#fechaActual").val(dateSelected);
+        if (monthOld != month || yearOld != year) {
+            cargaEventosMes(dateSelected);
+        }
+        recargaEventosDay(dateSelected);
+        let nuevaFecha = new Date();
+
+        const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+
+        let fechaText = nuevaFecha.toLocaleDateString("es-MX", options);
+
+        $("#tnAcordionCalendar").html(fechaText);
+    });
 });
 
 function validaEventos(fechaCita) {
