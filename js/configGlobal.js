@@ -220,3 +220,13 @@ function cerrarSesion() {
 function getCurrentURL() {
     return window.location.origin;
 }
+
+function obtenerFechaLarga(date) {
+    //* ejemplo se recibe 14-06-2024 o 2024-06-14
+    //* y devuelve '14 de junio de 2024'
+
+    let nuevaFecha = new Date(date);
+
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return nuevaFecha.toLocaleDateString("es-MX", options);
+}

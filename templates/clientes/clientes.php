@@ -38,4 +38,5 @@
     
 <?php 
     require_once('./../components/modal.php');
+    require_once('./../components/modalPop.php');
 ?>

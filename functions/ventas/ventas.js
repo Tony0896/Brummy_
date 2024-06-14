@@ -132,7 +132,7 @@ function verDetalleVenta(ID) {
                             console.log(data);
                             let random = genRandom();
                             nombreCliente = data.nombreCliente;
-                            Fecha = data.Fecha;
+                            Fecha = obtenerFechaLarga(data.Fecha + " 00:00:00");
                             cambio = data.cambio;
                             if (Number(cambio) <= 0) {
                                 efectivo = data.price;

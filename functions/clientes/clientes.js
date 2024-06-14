@@ -398,11 +398,26 @@ function HistorialCliente(ID) {
                     if (result == "Sin Datos") {
                     } else {
                         result.forEach((data, index) => {
-                            html += `
-                            <li class="rb-item" ng-repeat="itembx">
-                                <div class="timestamp">${volteaFecha(data.fecha, 1)} </div>
-                                <div class="item-title">${data.motivo_movimiento}</div>
-                            </li> `;
+                            if (data.FK_modulo == 4) {
+                                html += `
+                                <li class="rb-item" ng-repeat="itembx">
+                                    <div class="timestamp">${volteaFecha(data.fecha, 1)} </div>
+                                    <div class="item-title">${data.motivo_movimiento}</div>
+                                    <div class="item-title">
+                                        <div class="buttom-blue buttom button-sinText mx-1" title="Ver Detalle" onclick="verDetalleVentaCliente(${
+                                            data.FK_registro_accion
+                                        })">
+                                            <span class="text-sm mb-0"><i class="material-icons"> visibility </i></span>
+                                        </div>
+                                    </div>
+                                </li> `;
+                            } else {
+                                html += `
+                                <li class="rb-item" ng-repeat="itembx">
+                                    <div class="timestamp">${volteaFecha(data.fecha, 1)} </div>
+                                    <div class="item-title">${data.motivo_movimiento}</div>
+                                </li> `;
+                            }
                         });
                         $("#labelModal").html(`Historial Cliente`);
 
@@ -426,6 +441,143 @@ function HistorialCliente(ID) {
                         $("#btnClose").on("click", () => {
                             $("#modalTemplate").modal("hide");
                             $("#btnClose").off("click");
+                        });
+
+                        preloader.hide();
+                    }
+                    break;
+                case false:
+                    preloader.hide();
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            preloader.hide();
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+            console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
+}
+
+function verDetalleVentaCliente(ID) {
+    preloader.show();
+
+    $.ajax({
+        method: "POST",
+        dataType: "JSON",
+        url: "./views/ventas/obtenerVenta.php",
+        data: { ID },
+    })
+        .done(function (results) {
+            let success = results.success;
+            let result = results.result;
+            let html = "",
+                nombreCliente,
+                cambio,
+                efectivo,
+                price,
+                Fecha;
+            switch (success) {
+                case true:
+                    if (result == "Sin Datos") {
+                        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                        preloader.hide();
+                    } else {
+                        result.forEach((data, index) => {
+                            console.log(data);
+                            let random = genRandom();
+                            nombreCliente = data.nombreCliente;
+                            Fecha = obtenerFechaLarga(data.Fecha + " 00:00:00");
+                            cambio = data.cambio;
+                            if (Number(cambio) <= 0) {
+                                efectivo = data.price;
+                            } else {
+                                efectivo = data.efectivo;
+                            }
+                            price = data.price;
+                            html += `
+                            <div id="${random}_product">
+                                <div class="product" style="grid-template-columns: 1fr 80px 1fr 100px;">
+                                    <div>
+                                        <span class="capitalize" id="${random}_FlagProducto">${data.FlagProducto}</span>
+                                        <p class="capitalize">${data.tipo}</p>
+                                    </div>
+                                    <div class="quantity">
+                                        <label style="color: #009071;" id="${random}_label">${data.cantidad}</label>
+                                    </div>
+                                    <label class="price small my-auto" id="${random}_totals">$${data.precioVenta} c/u</label>
+                                    <label class="price small my-auto" id="${random}_total">$${data.total}</label>
+                                </div>
+                                <hr>
+                            </div>`;
+                        });
+                        $("#labelModalPop").html(`Detalle Venta`);
+
+                        $("#body_modalPop").html(`<br>
+                            <div>
+                                <div style="display: flex;flex-direction: row;">
+                                    <h4 class="card-title me-3" style="font-weight: 400;">Cliente:</h4>
+                                    <h4 class="card-title subtitle">${nombreCliente}</h4>
+                                </div>
+                                <div style="display: flex;flex-direction: row;">
+                                    <h4 class="card-title me-3" style="font-weight: 400;">Fecha:</h4>
+                                    <h4 class="card-title subtitle">${Fecha}</h4>
+                                </div>
+                                <hr>
+                                <h4 class="card-title mt-2">Carrito</h4>
+                                <div class="row">
+                                    <div class="col-md-12 mb-2">
+                                        <div class="master-container">
+                                            <div class="cart">
+                                                <div class="products">
+                                                    ${html}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12 mb-2">
+                                        <div class="checkout">
+                                            <div class="details">
+                                                <span>Subtotal:</span>
+                                                <span id="totalSubtotal">$${price}</span>
+                                            </div>
+                                            <div class="details">
+                                                <span>Descuentos de productos:</span>
+                                                <span id="totalDescuentos">$0.00</span>
+                                            </div>
+                                            <hr>
+                                            <div class="checkout--footer">
+                                                <label class="price" id="priceTotal_text"><sup>$</sup>${price}</label>
+                                            </div>
+                                            <hr>
+                                            <div class="details">
+                                                <span>Efectivo:</span>
+                                                <span>$${efectivo}</span>
+                                            </div>
+                                            <div class="details">
+                                                <span>Cabmio:</span>
+                                                <span id="totalDescuentos">$${cambio}</span>
+                                            </div>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `);
+
+                        $("#modalTemplate").css("z-index", "1040");
+                        $("#modalPop").modal({
+                            backdrop: "static",
+                            keyboard: false,
+                        });
+                        $("#modalPop").modal("show");
+                        $("#btnClosePop").on("click", () => {
+                            $("#modalPop").modal("hide");
+                            $("#btnClosePop").off("click");
+                            $("#modalTemplate").css("z-index", "1051");
                         });
 
                         preloader.hide();
