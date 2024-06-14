@@ -394,7 +394,8 @@ function recargaEventosDay(oldFecha) {
                     } else {
                         let html = "",
                             colorText = "",
-                            TextEstatus = "";
+                            TextEstatus = "",
+                            temperamento = "";
                         result.forEach((data, index) => {
                             TextEstatus = "";
                             if (data.estatus == 1) {
@@ -411,6 +412,14 @@ function recargaEventosDay(oldFecha) {
                                 colorText = "#FFAF00";
                             }
 
+                            if (data.temperamento == "verde") {
+                                temperamento = `#27AE60`;
+                            } else if (data.temperamento == "amarilo") {
+                                temperamento = `#ffb02e`;
+                            } else if (data.temperamento == "rojo") {
+                                temperamento = `#ff0300`;
+                            }
+
                             html += `
                             <div class="row mt-3">
                                 <div class="col-md-12 mb-0" style="padding: 0;">
@@ -419,8 +428,10 @@ function recargaEventosDay(oldFecha) {
                                             <div class="row">
                                                 <div class="col-md-8 my-2"> 
                                                     <div class="row">
-                                                        <div class="col-md-12 my-2"> <h4 class="card-title">
-                                                        ${data.nombreCita} Y  ${data.nombreMascota} </h4> <div> ${TextEstatus} </div></div>
+                                                        <div class="col-md-12 my-2"> <h4 class="card-title" style="vertical-align: middle;display: flex;align-items: center;">
+                                                        ${data.nombreCita} Y  ${
+                                data.nombreMascota
+                            } <div> <span class="material-icons" style="font-size: 18px;color: ${temperamento}; margin-left: 5px;"> fiber_manual_record </span> </div> </h4> <div> ${TextEstatus} </div></div>
                                                         <div class="col-md-12 my-2"> <span class="capitalize"> ${
                                                             String(data.comentariosCita).trim()
                                                                 ? String(data.comentariosCita).trim()

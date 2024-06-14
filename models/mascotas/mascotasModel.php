@@ -72,9 +72,10 @@ namespace mascotas\mascotasModel;
             $FK_dueno = $data['FK_dueno'];
             $nota = '';
             $motivoMovimiento = 'Mascota registrada';
+            $temperamentoMascota = $data['temperamentoMascota'];
 
-            $sql = "INSERT INTO mascotas (nombre, fechaNacimiento, FK_especie, especie, raza, FK_raza, sexo, color, rasgosParticulares, nota, fechaCreacion, fechaUlmitoMovimiento, motivoMovimiento, FK_dueno)
-            VALUES ('$nombre', '$fechaNacimiento', '$FK_especie', '$especie', '$raza', '$FK_raza', '$sexo', '$color', '$rasgosParticulares', '$nota', current_timestamp(), current_timestamp(), '$motivoMovimiento', '$FK_dueno')";
+            $sql = "INSERT INTO mascotas (nombre, fechaNacimiento, FK_especie, especie, raza, FK_raza, sexo, color, rasgosParticulares, nota, fechaCreacion, fechaUlmitoMovimiento, motivoMovimiento, FK_dueno, temperamentoMascota)
+            VALUES ('$nombre', '$fechaNacimiento', '$FK_especie', '$especie', '$raza', '$FK_raza', '$sexo', '$color', '$rasgosParticulares', '$nota', current_timestamp(), current_timestamp(), '$motivoMovimiento', '$FK_dueno', '$temperamentoMascota')";
 
             try{
                 $stmt = mysqli_query($conexion, $sql);
