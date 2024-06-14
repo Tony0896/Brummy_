@@ -89,7 +89,7 @@ $(document).ready(() => {
 
                         if (data.ID_modulo != 1 && data.ID_modulo != 2) {
                             $("#navSide").append(`
-                                <li class="nav-item" id="${data.id_element}_li">
+                                <li class="nav-item nav_item2" id="${data.id_element}_li">
                                     <a class="nav-link tagAMenu" href="#" id="${data.id_element}" onclick="cargaTemplate(this.id, '${data.permiso}')">
                                         <span class="material-icons me-2"> ${data.icono} </span>
                                         <span class="menu-title">${data.titulo}</span>
@@ -134,6 +134,38 @@ $(document).ready(() => {
 });
 
 function cargaDataDash() {
+    $.ajax({
+        method: "POST",
+        dataType: "json",
+        url: "views/avisos/obtenerAvisosToday.php",
+        data: {},
+    })
+        .done(function (result) {
+            let success = result.success;
+            let results = result.result;
+            let htmlAviso = "";
+            switch (success) {
+                case true:
+                    results.forEach((data, index) => {
+                        htmlAviso += data.aviso + `&emsp;- -&emsp;`;
+                    });
+                    htmlAviso = String(htmlAviso).slice(0, -9);
+                    $("#texttMarquee").html(htmlAviso);
+                    break;
+                case false:
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Aviso",
+                        text: "Algo salió mal.",
+                    });
+
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.log("accesoUsuarioView  - Server: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
+
     $.ajax({
         method: "POST",
         dataType: "json",
@@ -334,8 +366,8 @@ function cargaDataDash() {
 }
 
 function activeSubmenu(id_element_submenu) {
-    $(".nav-item").attr("class", "nav-item");
-    $("#" + id_element_submenu + "_li").attr("class", "nav-item active");
+    $(".nav-item.nav_item2").attr("class", "nav-item nav_item2");
+    $("#" + id_element_submenu + "_li").attr("class", "nav-item nav_item2 active");
 }
 
 function cargaTemplate(id, permiso) {
@@ -378,6 +410,11 @@ function cargaTemplate(id, permiso) {
 
         case "bar_chart_menu":
             cargaTemplateKPI();
+            activeSubmenu(id);
+            break;
+
+        case "campaign_menu":
+            cargaTemplateAvisos();
             activeSubmenu(id);
             break;
 
@@ -452,6 +489,15 @@ function cargaTemplateEncuestas() {
 
 function cargaTemplateKPI() {
     $("#contenido").load("templates/satisfaccion/satisfaccion.php", function (responseTxt, statusTxt, xhr) {
+        if (statusTxt != "error") {
+            changeViewMenuIcon();
+            // documentReadyVacantes();
+        }
+    });
+}
+
+function cargaTemplateAvisos() {
+    $("#contenido").load("templates/avisos/avisos.php", function (responseTxt, statusTxt, xhr) {
         if (statusTxt != "error") {
             changeViewMenuIcon();
             // documentReadyVacantes();
