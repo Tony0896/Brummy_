@@ -206,7 +206,7 @@ namespace clientes\clientesModel;
 
             $ID = $data['ID'];
 
-            $sql = "SELECT ID, fecha, FK_cliente, nombre, FK_modulo, nombre_modulo, motivo_movimiento FROM historial_cliente WHERE estatus = 1 AND FK_cliente = $ID ORDER BY ID DESC";
+            $sql = "SELECT ID, fecha, FK_cliente, nombre, FK_modulo, nombre_modulo, motivo_movimiento, FK_registro_accion FROM historial_cliente WHERE estatus = 1 AND FK_cliente = $ID ORDER BY ID DESC";
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){

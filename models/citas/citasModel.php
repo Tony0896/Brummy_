@@ -88,7 +88,7 @@ namespace citas\citasModel;
                             $rowcount=mysqli_num_rows($stmt);   
                             if ( $rowcount ) {
                                 while($row = mysqli_fetch_assoc($stmt)) {
-                                    $FK_mascota = $data['FKnombreCita'];
+                                    $FK_mascota = $data['FKnombreMascota'];
                                     $nombre = $data['nombreMascota'];
                                     $FK_modulo = 7;
                                     $nombreModulo = 'Citas';
@@ -158,12 +158,22 @@ namespace citas\citasModel;
             $estatus = $data['estatus'];
             $comentariosCita2 = $data['comentariosAdicionales'];
             $ID = $data['ID'];
-            
+
+            $FK_mascota = $data['FK_mascota'];
+            $nombre = $data['nombre'];
+
             $sql = "UPDATE citas SET flagEstatus = '$flagEstatus', estatus = '$estatus', comentariosCita2 = '$comentariosCita2' WHERE ID = $ID";
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
                     $result = array('success' => true, 'result' => 'Sin Datos');
+                    $FK_modulo = 7;
+                    $nombreModulo = 'Citas';
+                    $motivo = 'Cambio de estatus cita: A '.$flagEstatus.', '.$comentariosCita2;
+                    $FK_Usuario = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1;
+                    $nameUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
+
+                    $this->InsertHistoriaMascota($FK_mascota, $nombre, $FK_modulo, $nombreModulo, $motivo, $FK_Usuario, $nameUsuario, $ID);
                 } else {
                     $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
                 }

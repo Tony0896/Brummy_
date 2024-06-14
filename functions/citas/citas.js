@@ -460,6 +460,8 @@ function recargaEventosDay(oldFecha) {
                                                     <button class="btn" data-clipboard-target="#foo_${data.ID}" id="btn_foo_${
                                 data.ID
                             }" style="height: 0;padding: 0;opacity: 0;"></button>
+                                                    <input type="hidden" id="input_FK_mascota_${data.ID}" value="${data.FKnombreMascota}" />
+                                                    <input type="hidden" id="input_nombre_${data.ID}" value="${data.nombreMascota}" />
                                                 </div>
                                             </div>
                                         </div>
@@ -573,8 +575,8 @@ function guardarEstausCita(ID) {
     let estatus = $("#newEstatusCita").val();
     let flagEstatus = String($("#newEstatusCita").find("option:selected").text());
     let comentariosAdicionales = String($("#comentariosAdicionales").val()).trim();
-
-    console.log(estatus, flagEstatus, comentariosAdicionales);
+    let FK_mascota = $("#input_FK_mascota_" + ID).val();
+    let nombre = $("#input_nombre_" + ID).val();
 
     $.ajax({
         method: "POST",
@@ -585,6 +587,8 @@ function guardarEstausCita(ID) {
             flagEstatus,
             comentariosAdicionales,
             ID,
+            FK_mascota,
+            nombre,
         },
     })
         .done(function (results) {

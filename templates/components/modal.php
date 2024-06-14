@@ -12,9 +12,3 @@
         </div>
     </div>
 </div>
-
-<div id="myModalImg" class="modal" style="background-color: #0000008c;">
-    <div style="height: 100%;display: flex;">
-        <img class="modal-contents" id="img01" style="width: 40%;margin: auto;border: solid #08568C; border-radius: 10px;">      
-    </div>
-</div>
