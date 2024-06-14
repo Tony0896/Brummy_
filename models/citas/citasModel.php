@@ -122,7 +122,7 @@ namespace citas\citasModel;
 
             $fecha = $data['fecha'];
 
-            $sql = "SELECT * FROM citas WHERE fechaCita = '$fecha' ORDER BY horaCita";
+            $sql = "SELECT *, getTemperamentoMascota(FKnombreMascota) as temperamento FROM citas WHERE fechaCita = '$fecha' ORDER BY horaCita";
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){

@@ -24,17 +24,26 @@ function obtenerMascotas() {
                     } else {
                         dataTableDestroy();
                         let html;
+                        let temperamento = "";
                         let tdSinData = `<span class='material-icons'> remove </span> &nbsp; <span class='material-icons'> remove </span>`;
                         result.forEach((data, index) => {
+                            if (data.temperamentoMascota == "verde") {
+                                temperamento = `#27AE60`;
+                            } else if (data.temperamentoMascota == "amarilo") {
+                                temperamento = `#ffb02e`;
+                            } else if (data.temperamentoMascota == "rojo") {
+                                temperamento = `#ff0300`;
+                            }
                             html += `<tr>
-                                <td>${index + 1}</td>
+                                <td> ${index + 1} </td>
+                                <td> <span class="material-icons" style="font-size: 18px;color: ${temperamento}"> fiber_manual_record </span> </td>
                                 <td class="capitalize"> 
                                     <div> 
                                         <div><span>${data.nombre}</span></div> 
                                         <div><span>${data.especie} - ${data.raza}</span></div> 
                                     </div> 
                                 </td>
-                                <td>${data.NombreCliente}</td>
+                                <td class="capitalize">${data.NombreCliente}</td>
                                 <td>${data.fechaNacimiento}</td>
                                 <td>${data.sexo}</td>
                                 <td>${data.color ? data.color : tdSinData}</td>
@@ -154,6 +163,17 @@ function crearMascota() {
                                                             ${html3}
                                                         </select>
                                                     </div>
+                                                    
+                                                    <div class="coolinput">
+                                                        <label for="temperamentoMascota" class="text">Temperamento Mascota</label>
+                                                        <select class="input capitalize obligatorio" name="Temperamento Mascota" id="temperamentoMascota" style="background-color: rgb(255, 255, 255);width:100%;">
+                                                            <option value="">Selecciona una opción</option>
+                                                            <option value="verde">&#129001;</option>
+                                                            <option value="amarilo">&#129000;</option>
+                                                            <option value="rojo">&#128997;</option>
+                                                        </select>
+                                                        
+                                                    </div>
 
                                                 </div>
 
@@ -231,6 +251,7 @@ function guardarMascota() {
         let color = String($("#colorMascota").val());
         let rasgosParticulares = String($("#rasgosMascota").val());
         let FK_dueno = String($("#FK_dueno").val());
+        let temperamentoMascota = $("#temperamentoMascota").val();
 
         nombre.replaceAll("'", '"');
         fechaNacimiento.replaceAll("'", '"');
@@ -248,7 +269,7 @@ function guardarMascota() {
             method: "POST",
             dataType: "JSON",
             url: "./views/mascotas/guardarMascota.php",
-            data: { nombre, fechaNacimiento, FK_especie, especie, raza, FK_raza, sexo, color, rasgosParticulares, FK_dueno },
+            data: { nombre, fechaNacimiento, FK_especie, especie, raza, FK_raza, sexo, color, rasgosParticulares, FK_dueno, temperamentoMascota },
         })
             .done(function (results) {
                 let success = results.success;
