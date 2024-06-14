@@ -17708,7 +17708,6 @@ dl li {
 .table td {
     vertical-align: middle;
     line-height: 1;
-    white-space: nowrap;
     padding: 1.125rem 1.375rem;
 }
 
@@ -22407,7 +22406,6 @@ div.tagsinput span.tag a {
     font-size: 28px;
     line-height: 38px;
     color: #8d8d8d;
-    margin-bottom: 10px;
 }
 
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item .welcome-text .text-dark {

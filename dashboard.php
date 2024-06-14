@@ -59,7 +59,13 @@ if( !$boolean_session ){
             padding-top: 10px;
             padding-bottom: 10px;
         }
-        
+        .p_marquee{
+            color: #6c7383;
+            margin-top: 0;
+            font-weight: 500;
+            line-height: 1;
+            font-size: 1rem;
+        }
     </style>
     <body>
         <div class="modal modals fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
@@ -99,9 +105,12 @@ if( !$boolean_session ){
                 <div class="navbar-menu-wrapper d-flex align-items-top">
                     <ul class="navbar-nav">
                         <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-                            <h1 class="welcome-text">Hola!, <span class="text-black fw-bold"><?php echo $_SESSION['nombre']." ".$_SESSION['apellidoPaterno']; ?></span></h1>
+                            <h1 class="welcome-text" style="margin-right: 15px;text-wrap: nowrap;">Hola!, <span class="text-black fw-bold"><?php echo $_SESSION['nombre']." ".$_SESSION['apellidoPaterno']; ?></span></h1>
                         </li>
                     </ul>
+                    <div style="width: 100%;">
+                        <marquee class="card2"><p class="p_marquee" id="texttMarquee" style="padding-top: 15px;padding-bottom: 15px;margin-bottom: 0;">&nbsp;</p></marquee>
+                    </div>
                     <ul class="navbar-nav ms-auto"></ul>
                     <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-bs-toggle="offcanvas" id="btnHideDash">
                         <span class="material-icons"> menu </span>
@@ -111,7 +120,7 @@ if( !$boolean_session ){
             <div class="container-fluid page-body-wrapper">
                 <nav class="sidebar sidebar-offcanvas" id="sidebar" style="position: fixed; user-select: none;">
                     <ul class="nav" id="navSide">
-                        <li class="nav-item">
+                        <li class="nav-item nav_item2">
                             <a class="nav-link" href="./dashboard.php">
                                 <span class="material-icons me-2"> dashboard </span>
                                 <span class="menu-title">Dashboard</span>
