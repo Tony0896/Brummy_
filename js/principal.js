@@ -348,13 +348,20 @@ function cargaDataMarquee() {
             let htmlAviso = "";
             switch (success) {
                 case true:
-                    results.forEach((data, index) => {
-                        htmlAviso += data.aviso + `&emsp;- -&emsp;`;
-                    });
-                    htmlAviso = String(htmlAviso).slice(0, -9);
-                    $("#texttMarquee").html(
-                        `<marquee class="card2"><p class="p_marquee" style="padding-top: 15px;padding-bottom: 15px;margin-bottom: 0;">${htmlAviso}</p></marquee>`
-                    );
+                    if (results == "Sin Datos") {
+                        $("#texttMarquee").html(
+                            `<marquee class="card2"><p class="p_marquee" style="padding-top: 15px;padding-bottom: 15px;margin-bottom: 0;">&nbsp;</p></marquee>`
+                        );
+                    } else {
+                        results.forEach((data, index) => {
+                            htmlAviso += data.aviso + `&emsp;- -&emsp;`;
+                        });
+
+                        htmlAviso = String(htmlAviso).slice(0, -9);
+                        $("#texttMarquee").html(
+                            `<marquee class="card2"><p class="p_marquee" style="padding-top: 15px;padding-bottom: 15px;margin-bottom: 0;">${htmlAviso}</p></marquee>`
+                        );
+                    }
                     break;
                 case false:
                     Swal.fire({
