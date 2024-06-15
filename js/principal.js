@@ -134,37 +134,7 @@ $(document).ready(() => {
 });
 
 function cargaDataDash() {
-    $.ajax({
-        method: "POST",
-        dataType: "json",
-        url: "views/avisos/obtenerAvisosToday.php",
-        data: {},
-    })
-        .done(function (result) {
-            let success = result.success;
-            let results = result.result;
-            let htmlAviso = "";
-            switch (success) {
-                case true:
-                    results.forEach((data, index) => {
-                        htmlAviso += data.aviso + `&emsp;- -&emsp;`;
-                    });
-                    htmlAviso = String(htmlAviso).slice(0, -9);
-                    $("#texttMarquee").html(htmlAviso);
-                    break;
-                case false:
-                    Swal.fire({
-                        icon: "warning",
-                        title: "Aviso",
-                        text: "Algo salió mal.",
-                    });
-
-                    break;
-            }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            console.log("accesoUsuarioView  - Server: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
-        });
+    cargaDataMarquee();
 
     $.ajax({
         method: "POST",
@@ -365,6 +335,42 @@ function cargaDataDash() {
     });
 }
 
+function cargaDataMarquee() {
+    $.ajax({
+        method: "POST",
+        dataType: "json",
+        url: "views/avisos/obtenerAvisosToday.php",
+        data: {},
+    })
+        .done(function (result) {
+            let success = result.success;
+            let results = result.result;
+            let htmlAviso = "";
+            switch (success) {
+                case true:
+                    results.forEach((data, index) => {
+                        htmlAviso += data.aviso + `&emsp;- -&emsp;`;
+                    });
+                    htmlAviso = String(htmlAviso).slice(0, -9);
+                    $("#texttMarquee").html(
+                        `<marquee class="card2"><p class="p_marquee" style="padding-top: 15px;padding-bottom: 15px;margin-bottom: 0;">${htmlAviso}</p></marquee>`
+                    );
+                    break;
+                case false:
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Aviso",
+                        text: "Algo salió mal.",
+                    });
+
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.log("accesoUsuarioView  - Server: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
+}
+
 function activeSubmenu(id_element_submenu) {
     $(".nav-item.nav_item2").attr("class", "nav-item nav_item2");
     $("#" + id_element_submenu + "_li").attr("class", "nav-item nav_item2 active");
@@ -372,6 +378,7 @@ function activeSubmenu(id_element_submenu) {
 
 function cargaTemplate(id, permiso) {
     preloader.show();
+    cargaDataMarquee();
     switch (id) {
         case "apps_menu":
             cargarTemplateCatalogos();

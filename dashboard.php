@@ -108,8 +108,8 @@ if( !$boolean_session ){
                             <h1 class="welcome-text" style="margin-right: 15px;text-wrap: nowrap;">Hola!, <span class="text-black fw-bold"><?php echo $_SESSION['nombre']." ".$_SESSION['apellidoPaterno']; ?></span></h1>
                         </li>
                     </ul>
-                    <div style="width: 100%;">
-                        <marquee class="card2"><p class="p_marquee" id="texttMarquee" style="padding-top: 15px;padding-bottom: 15px;margin-bottom: 0;">&nbsp;</p></marquee>
+                    <div style="width: 100%;" id="texttMarquee">
+                        
                     </div>
                     <ul class="navbar-nav ms-auto"></ul>
                     <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-bs-toggle="offcanvas" id="btnHideDash">

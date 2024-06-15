@@ -484,7 +484,6 @@ function verDetalleVentaCliente(ID) {
                         preloader.hide();
                     } else {
                         result.forEach((data, index) => {
-                            console.log(data);
                             let random = genRandom();
                             nombreCliente = data.nombreCliente;
                             Fecha = obtenerFechaLarga(data.Fecha + " 00:00:00");
