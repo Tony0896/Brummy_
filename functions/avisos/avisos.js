@@ -179,7 +179,6 @@ function verDetalleAvisos(ID) {
             switch (success) {
                 case true:
                     result.forEach((data, index) => {
-                        console.log(data);
                         aviso = data.aviso;
                         fechaInicio = FormatDate(data.fechaInicio);
                         fechaFin = FormatDate(data.fechaFin);
