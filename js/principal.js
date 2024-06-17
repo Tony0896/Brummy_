@@ -432,6 +432,11 @@ function cargaTemplate(id, permiso) {
             activeSubmenu(id);
             break;
 
+        case "store_menu":
+            cargaTemplatePerfilStore();
+            activeSubmenu(id);
+            break;
+
         default:
             preloader.hide();
             console.log("sin menu");
@@ -512,6 +517,15 @@ function cargaTemplateKPI() {
 
 function cargaTemplateAvisos() {
     $("#contenido").load("templates/avisos/avisos.php", function (responseTxt, statusTxt, xhr) {
+        if (statusTxt != "error") {
+            changeViewMenuIcon();
+            // documentReadyVacantes();
+        }
+    });
+}
+
+function cargaTemplatePerfilStore() {
+    $("#contenido").load("templates/store/store.php", function (responseTxt, statusTxt, xhr) {
         if (statusTxt != "error") {
             changeViewMenuIcon();
             // documentReadyVacantes();
