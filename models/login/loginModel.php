@@ -51,7 +51,7 @@ namespace login\loginModel;
 
             $usuario = $data['usuario'];
             
-            $sql = "SELECT ID, correo_usua, contacto_usua, usuario_usua, tipo_usua, estatus_usua, flag_visible_usua, fecha_vencimiento, nombre, apellidoPaterno, apellidoMaterno FROM usuariosbrummy WHERE usuario_usua = '$usuario'";
+            $sql = "SELECT ID, correo_usua, contacto_usua, usuario_usua, tipo_usua, estatus_usua, flag_visible_usua, fecha_vencimiento, nombre, apellidoPaterno, apellidoMaterno, empresa FROM usuariosbrummy WHERE usuario_usua = '$usuario'";
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
@@ -71,6 +71,7 @@ namespace login\loginModel;
                             $_SESSION['apellidoPaterno'] = $row['apellidoPaterno'];
                             $_SESSION['apellidoMaterno'] = $row['apellidoMaterno'];
                             $_SESSION["token"] = base64_encode($row['ID'].strtotime("now").rand(0,100).$row['usuario_usua']);
+                            $_SESSION["empresa"] = $row['empresa'];
                             $result = array('success' => true, 'result' => 'OK', 'code' => 200 );
                         }
                     } else {
