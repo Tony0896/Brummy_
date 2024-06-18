@@ -63,10 +63,11 @@ namespace clientes\clientesModel;
             $apellidoM = $data['apellidoM'];
             $telefono = $data['telefono'];
             $correo = $data['correo'];
+            $indicadorCliente = $data['indicadorCliente'];
             $motivoMovimiento = 'Cliente registrado';
 
-            $sql = "INSERT INTO Clientes (nombre, apellidoP, apellidoM, telefono, correo, fechaUlmitoMovimiento, motivoMovimiento)
-            VALUES ('$nombre', '$apellidoP', '$apellidoM', '$telefono', '$correo', current_timestamp(), '$motivoMovimiento')";
+            $sql = "INSERT INTO Clientes (nombre, apellidoP, apellidoM, telefono, correo, fechaUlmitoMovimiento, motivoMovimiento, indicadorCliente)
+            VALUES ('$nombre', '$apellidoP', '$apellidoM', '$telefono', '$correo', current_timestamp(), '$motivoMovimiento', '$indicadorCliente')";
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
@@ -151,9 +152,10 @@ namespace clientes\clientesModel;
             $correo = $data['correo'];
             $motivoMovimiento = 'Datos Cliente Actualizado';
             $ID = $data['ID'];
+            $indicadorClienteModal = $data['indicadorCliente'];
 
             $sql = "UPDATE Clientes SET nombre = '$nombre', apellidoP = '$apellidoP', apellidoM = '$apellidoM', telefono = '$telefono', 
-            correo = '$correo', fechaUlmitoMovimiento = current_timestamp(), motivoMovimiento = '$motivoMovimiento' WHERE ID = $ID ";
+            correo = '$correo', fechaUlmitoMovimiento = current_timestamp(), motivoMovimiento = '$motivoMovimiento', indicadorCliente = '$indicadorClienteModal' WHERE ID = $ID ";
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){

@@ -395,7 +395,8 @@ function recargaEventosDay(oldFecha) {
                         let html = "",
                             colorText = "",
                             TextEstatus = "",
-                            temperamento = "";
+                            temperamento = "",
+                            indicadorCliente = "";
                         result.forEach((data, index) => {
                             TextEstatus = "";
                             if (data.estatus == 1) {
@@ -420,6 +421,14 @@ function recargaEventosDay(oldFecha) {
                                 temperamento = `#ff0300`;
                             }
 
+                            if (data.indicadorCliente == "verde") {
+                                indicadorCliente = `#27AE60`;
+                            } else if (data.indicadorCliente == "amarilo") {
+                                indicadorCliente = `#ffb02e`;
+                            } else if (data.indicadorCliente == "rojo") {
+                                indicadorCliente = `#ff0300`;
+                            }
+
                             html += `
                             <div class="row mt-3">
                                 <div class="col-md-12 mb-0" style="padding: 0;">
@@ -429,6 +438,7 @@ function recargaEventosDay(oldFecha) {
                                                 <div class="col-md-8 my-2"> 
                                                     <div class="row">
                                                         <div class="col-md-12 my-2"> <h4 class="card-title" style="vertical-align: middle;display: flex;align-items: center;">
+                                                        <div> <span class="material-icons" style="font-size: 18px;color: ${indicadorCliente}; margin-left: 5px; margin-right: 5px;"> fiber_manual_record </span> </div>
                                                         ${data.nombreCita} Y  ${
                                 data.nombreMascota
                             } <div> <span class="material-icons" style="font-size: 18px;color: ${temperamento}; margin-left: 5px;"> fiber_manual_record </span> </div> </h4> <div> ${TextEstatus} </div></div>

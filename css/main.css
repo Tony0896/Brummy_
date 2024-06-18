@@ -428,6 +428,10 @@ iframe {
     .login100-form {
         width: 50%;
     }
+
+    .img-100 {
+        padding-right: 0px !important;
+    }
 }
 
 @media (max-width: 768px) {
@@ -449,11 +453,17 @@ iframe {
     .login100-pic > .img-100 {
         max-height: 118;
     }
+    .img-100 {
+        padding-right: 0px !important;
+    }
 }
 
 @media (max-width: 576px) {
     .wrap-login100 {
         padding: 60px 15px 33px;
+    }
+    .img-100 {
+        padding-right: 0px !important;
     }
 }
 
