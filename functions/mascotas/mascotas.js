@@ -33,6 +33,8 @@ function obtenerMascotas() {
                                 temperamento = `#ffb02e`;
                             } else if (data.temperamentoMascota == "rojo") {
                                 temperamento = `#ff0300`;
+                            } else {
+                                temperamento = `#FFFFFF`;
                             }
                             html += `<tr>
                                 <td> ${index + 1} </td>

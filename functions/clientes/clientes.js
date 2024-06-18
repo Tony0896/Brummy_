@@ -24,10 +24,21 @@ function obtenerClientes() {
                     } else {
                         dataTableDestroy();
                         let html;
+                        let temperamento = "";
                         let tdSinData = `<span class='material-icons'> remove </span> &nbsp; <span class='material-icons'> remove </span>`;
                         result.forEach((data, index) => {
+                            if (data.indicadorCliente == "verde") {
+                                temperamento = `#27AE60`;
+                            } else if (data.indicadorCliente == "amarilo") {
+                                temperamento = `#ffb02e`;
+                            } else if (data.indicadorCliente == "rojo") {
+                                temperamento = `#ff0300`;
+                            } else {
+                                temperamento = `#FFFFFF`;
+                            }
                             html += `<tr>
                                 <td>${index + 1}</td>
+                                <td> <span class="material-icons" style="font-size: 18px;color: ${temperamento}"> fiber_manual_record </span> </td>
                                 <td class="capitalize">${data.nombre} ${data.apellidoP} ${data.apellidoM}</td>
                                 <td ${data.telefono ? "" : 'style="text-align: center;"'}>${data.telefono ? data.telefono : tdSinData}</td>
                                 <td ${data.correo ? "" : 'style="text-align: center;"'}>${data.correo ? data.correo : tdSinData}</td>
@@ -97,6 +108,16 @@ function crearCliente() {
                 <label name="Correo" for="correo" class="text">Correo</label>
                 <input name="Correo" type="text" class="input" id="correo" autocomplete="off" maxlength"100"/>
             </div>
+
+            <div class="coolinput">
+                <label for="indicadorCliente" class="text">Indicadr Cliente</label>
+                <select class="input capitalize obligatorio" name="Indicadr Cliente" id="indicadorCliente" style="background-color: rgb(255, 255, 255);width:100%;">
+                    <option value="">Selecciona una opción</option>
+                    <option value="verde">&#129001;</option>
+                    <option value="amarilo">&#129000;</option>
+                    <option value="rojo">&#128997;</option>
+                </select>
+            </div>
         </div>
 
         <div class="center-fitcomponent" style="width: 100%;">
@@ -147,6 +168,7 @@ function verPerfilCliente(ID) {
                             let motivoMovimientoModal = data.motivoMovimiento;
                             let fechaUlmitoMovimientoModal = data.fechaUlmitoMovimiento;
                             let IDModal = data.ID;
+                            let indicadorClienteModal = data.indicadorCliente;
 
                             $("#labelModal").html(`Actualizar Cliente`);
 
@@ -176,6 +198,16 @@ function verPerfilCliente(ID) {
                                         <label name="Correo" for="correo" class="text">Correo</label>    
                                         <input type="text" class="input" id="correo" autocomplete="off" maxlength"100" value="${correoModal}"/>
                                     </div>
+
+                                    <div class="coolinput">
+                                        <label for="indicadorCliente" class="text">Indicadr Cliente</label>
+                                        <select class="input capitalize obligatorio" name="Indicadr Cliente" id="indicadorClienteModal" style="background-color: rgb(255, 255, 255);width:100%;">
+                                            <option value="">Selecciona una opción</option>
+                                            <option value="verde">&#129001;</option>
+                                            <option value="amarilo">&#129000;</option>
+                                            <option value="rojo">&#128997;</option>
+                                        </select>
+                                    </div>
                                 </div>
 
                                 <div class="center-fitcomponent" style="width: 100%;">
@@ -197,6 +229,7 @@ function verPerfilCliente(ID) {
                                 </div>
                             `);
 
+                            $("#indicadorClienteModal").val(indicadorClienteModal);
                             $("#modalTemplate").modal({
                                 backdrop: "static",
                                 keyboard: false,
@@ -235,6 +268,7 @@ function guardarCliente() {
         let apellidoM = String($("#apellidoM").val()).trim();
         let telefono = String($("#telefono").val()).trim();
         let correo = String($("#correo").val()).trim();
+        let indicadorCliente = $("#indicadorCliente").val();
 
         nombre.replaceAll("'", '"');
         apellidoP.replaceAll("'", '"');
@@ -248,7 +282,7 @@ function guardarCliente() {
             method: "POST",
             dataType: "JSON",
             url: "./views/clientes/guardaCliente.php",
-            data: { nombre, apellidoP, apellidoM, telefono, correo },
+            data: { nombre, apellidoP, apellidoM, telefono, correo, indicadorCliente },
         })
             .done(function (results) {
                 let success = results.success;
@@ -292,6 +326,7 @@ function actualizarCliente(ID) {
         let apellidoM = String($("#apellidoM").val()).trim();
         let telefono = String($("#telefono").val()).trim();
         let correo = String($("#correo").val()).trim();
+        let indicadorCliente = $("#indicadorClienteModal").val();
 
         nombre.replaceAll("'", '"');
         apellidoP.replaceAll("'", '"');
@@ -305,7 +340,7 @@ function actualizarCliente(ID) {
             method: "POST",
             dataType: "JSON",
             url: "./views/clientes/actualizaCliente.php",
-            data: { nombre, apellidoP, apellidoM, telefono, correo, ID },
+            data: { nombre, apellidoP, apellidoM, telefono, correo, ID, indicadorCliente },
         })
             .done(function (results) {
                 let success = results.success;
