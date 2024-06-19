@@ -44,5 +44,11 @@
             return $result_model;
         }
 
+        function generarReporteInventario($data){
+            $model_inventario = $this->getConexionModelClass();
+            $result_model = $model_inventario->generarReporteInventario($data);
+            return $result_model;
+        }
+        
     }
 ?>

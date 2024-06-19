@@ -148,7 +148,7 @@ function cargaDataDash() {
             switch (success) {
                 case true:
                     results.forEach((data, index) => {
-                        $("#gananciasDia").html(`$${Number(data.cuenta).toFixed(2)}`);
+                        $("#gananciasDia").html(`$ ${CantidadConCommas(Number(data.cuenta).toFixed(2))}`);
                         $("#citasAgendadasCita").html(`${Number(data.cuentaAgenda)}`);
                         $("#citasAtendidasDia").html(`${Number(data.cuentaAtendidas)}`);
                     });
@@ -228,7 +228,7 @@ function cargaDataDash() {
                             <tr>
                                 <td>${Number(index + 1)}</td>
                                 <td>${data.FlagProducto}</td>
-                                <td>$${Number(data.total).toFixed(2)}</td>
+                                <td>$ ${CantidadConCommas(Number(data.total).toFixed(2))}</td>
                             </tr>
                         `;
                     });
@@ -375,6 +375,114 @@ function cargaDataMarquee() {
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             console.log("accesoUsuarioView  - Server: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
+}
+
+function reporteProductosVendidos() {
+    $("#labelModal").html(`Reporte Productos más vendidos`);
+
+    $("#body_modal").html(`<br>
+        <div>
+            <div class="coolinput">
+                <label for="fechaReporteInicio" class="text">Fecha Inicio:</label>
+                <input name="Fecha" type="text" class="input obligatorio" id="fechaReporteInicio" autocomplete="off" />
+            </div>
+
+            <div class="coolinput">
+                <label for="fechaReporteFin" class="text">Fecha Fin:</label>
+                <input name="Fecha" type="text" class="input obligatorio" id="fechaReporteFin" autocomplete="off" />
+            </div>
+        </div>
+
+        <div class="center-fitcomponent" style="width: 100%;">
+            <div class="buttom-blue buttom" style="margin-left: auto;margin-right: auto;" onclick="generarReporteInventario();">
+                <span class="text-sm mb-0 span-buttom"> 
+                    Generar
+                    <i class="material-icons"> file_download </i>
+                </span>
+            </div>
+        </div>
+    `);
+
+    $("#fechaReporteInicio").duDatepicker({ format: "dd-mm-yyyy", clearBtn: true, cancelBtn: true });
+    $("#fechaReporteFin").duDatepicker({ format: "dd-mm-yyyy", clearBtn: true, cancelBtn: true });
+
+    $("#modalTemplate").modal({
+        backdrop: "static",
+        keyboard: false,
+    });
+
+    $("#modalTemplate").modal("show");
+
+    $("#btnClose").on("click", () => {
+        $("#modalTemplate").modal("hide");
+        $("#btnClose").off("click");
+    });
+}
+
+function generarReporteInventario() {
+    if (!$("#fechaReporteInicio").val() || !$("#fechaReporteInicio").val()) {
+        // msj.show("Aviso", ".", [{ text1: "OK" }]);
+        Swal.fire({
+            icon: "warning",
+            title: "Aviso",
+            text: "Debes indicar una Fecha Inicio y una Fecha Fin a buscar.",
+        });
+        return false;
+    }
+
+    let fechaReporteInicio = volteaFecha($("#fechaReporteInicio").val(), 2);
+    let fechaReporteFin = volteaFecha($("#fechaReporteFin").val(), 2);
+    preloader.show();
+    $.ajax({
+        method: "POST",
+        dataType: "JSON",
+        url: "./views/inventario/generarReporteInventario.php",
+        data: { fechaReporteInicio, fechaReporteFin },
+    })
+        .done(function (results) {
+            let success = results.success;
+            let result = results.result;
+            let html = "";
+            switch (success) {
+                case true:
+                    if (result == "Sin Datos") {
+                        msj.show("Aviso", "No se encontró información en este rango de fechas.", [{ text1: "OK" }]);
+                        preloader.hide();
+                    } else {
+                        result.forEach((data, index) => {
+                            html += `<tr>
+                                <td data-b-b-s="thin" data-b-l-s="thin" data-b-r-s="thin" data-a-wrap="true">${Number(index + 1)}</td>
+                                <td data-b-b-s="thin" data-b-l-s="thin" data-b-r-s="thin" data-a-wrap="true">${data.FlagProducto}</td>
+                                <td data-b-b-s="thin" data-b-l-s="thin" data-b-r-s="thin" data-a-wrap="true">${data.suma}</td>
+                            </tr>`;
+                        });
+
+                        $("#tbodyExportInventario").html(html);
+                        let table = document.getElementsByClassName("tableExport");
+                        let now = String(Date.now());
+                        let lastFive = now.substr(now.length - 8);
+                        TableToExcel.convert(table[0], {
+                            name: `Reporte_${lastFive}.xlsx`,
+                            sheet: {
+                                name: "Ventas",
+                            },
+                        });
+                        $("#modalTemplate").modal("hide");
+                        $("#btnClose").off("click");
+                        preloader.hide();
+                    }
+                    break;
+                case false:
+                    preloader.hide();
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            preloader.hide();
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+            console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
         });
 }
 

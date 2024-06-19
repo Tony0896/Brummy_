@@ -87,6 +87,7 @@ if( !$boolean_session ){
             </div>
         </div>
         <?php include_once('./templates/components/modalAlert.php'); ?>
+        <?php include_once('./templates/components/modal.php'); ?>
         <div class="container-scroller">
             <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row" style="user-select: none;">
                 <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
@@ -210,7 +211,14 @@ if( !$boolean_session ){
                                             <div class="col-md-6 grid-margin stretch-card">
                                                 <div class="card2 mb-2">
                                                     <div class="card-body">
-                                                        <h4 class="statistics-title">TOP 5 Productos más vendidos</h4>
+                                                    <div style="display: flex;flex-direction: row;align-items: center;width: 100%;">
+                                                            <h4 class="statistics-title">TOP 5 Productos más vendidos</h4>
+                                                            <div class="mb-2" style="display: flex;justify-content: end;margin: auto;">
+                                                                <div class="buttom-green buttom" onclick="reporteProductosVendidos()">
+                                                                    <span class="text-sm mb-0"> Exportar <i class="material-icons"> file_download </i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div id="div_citas">
                                                             <canvas id="bar-chart2" width="800" height="450"></canvas>
                                                         </div>
@@ -232,6 +240,20 @@ if( !$boolean_session ){
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div id="dataToExport" style="display:none;">
+                        <table  class="table table-bordered tableExport" data-cols-width="10,20,30">
+                            <thead thead class = "cabecerath">
+                                <tr>
+                                    <th data-f-bold="true" data-fill-color="ff91d2ff">#</th>
+                                    <th data-f-bold="true" data-fill-color="ff91d2ff">Nombre producto</th>
+                                    <th data-f-bold="true" data-fill-color="ff91d2ff">Cantidad</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyExportInventario">
+                                
+                            </tbody>
+                        </table>
                     </div>
                     <!-- content-wrapper ends -->
                     <footer class="footer">
@@ -274,5 +296,9 @@ if( !$boolean_session ){
         <script src="./libraries/clipboard/clipboard.min.js"></script>
         <script src="./libraries/mdtimepicker/mdtimepicker.js"></script>
         <script src="./libraries/duDatepicker/duDatepicker.js"></script>
+        <script src="./libraries/exportExcel/tableToExcel.js"></script>
+        <script src="./libraries/exportExcel/zip.js"></script>
+        <script src="./libraries/exportExcel/xlsx.js"></script>
+        <script src="./libraries/exportExcel/xlsx.min.js"></script>
     </body>
 </html>
