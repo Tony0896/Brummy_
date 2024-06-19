@@ -217,6 +217,7 @@ input[type="time"] {
 
 .cointainer-info {
     margin-bottom: 15px;
+    user-select: none;
 }
 
 .cointainer-info > h4 {
@@ -817,6 +818,9 @@ h2 {
     font-weight: 600;
     transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
 }
+.coolinput > label {
+    user-select: none;
+}
 /******************************************************/
 /**********      CARDS VENTAS      ********************/
 /******************************************************/
@@ -854,9 +858,12 @@ h2 {
     position: relative;
 }
 
+/******************************************************/
+/**********   FIN DOTS CALENDAR    ********************/
+/******************************************************/
 /* * MENSAJES VALIDACION IMPUTS */
 
-.msj_validacion{
+.msj_validacion {
     font-size: 12px;
     /* color: red; */
     font-family: cursive;
@@ -869,7 +876,7 @@ h2 {
     height: 300px;
     /* width: 300px; */
     border-radius: 10px;
-    box-shadow: 4px 4px 30px rgba(0, 0, 0, .2);
+    box-shadow: 4px 4px 30px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -880,28 +887,28 @@ h2 {
 }
 
 .header_upload {
-flex: 1;
-width: 100%;
-border: 2px dashed #009071;
-border-radius: 10px;
-display: flex;
-align-items: center;
-justify-content: center;
-flex-direction: column;
+    flex: 1;
+    width: 100%;
+    border: 2px dashed #009071;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    cursor: pointer;
 }
 
 .header_upload svg {
-height: 100px;
+    height: 100px;
 }
 
 .header_upload p {
-text-align: center;
-color: #009071;
+    text-align: center;
+    color: #009071;
 }
 
-
 #file {
-display: none;
+    display: none;
 }
 
 /* * PROTOTIPE COMENTS */
@@ -915,84 +922,83 @@ display: none;
     box-shadow: 1em 1em 1em #d8dae0b1, -0.75em -0.75em 1em #ffffff;
     border: 1.5px solid #f2f3f7;
     margin-bottom: 20px;
-
 }
 
 .card_comentario:hover {
-background-color: #d3ddf1;
-border: 1.5px solid #1677ff;
+    background-color: #d3ddf1;
+    border: 1.5px solid #1677ff;
 }
 
 .container_comentario {
-margin-top: 1.25em;
-margin-bottom: 1.375em;
-margin-left: 1.375em;
-margin-right: 2em;
-display: flex;
-flex-direction: row;
-gap: 0.75em;
+    margin-top: 1.25em;
+    margin-bottom: 1.375em;
+    margin-left: 1.375em;
+    margin-right: 2em;
+    display: flex;
+    flex-direction: row;
+    gap: 0.75em;
 }
 
 .status-ind {
-width: 0.625em;
-height: 0.625em;
-background-color: #ff0000;
-margin: 0.375em 0;
-border-radius: 0.5em;
+    width: 0.625em;
+    height: 0.625em;
+    background-color: #ff0000;
+    margin: 0.375em 0;
+    border-radius: 0.5em;
 }
 
 .text-wrap {
-display: flex;
-flex-direction: column;
-gap: 0.25em;
-color: #333;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+    color: #333;
 }
 
 .time {
-font-size: 0.875em;
-color: #777;
+    font-size: 0.875em;
+    color: #777;
 }
 
 .text-link {
-font-weight: 500;
-text-decoration: none;
-color: black;
+    font-weight: 500;
+    text-decoration: none;
+    color: black;
 }
 
 .button-wrap {
-display: flex;
-flex-direction: row;
-gap: 1em;
-align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: center;
 }
 
 .secondary-cta {
-background-color: transparent;
-border: none;
-font-size: 15px;
-font-weight: 400;
-color: #666;
-cursor: pointer;
+    background-color: transparent;
+    border: none;
+    font-size: 15px;
+    font-weight: 400;
+    color: #666;
+    cursor: pointer;
 }
 
-.primary-cta{
-font-size: 15px;
-background-color: transparent;
-font-weight: 600;
-color: #1677ff;
-border: none;
-border-radius: 1.5em;
-cursor: pointer;
+.primary-cta {
+    font-size: 15px;
+    background-color: transparent;
+    font-weight: 600;
+    color: #1677ff;
+    border: none;
+    border-radius: 1.5em;
+    cursor: pointer;
 }
 
 button:hover {
-text-decoration: underline;
+    text-decoration: underline;
 }
 
 .right {
-display: flex;
-flex-direction: column;
-gap: 0.875em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875em;
 }
 
 #content_comentario {
@@ -1001,3 +1007,102 @@ gap: 0.875em;
     overflow-y: auto; /* Añadir barra de desplazamiento vertical */
     padding: 10px; /* Espaciado interno para mejor apariencia */
 }
+
+.header_upload svg {
+    height: 100px;
+}
+
+.header_upload p {
+    text-align: center;
+    color: #009071;
+}
+
+.file_upload_brummy {
+    display: none;
+}
+
+/******************************************************/
+/**********         CHECKBOS       ********************/
+/******************************************************/
+
+.checkbox-wrapper-46 input[type="checkbox"] {
+    display: none;
+    visibility: hidden;
+}
+
+.checkbox-wrapper-46 .cbx {
+    margin: auto;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
+.checkbox-wrapper-46 .cbx span {
+    display: inline-block;
+    vertical-align: middle;
+    transform: translate3d(0, 0, 0);
+}
+.checkbox-wrapper-46 .cbx span:first-child {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    transform: scale(1);
+    vertical-align: middle;
+    border: 1px solid #9098a9;
+    transition: all 0.2s ease;
+}
+.checkbox-wrapper-46 .cbx span:first-child svg {
+    position: absolute;
+    top: 3px;
+    left: 2px;
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 16px;
+    stroke-dashoffset: 16px;
+    transition: all 0.3s ease;
+    transition-delay: 0.1s;
+    transform: translate3d(0, 0, 0);
+}
+.checkbox-wrapper-46 .cbx span:first-child:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: #009071;
+    display: block;
+    transform: scale(0);
+    opacity: 1;
+    border-radius: 50%;
+}
+.checkbox-wrapper-46 .cbx span:last-child {
+    padding-left: 8px;
+}
+.checkbox-wrapper-46 .cbx:hover span:first-child {
+    border-color: #009071;
+}
+
+.checkbox-wrapper-46 .inp-cbx:checked + .cbx span:first-child {
+    background: #009071;
+    border-color: #009071;
+    animation: wave-46 0.4s ease;
+}
+.checkbox-wrapper-46 .inp-cbx:checked + .cbx span:first-child svg {
+    stroke-dashoffset: 0;
+}
+.checkbox-wrapper-46 .inp-cbx:checked + .cbx span:first-child:before {
+    transform: scale(3.5);
+    opacity: 0;
+    transition: all 0.6s ease;
+}
+
+@keyframes wave-46 {
+    50% {
+        transform: scale(0.9);
+    }
+}
+
+/******************************************************/
+/**********         CHECKBOS       ********************/
+/******************************************************/

@@ -1,6 +1,8 @@
 $(document).ready(() => {
     preloader.hide();
 
+    $("#timepicker").mdtimepicker({ format: "hh:mm" });
+
     let myCalendar = jsCalendar.new("#calendar", "now", {
         language: "es",
         dayFormat: "DD",
@@ -169,14 +171,16 @@ $(document).ready(() => {
                 
                                                 <div class="coolinput">
                                                     <label for="fechaCita" class="text">Fecha:</label>
-                                                    <input name="Fecha" type="date" class="input obligatorio" id="fechaCita" autocomplete="off" maxlength"50"/>
+                                                    <!-- <input name="Fecha" type="date" class="input obligatorio" id="fechaCita" autocomplete="off" maxlength"50"/> -->
+                                                    <input name="Fecha" type="text" class="input obligatorio" id="fechaCita" autocomplete="off" />
                                                 </div>
                 
                                                 <div class="coolinput">
                                                     <label for="horaCita" class="text">Hora:</label>
-                                                    <input name="Hora" type="time" class="input obligatorio" id="horaCita" autocomplete="off" maxlength"50"/>
+                                                    <!-- <input name="Hora" type="time" class="input obligatorio" id="horaCita" autocomplete="off" maxlength"50"/> -->
+                                                    <input type="text" name="Hora" class="input obligatorio" id="horaCita" autocomplete="off"/>
                                                 </div>
-                
+
                                                 <div class="coolinput">
                                                     <label for="motivoCita" class="text">Motivo de Cita:</label>
                                                     <select class="input capitalize obligatorio" name="Motivo Cita" id="motivoCita" style="background-color: rgb(255, 255, 255);width:100%;">
@@ -187,6 +191,47 @@ $(document).ready(() => {
                                                 <div class="coolinput">
                                                     <label for="comentariosCita" class="text">Comentarios:</label>
                                                     <input name="Comentarios" type="text" class="input capitalize" id="comentariosCita" autocomplete="off" maxlength"50"/>
+                                                </div>
+
+                                                <div class="checkbox-wrapper-46" style="margin: 22px 0px 12px 8px;">
+                                                    <input type="checkbox" id="cbx-46" class="inp-cbx" onchange="muestraDomicilio()"/>
+                                                    <label for="cbx-46" class="cbx">
+                                                        <span style="transform: scale(1.3);">
+                                                            <svg viewBox="0 0 12 10" height="10px" width="12px">
+                                                                <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                                                            </svg>
+                                                        </span>
+                                                        <span>¿Es Servicio a domicilio?</span>
+                                                    </label>
+                                                </div>
+
+                                                <div id="div_servicioDomicilio" style="display: none;padding: 10px;margin: 10px 0px;" class="card2">
+                                                    <div class="coolinput">
+                                                        <label name="Calle" for="direccionVete" class="text">Calle</label>
+                                                        <input name="Calle" type="text" class="input capitalize" id="calleDomi_input" autocomplete="off" />
+                                                    </div>
+                                                    <div style="display:flex; flex-direction: row;">
+                                                        <div class="coolinput">
+                                                            <label name="Número" for="direccionVete" class="text">Número</label>
+                                                            <input name="Número" type="text" class="input capitalize" id="numeroDomi_input" autocomplete="off" />
+                                                        </div>
+                                                        <div class="coolinput" style="margin-left: 20px;">
+                                                            <label name="C.P." for="direccionVete" class="text">C.P.</label>
+                                                            <input name="C.P." type="text" class="input capitalize" id="cpDomi_input" autocomplete="off" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="coolinput">
+                                                        <label name="Col." for="direccionVete" class="text">Col.</label>
+                                                        <input name="Col." type="text" class="input capitalize" id="colDomi_input" autocomplete="off" />
+                                                    </div>
+                                                    <div class="coolinput">
+                                                        <label name="Municipio" for="direccionVete" class="text">Municipio/Alcaldía</label>
+                                                        <input name="Municipio" type="text" class="input capitalize" id="municipioDomi_input" autocomplete="off" />
+                                                    </div>
+                                                    <div class="coolinput">
+                                                        <label name="Estado" for="direccionVete" class="text">Estado</label>
+                                                        <input name="Estado" type="text" class="input capitalize" id="estadoDomi_input" autocomplete="off" />
+                                                    </div>
                                                 </div>
                 
                                             </div>
@@ -220,6 +265,16 @@ $(document).ready(() => {
                                         $("#motivoCita").select2({
                                             dropdownParent: $("#modalTemplate"),
                                         });
+
+                                        $("#horaCita").mdtimepicker({
+                                            timeFormat: "hh:mm:ss", // format of the time value (data-time attribute)
+                                            format: "hh:mm", // format of the input value
+                                            theme: "blue", // theme of the timepicker
+                                            clearBtn: true, // determines if clear button is visible
+                                            is24hour: true, // determines if the clock will use 24-hour format in the UI; format config will be forced to `hh:mm` if not specified
+                                        });
+
+                                        $("#fechaCita").duDatepicker({ format: "dd-mm-yyyy", clearBtn: true, cancelBtn: true });
 
                                         $("#nombreCita").change(() => {
                                             let FK_dueno = $("#nombreCita").val();
@@ -268,12 +323,20 @@ $(document).ready(() => {
                                                             "error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown
                                                         );
                                                     });
+                                                getDireecionCliente(FK_dueno);
                                             } else {
                                                 $("#nombreMascota").html(`<option value="">Selecciona una opción</option>`);
                                                 $("#nombreMascota").select2({
                                                     dropdownParent: $("#modalTemplate"),
                                                 });
                                                 $("#nombreMascota").trigger("change");
+
+                                                $("#calleDomi_input").val("");
+                                                $("#numeroDomi_input").val("");
+                                                $("#cpDomi_input").val("");
+                                                $("#colDomi_input").val("");
+                                                $("#municipioDomi_input").val("");
+                                                $("#estadoDomi_input").val("");
                                             }
                                         });
 
@@ -307,6 +370,33 @@ $(document).ready(() => {
                 msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                 console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
             });
+    });
+
+    $("#irHoy").click(() => {
+        let dateOld = $("#fechaActual").val();
+        let monthOld = dateOld.split("-")[1];
+        let yearOld = dateOld.split("-")[2];
+        let dateSelected;
+        let year = new Date().toLocaleDateString("es-MX", { year: "numeric" });
+        let month = new Date().toLocaleDateString("es-MX", {
+            month: "2-digit",
+        });
+        let day = new Date().toLocaleDateString("es-MX", { day: "2-digit" });
+
+        dateSelected = day + "-" + month + "-" + year;
+        myCalendar.set(dateSelected);
+        $("#fechaActual").val(dateSelected);
+        if (monthOld != month || yearOld != year) {
+            cargaEventosMes(dateSelected);
+        }
+        recargaEventosDay(dateSelected);
+        let nuevaFecha = new Date();
+
+        const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+
+        let fechaText = nuevaFecha.toLocaleDateString("es-MX", options);
+
+        $("#tnAcordionCalendar").html(fechaText);
     });
 });
 
@@ -367,7 +457,9 @@ function recargaEventosDay(oldFecha) {
                     } else {
                         let html = "",
                             colorText = "",
-                            TextEstatus = "";
+                            TextEstatus = "",
+                            temperamento = "",
+                            indicadorCliente = "";
                         result.forEach((data, index) => {
                             TextEstatus = "";
                             if (data.estatus == 1) {
@@ -384,6 +476,22 @@ function recargaEventosDay(oldFecha) {
                                 colorText = "#FFAF00";
                             }
 
+                            if (data.temperamento == "verde") {
+                                temperamento = `#27AE60`;
+                            } else if (data.temperamento == "amarilo") {
+                                temperamento = `#ffb02e`;
+                            } else if (data.temperamento == "rojo") {
+                                temperamento = `#ff0300`;
+                            }
+
+                            if (data.indicadorCliente == "verde") {
+                                indicadorCliente = `#27AE60`;
+                            } else if (data.indicadorCliente == "amarilo") {
+                                indicadorCliente = `#ffb02e`;
+                            } else if (data.indicadorCliente == "rojo") {
+                                indicadorCliente = `#ff0300`;
+                            }
+
                             html += `
                             <div class="row mt-3">
                                 <div class="col-md-12 mb-0" style="padding: 0;">
@@ -392,8 +500,11 @@ function recargaEventosDay(oldFecha) {
                                             <div class="row">
                                                 <div class="col-md-8 my-2"> 
                                                     <div class="row">
-                                                        <div class="col-md-12 my-2"> <h4 class="card-title">
-                                                        ${data.nombreCita} Y  ${data.nombreMascota} </h4> <div> ${TextEstatus} </div></div>
+                                                        <div class="col-md-12 my-2"> <h4 class="card-title" style="vertical-align: middle;display: flex;align-items: center;">
+                                                        <div> <span class="material-icons" style="font-size: 18px;color: ${indicadorCliente}; margin-left: 5px; margin-right: 5px;"> fiber_manual_record </span> </div>
+                                                        ${data.nombreCita} Y  ${
+                                data.nombreMascota
+                            } <div> <span class="material-icons" style="font-size: 18px;color: ${temperamento}; margin-left: 5px;"> fiber_manual_record </span> </div> </h4> <div> ${TextEstatus} </div></div>
                                                         <div class="col-md-12 my-2"> <span class="capitalize"> ${
                                                             String(data.comentariosCita).trim()
                                                                 ? String(data.comentariosCita).trim()
@@ -408,30 +519,24 @@ function recargaEventosDay(oldFecha) {
                                                     <div style="display: flex;margin-bottom: 12px;"> <span class="material-icons" style="margin-right: 15px;color: #0277bd;"> checklist </span> <strong class="capitalize" style="font-weight: 500;"> ${String(
                                                         data.motivoCita
                                                     ).trim()} </strong> </div> 
-                                                    <div class="col-md-4 my-0"> 
-                                                        <div class="buttom-blue buttom" onclick="marcarCita(${data.ID})">
-                                                            <span class="text-sm mb-0">Acciones <i class="material-icons"> date_range </i></span>
-                                                        </div>    
+                                                    <div class="my-0" style="display: flex;"> 
+                                                        <div class="buttom-blue buttom" onclick="marcarCita(${data.ID})" style="margin-right: 10px;">
+                                                            <span class="text-sm mb-0"> <i class="material-icons" style="margin-left: 0;"> date_range </i></span>
+                                                        </div>
+                                                        <div class="buttom-green buttom" onclick="generarLinkEncuesta(${
+                                                            data.ID
+                                                        })" style="margin-right: 10px;">
+                                                            <span class="text-sm mb-0"> <i class="material-icons" style="margin-left: 0;"> link </i></span>
+                                                        </div>
                                                     </div>
+                                                    <input id="foo_${data.ID}" value="" style="opacity: 0;height: 0;">
+                                                    <button class="btn" data-clipboard-target="#foo_${data.ID}" id="btn_foo_${
+                                data.ID
+                            }" style="height: 0;padding: 0;opacity: 0;"></button>
+                                                    <input type="hidden" id="input_FK_mascota_${data.ID}" value="${data.FKnombreMascota}" />
+                                                    <input type="hidden" id="input_nombre_${data.ID}" value="${data.nombreMascota}" />
                                                 </div>
                                             </div>
-                                            <!-- <div class="row">
-                                                <div class="col-md-4 my-2"> 
-                                                    <div class="buttom-green buttom" onclick="AtendidiaCita(${data.ID})">
-                                                        <span class="text-sm mb-0">Atendidia <i class="material-icons"> check_circle </i></span>
-                                                    </div> 
-                                                </div>
-                                                <div class="col-md-4 my-2"> 
-                                                    <div class="buttom-blue buttom" onclick="ReagendarCita(${data.ID})">
-                                                        <span class="text-sm mb-0">Reagendar <i class="material-icons"> date_range </i></span>
-                                                    </div>    
-                                                </div>
-                                                <div class="col-md-4 my-2"> 
-                                                    <div class="buttom-red buttom" onclick="CancelarCita(${data.ID})">
-                                                        <span class="text-sm mb-0">Cancelar <i class="material-icons"> cancel </i></span>
-                                                    </div>    
-                                                </div>
-                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -439,6 +544,7 @@ function recargaEventosDay(oldFecha) {
                         });
                         $("#divEventos").html(html);
                         preloader.hide();
+                        new ClipboardJS(".btn");
                     }
                     break;
                 case false:
@@ -542,8 +648,8 @@ function guardarEstausCita(ID) {
     let estatus = $("#newEstatusCita").val();
     let flagEstatus = String($("#newEstatusCita").find("option:selected").text());
     let comentariosAdicionales = String($("#comentariosAdicionales").val()).trim();
-
-    console.log(estatus, flagEstatus, comentariosAdicionales);
+    let FK_mascota = $("#input_FK_mascota_" + ID).val();
+    let nombre = $("#input_nombre_" + ID).val();
 
     $.ajax({
         method: "POST",
@@ -554,6 +660,8 @@ function guardarEstausCita(ID) {
             flagEstatus,
             comentariosAdicionales,
             ID,
+            FK_mascota,
+            nombre,
         },
     })
         .done(function (results) {
@@ -594,7 +702,7 @@ function validacioesCita() {
 
     if (valido) {
         preloader.show();
-        let fechaCita = $("#fechaCita").val();
+        let fechaCita = volteaFecha($("#fechaCita").val(), 2);
         let horaCita = $("#horaCita").val();
 
         if ($("#fechaCita").val() < fecha_actual_format) {
@@ -602,6 +710,26 @@ function validacioesCita() {
             msj.show("Aviso", "La fecha de la cita no puede ser menor a la actual", [{ text1: "OK" }]);
             preloader.hide();
             return false;
+        }
+
+        if ($("#cbx-46").prop("checked")) {
+            let calleDomi = String($("#calleDomi_input").val()).trim();
+            let numeroDomi = String($("#numeroDomi_input").val()).trim();
+            let cpDomi = String($("#cpDomi_input").val()).trim();
+            let colDomi = String($("#colDomi_input").val()).trim();
+            let municipioDomi = String($("#municipioDomi_input").val()).trim();
+            let estadoDomi = String($("#estadoDomi_input").val()).trim();
+
+            calleDomi.replaceAll("'", '"');
+            numeroDomi.replaceAll("'", '"');
+            cpDomi.replaceAll("'", '"');
+            colDomi.replaceAll("'", '"');
+            municipioDomi.replaceAll("'", '"');
+            estadoDomi.replaceAll("'", '"');
+
+            if (!calleDomi || !numeroDomi || !cpDomi || !colDomi || !municipioDomi || !estadoDomi) {
+                return false;
+            }
         }
 
         $.ajax({
@@ -669,11 +797,35 @@ function guardarCita() {
     let nombreCita = String($("#nombreCita").find("option:selected").text());
     let FKnombreMascota = $("#nombreMascota").val();
     let nombreMascota = String($("#nombreMascota").find("option:selected").text());
-    let fechaCita = $("#fechaCita").val();
+    let fechaCita = volteaFecha($("#fechaCita").val(), 2);
     let horaCita = $("#horaCita").val();
     let motivoCita = $("#motivoCita").find("option:selected").text();
     let comentariosCita = String($("#comentariosCita").val());
     let FKMotivo = $("#motivoCita").val();
+
+    let calleDomi = "";
+    let numeroDomi = "";
+    let cpDomi = "";
+    let colDomi = "";
+    let municipioDomi = "";
+    let estadoDomi = "";
+    let domicilio = 0;
+    if ($("#cbx-46").prop("checked")) {
+        domicilio = 1;
+        calleDomi = String($("#calleDomi_input").val()).trim();
+        numeroDomi = String($("#numeroDomi_input").val()).trim();
+        cpDomi = String($("#cpDomi_input").val()).trim();
+        colDomi = String($("#colDomi_input").val()).trim();
+        municipioDomi = String($("#municipioDomi_input").val()).trim();
+        estadoDomi = String($("#estadoDomi_input").val()).trim();
+
+        calleDomi.replaceAll("'", '"');
+        numeroDomi.replaceAll("'", '"');
+        cpDomi.replaceAll("'", '"');
+        colDomi.replaceAll("'", '"');
+        municipioDomi.replaceAll("'", '"');
+        estadoDomi.replaceAll("'", '"');
+    }
 
     nombreCita.replaceAll("'", '"');
     nombreMascota.replaceAll("'", '"');
@@ -695,6 +847,13 @@ function guardarCita() {
             motivoCita,
             comentariosCita,
             FKMotivo,
+            calleDomi,
+            numeroDomi,
+            cpDomi,
+            colDomi,
+            municipioDomi,
+            estadoDomi,
+            domicilio,
         },
     })
         .done(function (results) {
@@ -734,4 +893,96 @@ function cargaBolitasCalendar() {
             );
         }
     });
+}
+
+function generarLinkEncuesta(ID) {
+    preloader.show();
+    $.ajax({
+        method: "POST",
+        dataType: "JSON",
+        url: "./views/citas/generarLinkEncuesta.php",
+        data: {
+            ID,
+        },
+    })
+        .done(function (results) {
+            let success = results.success;
+            let result = results.result;
+            switch (success) {
+                case true:
+                    preloader.hide();
+                    let data = window.btoa(`data#-${ID}`);
+                    let url = getCurrentURL() + "/Brummy/pages/encuesta/index.php?data=" + data;
+                    $(`#foo_${ID}`).val(url);
+                    setTimeout(function () {
+                        $(`#btn_foo_${ID}`).trigger("click");
+                        msj.show("Aviso", "URL Copiada correctamente", [{ text1: "OK" }]);
+                    }, 1500);
+                    break;
+                case false:
+                    preloader.hide();
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            preloader.hide();
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+            console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
+}
+
+function muestraDomicilio() {
+    if ($("#cbx-46").prop("checked")) {
+        $("#div_servicioDomicilio").css("display", "block");
+    } else {
+        $("#div_servicioDomicilio").css("display", "none");
+    }
+}
+
+function getDireecionCliente(FK_dueno) {
+    $.ajax({
+        method: "POST",
+        dataType: "JSON",
+        url: "./views/clientes/getDireecionCliente.php",
+        data: { FK_dueno },
+    })
+        .done(function (results) {
+            let success = results.success;
+            let result = results.result;
+            let html2 = "<option value=''> Selecciona una opción </option>";
+            switch (success) {
+                case true:
+                    if (result == "Sin Datos") {
+                        preloader.hide();
+                        $("#calleDomi_input").val("");
+                        $("#numeroDomi_input").val("");
+                        $("#cpDomi_input").val("");
+                        $("#colDomi_input").val("");
+                        $("#municipioDomi_input").val("");
+                        $("#estadoDomi_input").val("");
+                    } else {
+                        result.forEach((data, index) => {
+                            $("#calleDomi_input").val(data.calle);
+                            $("#numeroDomi_input").val(data.numero);
+                            $("#cpDomi_input").val(data.cp);
+                            $("#colDomi_input").val(data.col);
+                            $("#municipioDomi_input").val(data.municipio);
+                            $("#estadoDomi_input").val(data.estado);
+                        });
+
+                        preloader.hide();
+                    }
+                    break;
+                case false:
+                    preloader.hide();
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            preloader.hide();
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+            console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
 }

@@ -23,27 +23,41 @@ function obtenerMascotas() {
                         preloader.hide();
                     } else {
                         dataTableDestroy();
-                        let html;
+                        let temperamento = "";
                         let tdSinData = `<span class='material-icons'> remove </span> &nbsp; <span class='material-icons'> remove </span>`;
                         result.forEach((data, index) => {
+                            if (data.temperamentoMascota == "verde") {
+                                temperamento = `#27AE60`;
+                            } else if (data.temperamentoMascota == "amarilo") {
+                                temperamento = `#ffb02e`;
+                            } else if (data.temperamentoMascota == "rojo") {
+                                temperamento = `#ff0300`;
+                            } else {
+                                temperamento = `#FFFFFF`;
+                            }
                             html += `<tr>
-                                <td>${index + 1}</td>
+                                <td> ${index + 1} </td>
+                                <td> <span class="material-icons" style="font-size: 18px;color: ${temperamento}"> fiber_manual_record </span> </td>
                                 <td class="capitalize"> 
                                     <div> 
                                         <div><span>${data.nombre}</span></div> 
                                         <div><span>${data.especie} - ${data.raza}</span></div> 
                                     </div> 
                                 </td>
-                                <td>${data.NombreCliente}</td>
+                                <td class="capitalize">${data.NombreCliente}</td>
                                 <td>${data.fechaNacimiento}</td>
                                 <td>${data.sexo}</td>
                                 <td>${data.color ? data.color : tdSinData}</td>
-                                <td><div> <div>${volteaFecha(String(data.fechaUlmitoMovimiento).split(" ")[0], 1)} ${String(String(data.fechaUlmitoMovimiento).split(" ")[1]).split(":")[0]
-                                }:${String(String(data.fechaUlmitoMovimiento).split(" ")[1]).split(":")[1]}</div> <div>${data.motivoMovimiento
-                                }</div> </div></td>
+                                <td><div> <div>${volteaFecha(String(data.fechaUlmitoMovimiento).split(" ")[0], 1)} ${
+                                String(String(data.fechaUlmitoMovimiento).split(" ")[1]).split(":")[0]
+                            }:${String(String(data.fechaUlmitoMovimiento).split(" ")[1]).split(":")[1]}</div> <div>${
+                                data.motivoMovimiento
+                            }</div> </div></td>
                                 <td>
                                     <div style="display: flex; flex-direction: row;">
-                                        <div class="buttom-blue buttom button-sinText mx-1" title="Ver Perfil" onclick="verMascota(${data.ID} , ${data.FK_dueno})">
+                                        <div class="buttom-blue buttom button-sinText mx-1" title="Ver Perfil" onclick="verMascota(${data.ID} , ${
+                                data.FK_dueno
+                            })">
                                             <span class="text-sm mb-0"><i class="material-icons"> pets </i></span>
                                         </div>
                                     </div>
@@ -152,6 +166,17 @@ function crearMascota() {
                                                             ${html3}
                                                         </select>
                                                     </div>
+
+                                                    <div class="coolinput">
+                                                        <label for="temperamentoMascota" class="text">Temperamento Mascota</label>
+                                                        <select class="input capitalize obligatorio" name="Temperamento Mascota" id="temperamentoMascota" style="background-color: rgb(255, 255, 255);width:100%;">
+                                                            <option value="">Selecciona una opción</option>
+                                                            <option value="verde">&#129001;</option>
+                                                            <option value="amarilo">&#129000;</option>
+                                                            <option value="rojo">&#128997;</option>
+                                                        </select>
+                                                    </div>
+
                                                     <br>
                                                     <div class="coolinput">
                                                         <div class="container_upload"> 
@@ -160,17 +185,16 @@ function crearMascota() {
                                                                 <path d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 15.4806 20.1956 16.8084 19 17.5M7 10C4.79086 10 3 11.7909 3 14C3 15.4806 3.8044 16.8084 5 17.5M7 10C7.43285 10 7.84965 10.0688 8.24006 10.1959M12 12V21M12 12L15 15M12 12L9 15" stroke="#009071" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> <p>Adjuntar una foto de la mascota!</p>
                                                             </div> 
                                                             <input id="file" type="file"> 
-                                                            </div>
+                                                        </div>
                                                     </div>
 
-                                                </div>
-
-                                                <div class="center-fitcomponent" style="width: 100%;">
-                                                    <div class="buttom-blue buttom" style="margin-left: auto;margin-right: auto;" onclick="guardarMascota();">
-                                                        <span class="text-sm mb-0 span-buttom">
-                                                            Guardar
-                                                            <i class="material-icons"> save </i>
-                                                        </span>
+                                                    <div class="center-fitcomponent" style="width: 100%;">
+                                                        <div class="buttom-blue buttom" style="margin-left: auto;margin-right: auto;" onclick="guardarMascota();">
+                                                            <span class="text-sm mb-0 span-buttom">
+                                                                Guardar
+                                                                <i class="material-icons"> save </i>
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             `);
@@ -239,6 +263,7 @@ function guardarMascota() {
         let color = String($("#colorMascota").val());
         let rasgosParticulares = String($("#rasgosMascota").val());
         let FK_dueno = String($("#FK_dueno").val());
+        let temperamentoMascota = $("#temperamentoMascota").val();
 
         nombre.replaceAll("'", '"');
         fechaNacimiento.replaceAll("'", '"');
@@ -256,7 +281,7 @@ function guardarMascota() {
             method: "POST",
             dataType: "JSON",
             url: "./views/mascotas/guardarMascota.php",
-            data: { nombre, fechaNacimiento, FK_especie, especie, raza, FK_raza, sexo, color, rasgosParticulares, FK_dueno },
+            data: { nombre, fechaNacimiento, FK_especie, especie, raza, FK_raza, sexo, color, rasgosParticulares, FK_dueno, temperamentoMascota },
         })
             .done(function (results) {
                 let success = results.success;
@@ -290,7 +315,7 @@ function guardarMascota() {
     }
 }
 
-function verMascota(ID , FK_dueno) {
+function verMascota(ID, FK_dueno) {
     localStorage.setItem("IDMascota", ID);
     localStorage.setItem("FK_dueno", FK_dueno);
     $("#contenido").load("templates/mascotas/perfilMascota.php", function (responseTxt, statusTxt, xhr) {
@@ -301,13 +326,11 @@ function verMascota(ID , FK_dueno) {
     obtenerComentarios();
 }
 
-
 function obtenerComentarios() {
-
     let id_mascota = localStorage.getItem("IDMascota");
 
     axios
-        .post("./views/mascotas/obtenerComentarios.php" , { ID : id_mascota})
+        .post("./views/mascotas/obtenerComentarios.php", { ID: id_mascota })
         .then((response) => {
             console.log(response);
             if (response.status === 200) {
@@ -336,7 +359,9 @@ function obtenerComentarios() {
                                             </div>
                                             <div class="button-wrap">
                                                 <button class="primary-cta" onClick ="eliminarComentarioMascota(${data.ID})" >Eliminar</button>
-                                                <button class="secondary-cta" onClick ='editarComentarioMascota(${data.ID} , ${JSON.stringify(data.redaccion)})' >Editar</button>
+                                                <button class="secondary-cta" onClick ='editarComentarioMascota(${data.ID} , ${JSON.stringify(
+                                    data.redaccion
+                                )})' >Editar</button>
                                             </div>
                                         </div>
                                     </div>
@@ -345,7 +370,6 @@ function obtenerComentarios() {
                             });
 
                             $("#content_comentario").html(template_comentario);
-
                         }
                         break;
                     case false:
@@ -353,7 +377,6 @@ function obtenerComentarios() {
                         msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
                         break;
                 }
-
             }
         })
         .catch((error) => {
@@ -364,13 +387,12 @@ function obtenerComentarios() {
         })
         .finally(() => {
             // siempre sera ejecutado
-        })
+        });
 }
 
 function crearComentarioMascota() {
-
     $("#labelModal").html(`Agregar nuevo Comentario`);
-    
+
     $("#body_modal").html(`<br>
         <div id="formMascotas">
             <div class="coolinput">
@@ -403,136 +425,125 @@ function crearComentarioMascota() {
     });
 
     preloader.hide();
-
 }
 
 function guardarComentario() {
-
     let arr_data_form = {
-        'arr_components' : ['contenido_comentario'],
-        'arr_max_components' : [100 ],
-        'arr_min_components' : [10 ],
-        'arr_tipo_val' : ['str' ],
-        'arr_required' : [1 ],
-    }
+        arr_components: ["contenido_comentario"],
+        arr_max_components: [100],
+        arr_min_components: [10],
+        arr_tipo_val: ["str"],
+        arr_required: [1],
+    };
 
     let resp_val_form = validarCaracteresForm(arr_data_form);
 
     console.log(resp_val_form);
 
-    if(!resp_val_form){ console.log("No paso filtro validacion formulario"); return false; }
+    if (!resp_val_form) {
+        console.log("No paso filtro validacion formulario");
+        return false;
+    }
 
     const ID_MASCOTA = localStorage.getItem("IDMascota");
     const FK_dueno = localStorage.getItem("FK_dueno");
     const contenido_comentario = $("#contenido_comentario").val();
 
     let arr_data = {
-        ID_MASCOTA  : ID_MASCOTA,
-        contenido_comentario : contenido_comentario,
-        FK_dueno : FK_dueno
+        ID_MASCOTA: ID_MASCOTA,
+        contenido_comentario: contenido_comentario,
+        FK_dueno: FK_dueno,
     };
 
     preloader.show();
 
     axios
-    .post("./views/mascotas/guardarComentario.php" , {arr_data : arr_data})
-    .then((response) => {
-        if (response.status == 200) {
-            let success = response.data.success;
-            let result = response.data.result;
-            
-            switch (success) {
-                case true:
-                    if (result == "error_execute_query") {
-                    } else {
-                        msj.show("Aviso", "Se registro el comentario correctamente", [{ text1: "OK" }]);
+        .post("./views/mascotas/guardarComentario.php", { arr_data: arr_data })
+        .then((response) => {
+            if (response.status == 200) {
+                let success = response.data.success;
+                let result = response.data.result;
+
+                switch (success) {
+                    case true:
+                        if (result == "error_execute_query") {
+                        } else {
+                            msj.show("Aviso", "Se registro el comentario correctamente", [{ text1: "OK" }]);
+                            preloader.hide();
+                            $("#modalTemplate").modal("hide");
+                            obtenerComentarios();
+                        }
+                        break;
+
+                    case false:
                         preloader.hide();
-                        $("#modalTemplate").modal("hide");
-                        obtenerComentarios();
-                    }
-                break;
-                
-                case false:
-                    preloader.hide();
-                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
-                break;
+                        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                        break;
 
-                default:
-                    // ocurrio algo raro
-                    break;
+                    default:
+                        // ocurrio algo raro
+                        break;
+                }
             }
-        }
-
-    })
-    .catch((error) => {
-        preloader.hide();
-        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
-        // console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
-        console.error("Ocurrio un error : " + error);
-    })
-    .finally(()=> {
-        // siempre se ejecuta
-    });
-
+        })
+        .catch((error) => {
+            preloader.hide();
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+            // console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+            console.error("Ocurrio un error : " + error);
+        })
+        .finally(() => {
+            // siempre se ejecuta
+        });
 }
 
 function eliminarComentarioMascota(id_comentario) {
-
     preloader.show();
 
     const FK_dueno = localStorage.getItem("FK_dueno");
 
     const arr_data = {
-        FK_dueno : FK_dueno,
-        id_comentario : id_comentario
+        FK_dueno: FK_dueno,
+        id_comentario: id_comentario,
     };
 
     axios
-    .post('./views/mascotas/eliminarComentarioMascota.php'  , {arr_data : arr_data})
-    .then((response)=> {
-
-        if (response.status == 200) {
-            let success = response.data.success;
-            let result = response.data.result;
-            switch (success) {
-                case true:
-                    console.info(2);
-                    if (result == "error_execute_query") {
-                    } else {
-                        msj.show("Aviso", "Se elimino el comentario correctamente", [{ text1: "OK" }]);
+        .post("./views/mascotas/eliminarComentarioMascota.php", { arr_data: arr_data })
+        .then((response) => {
+            if (response.status == 200) {
+                let success = response.data.success;
+                let result = response.data.result;
+                switch (success) {
+                    case true:
+                        console.info(2);
+                        if (result == "error_execute_query") {
+                        } else {
+                            msj.show("Aviso", "Se elimino el comentario correctamente", [{ text1: "OK" }]);
+                            preloader.hide();
+                            obtenerComentarios();
+                        }
+                        break;
+                    case false:
                         preloader.hide();
-                        obtenerComentarios();
-                    }
-                break;
-                case false:
-                    preloader.hide();
-                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
-                break;
-                default:
-                break;
+                        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                        break;
+                    default:
+                        break;
+                }
             }
-        }
-
-    })
-    .catch((error) => {
-
-        preloader.hide();
-        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
-        // console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
-        console.error("Ocurrio un error : " + error);
-
-    })
-    .finally(() => {
-
-    })
-
+        })
+        .catch((error) => {
+            preloader.hide();
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+            // console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+            console.error("Ocurrio un error : " + error);
+        })
+        .finally(() => {});
 }
 
-
-function editarComentarioMascota(id_comentario , comentario_mascota) {
-
+function editarComentarioMascota(id_comentario, comentario_mascota) {
     $("#labelModal").html(`Editar Comentario`);
-    
+
     $("#body_modal").html(`<br>
         <div id="formMascotas">
             <div class="coolinput">
@@ -563,62 +574,49 @@ function editarComentarioMascota(id_comentario , comentario_mascota) {
         $("#modalTemplate").modal("hide");
         $("#btnClose").off("click");
     });
-    
 }
 
 function actualizarComentarioMascota(id_comentario) {
-
     let comentario_act = $("#contenido_comentario_update").val();
 
     const arr_data = {
-        comentario_act : comentario_act,
-        id_comentario : id_comentario
+        comentario_act: comentario_act,
+        id_comentario: id_comentario,
     };
 
     axios
-    .post('./views/mascotas/actualizarComentarioMascota.php' , { arr_data : arr_data})
-    .then((response) => {
+        .post("./views/mascotas/actualizarComentarioMascota.php", { arr_data: arr_data })
+        .then((response) => {
+            if (response.status == 200) {
+                let success = response.data.success;
+                let result = response.data.result;
 
-        if (response.status == 200) {
-            
-            let success = response.data.success;
-            let result = response.data.result;
+                switch (success) {
+                    case true:
+                        if (result) {
+                            if (result == "error_execute_query") {
+                            } else {
+                                msj.show("Aviso", "Se Actualizo el comentario correctamente", [{ text1: "OK" }]);
+                                preloader.hide();
+                                $("#modalTemplate").modal("hide");
+                                obtenerComentarios();
+                            }
+                        }
 
-            switch (success) {
-                case true:
+                        break;
+                    case false:
+                        break;
 
-                if (result) {
-                    if (result == "error_execute_query") {
-                    } else {
-                        msj.show("Aviso", "Se Actualizo el comentario correctamente", [{ text1: "OK" }]);
-                        preloader.hide();
-                        $("#modalTemplate").modal("hide");
-                        obtenerComentarios();
-                    }
+                    default:
+                        break;
                 }
-                    
-                    break;
-                case false:
-                
-                break;
-            
-                default:
-                    break;
             }
-
-        }
-
-    })
-    .catch((error) => {
-        preloader.hide();
-        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
-        // console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
-        console.error("Ocurrio un error : " + error);
-    })
-    .finally(() => {
-
-    })
-
-
-
+        })
+        .catch((error) => {
+            preloader.hide();
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+            // console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+            console.error("Ocurrio un error : " + error);
+        })
+        .finally(() => {});
 }

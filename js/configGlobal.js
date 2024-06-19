@@ -338,12 +338,6 @@ function validarCaracteresForm(arr_data_form) {
         // console.log(arr_data_form.arr_required[index]);
     }
 
-    
-    // return msj;
-
-    // console.log(msj);
-
-
 }
 
 function ocultarMsjErrors(id_elemento , id_error) {
@@ -354,6 +348,37 @@ function ocultarMsjErrors(id_elemento , id_error) {
     console.log("ocultando el error : " + id_error);
 }
 
-// function fechaConFormato(fecha, formato) {
-    
-// }
+
+function getCurrentURL() {
+    return window.location.origin;
+}
+
+function obtenerFechaLarga(date) {
+    //* ejemplo se recibe 14-06-2024 o 2024-06-14
+    //* y devuelve '14 de junio de 2024'
+
+    let nuevaFecha = new Date(date);
+
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return nuevaFecha.toLocaleDateString("es-MX", options);
+}
+
+function CantidadConCommas(valor) {
+    let retorno = 0;
+    if (String(valor).includes(".")) {
+        let newValor = valor.split(".");
+        valor = String(newValor[0]).replaceAll(",", "");
+        let newValor2 = numberWithCommas(valor);
+        retorno = newValor2 + "." + newValor[1];
+    } else {
+        valor = String(valor).replaceAll(",", "");
+        let newValor = numberWithCommas(valor);
+        retorno = newValor;
+    }
+
+    return retorno;
+}
+
+function numberWithCommas(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

@@ -109,7 +109,6 @@ function obtenerEspecies() {
                         preloader.hide();
                     } else {
                         dataTableDestroy();
-                        let html;
                         result.forEach((data, index) => {
                             html += `<tr>
                                 <td>${index + 1}</td>
@@ -160,7 +159,6 @@ function obtenerRazas() {
                         preloader.hide();
                     } else {
                         dataTableDestroy();
-                        let html;
                         result.forEach((data, index) => {
                             html += `<tr>
                                 <td>${index + 1}</td>
@@ -429,7 +427,6 @@ function obtenerMotivos() {
                         preloader.hide();
                     } else {
                         dataTableDestroy();
-                        let html;
                         result.forEach((data, index) => {
                             html += `<tr>
                                 <td>${index + 1}</td>
@@ -606,7 +603,6 @@ function obtenerMotivosRechazo() {
                         preloader.hide();
                     } else {
                         dataTableDestroy();
-                        let html;
                         result.forEach((data, index) => {
                             html += `<tr>
                                 <td>${index + 1}</td>

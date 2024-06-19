@@ -8,6 +8,52 @@ namespace citas\citasModel;
     require_once ( __DIR__ . './../../conexion/dataBase.php' );
     class citasModel{ 
 
+        function InsertDomicilio($FKNombreCliente, $nombreCliente, $calle, $numero, $cp, $col, $municipio, $estado){
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $sql = "SELECT ID FROM domicilios_clientes WHERE FKNombreCliente = '$FKNombreCliente'";
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $rowcount=mysqli_num_rows($stmt);   
+                    if ( $rowcount ) {
+                        $FK_Usuario = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1;
+                        $nameUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
+                        
+                        $sql = "UPDATE domicilios_clientes SET nombreCliente = '$nombreCliente', calle = '$calle', numero = '$numero', cp = '$cp', col = '$col', municipio = '$municipio', estado = '$estado' 
+                        WHERE FKNombreCliente = $FKNombreCliente";
+
+                        try{
+                            $stmt = mysqli_query($conexion, $sql);
+                            if($stmt){
+
+                            }
+                        } catch (mysqli_sql_exception $e) { }
+                    } else{
+                        $FK_Usuario = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1;
+                        $nameUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
+                        
+                        $sql = "INSERT INTO domicilios_clientes (FKNombreCliente, nombreCliente, calle, numero, cp, col, municipio, estado, pais, estatus, FKUsuarioCrea, FlagUsuarioCrea) 
+                        VALUES ($FKNombreCliente, '$nombreCliente', '$calle', '$numero', '$cp', '$col', '$municipio', '$estado', 'México', 1, '$FK_Usuario', '$nameUsuario')";
+
+                        try{
+                            $stmt = mysqli_query($conexion, $sql);
+                            if($stmt){
+
+                            }
+                        } catch (mysqli_sql_exception $e) { }
+                    }
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+
+            mysqli_close( $conexion );
+        }
+
         function InsertHistoriaMascota($FK_mascota, $nombre, $FK_modulo, $nombreModulo, $motivo, $FK_Usuario, $nameUsuario, $ID_mov){
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
@@ -24,6 +70,9 @@ namespace citas\citasModel;
         }
 
         function obtenerEventosMes($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -55,6 +104,9 @@ namespace citas\citasModel;
         }
         
         function guardarCita($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -69,6 +121,14 @@ namespace citas\citasModel;
             $FKMotivo = $data['FKMotivo'];
             $fechaHoraCita = $data['fechaCita'].' '.$data['horaCita'];
 
+            $calle = $data['calleDomi'];
+            $numero = $data['numeroDomi'];
+            $cp = $data['cpDomi'];
+            $col = $data['colDomi'];
+            $municipio = $data['municipioDomi'];
+            $estado = $data['estadoDomi'];
+            $domicilio = $data['domicilio'];
+
             $sql = "INSERT INTO citas (FKnombreCita, nombreCita, FKnombreMascota, nombreMascota, fechaCita, horaCita, motivoCita, comentariosCita, FKMotivo, fechaHoraCita)
             VALUES ('$FKnombreCita', '$nombreCita', '$FKnombreMascota', '$nombreMascota', '$fechaCita', '$horaCita', '$motivoCita', '$comentariosCita', '$FKMotivo', '$fechaHoraCita')";
             try{
@@ -82,16 +142,19 @@ namespace citas\citasModel;
                             $rowcount=mysqli_num_rows($stmt);   
                             if ( $rowcount ) {
                                 while($row = mysqli_fetch_assoc($stmt)) {
-                                    $FK_mascota = $data['FKnombreCita'];
+                                    $FK_mascota = $data['FKnombreMascota'];
                                     $nombre = $data['nombreMascota'];
                                     $FK_modulo = 7;
                                     $nombreModulo = 'Citas';
                                     $motivo = 'Nueva Cita: '. $fechaCita. ' '.$horaCita;
-                                    $FK_Usuario = $_SESSION['ID_usuario'];
-                                    $nameUsuario = $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'];
+                                    $FK_Usuario = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1;
+                                    $nameUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
                                     $ID_mov = $row['ID'];
                                 }
                                 $this->InsertHistoriaMascota($FK_mascota, $nombre, $FK_modulo, $nombreModulo, $motivo, $FK_Usuario, $nameUsuario, $ID_mov);
+                                if($domicilio == 1){
+                                    $this->InsertDomicilio($FKnombreCita, $nombreCita, $calle, $numero, $cp, $col, $municipio, $estado);
+                                }
                             }
                         }
                     } catch (mysqli_sql_exception $e) { }
@@ -108,12 +171,15 @@ namespace citas\citasModel;
         }
 
         function obtenerEventos($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
             $fecha = $data['fecha'];
 
-            $sql = "SELECT * FROM citas WHERE fechaCita = '$fecha' ORDER BY horaCita";
+            $sql = "SELECT *, getTemperamentoMascota(FKnombreMascota) as temperamento, getIndicadorCliente(FKnombreCita) as indicadorCliente FROM citas WHERE fechaCita = '$fecha' ORDER BY horaCita";
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
@@ -139,6 +205,9 @@ namespace citas\citasModel;
         }
 
         function guardarEstausCita($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -146,12 +215,22 @@ namespace citas\citasModel;
             $estatus = $data['estatus'];
             $comentariosCita2 = $data['comentariosAdicionales'];
             $ID = $data['ID'];
-            
+
+            $FK_mascota = $data['FK_mascota'];
+            $nombre = $data['nombre'];
+
             $sql = "UPDATE citas SET flagEstatus = '$flagEstatus', estatus = '$estatus', comentariosCita2 = '$comentariosCita2' WHERE ID = $ID";
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
                     $result = array('success' => true, 'result' => 'Sin Datos');
+                    $FK_modulo = 7;
+                    $nombreModulo = 'Citas';
+                    $motivo = 'Cambio de estatus cita: A '.$flagEstatus.', '.$comentariosCita2;
+                    $FK_Usuario = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1;
+                    $nameUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
+
+                    $this->InsertHistoriaMascota($FK_mascota, $nombre, $FK_modulo, $nombreModulo, $motivo, $FK_Usuario, $nameUsuario, $ID);
                 } else {
                     $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
                 }
@@ -165,6 +244,9 @@ namespace citas\citasModel;
         }
   
         function validaCita($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+            
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -201,6 +283,53 @@ namespace citas\citasModel;
             mysqli_close( $conexion );
             $resultJson = json_encode( $result );
             return $resultJson;
+        }
+
+        function generarLinkEncuesta($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+            
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $ID = $data['ID'];
+
+            $sql = "SELECT ID FROM encuestaheader WHERE FKCita = {$ID}";
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $rowcount=mysqli_num_rows($stmt);   
+                    if ( $rowcount ) {
+                        while($row = mysqli_fetch_assoc($stmt)) {
+                            $array[] = $row;
+                        }
+                        $result = array('success' => true, 'result' => $array);
+                    } else{
+                        $sql = "INSERT INTO encuestaheader (FKCita) VALUES ({$ID})";
+                        try{
+                            $stmt = mysqli_query($conexion, $sql);
+                            if($stmt){
+                                $array[] = array(
+                                    'ID' => $ID
+                                );
+                                $result = array('success' => true, 'result' => $array);
+                            } else {
+                                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                            }
+                        } catch (mysqli_sql_exception $e) {
+                            $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+                        }
+                    }
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+            
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;   
         }
     }
 ?>

@@ -46,6 +46,8 @@ if( !$boolean_session ){
         <link rel="stylesheet" href="./libraries/datatables-1.12.1/jquery.dataTables.min.css" />
         <link rel="stylesheet" href="./libraries/datatables-1.12.1/responsive/2.3.0/responsive.dataTables.min.css" />
         <link rel="stylesheet" href="./libraries/jsCalendar/jsCalendar.min.css" />
+        <link rel="stylesheet" href="./libraries/mdtimepicker/mdtimepicker.css" />
+        <link rel="stylesheet" href="./libraries/duDatepicker/duDatepicker.css" />
     </head>
 
     <style>
@@ -59,7 +61,13 @@ if( !$boolean_session ){
             padding-top: 10px;
             padding-bottom: 10px;
         }
-        
+        .p_marquee{
+            color: #6c7383;
+            margin-top: 0;
+            font-weight: 500;
+            line-height: 1;
+            font-size: 1rem;
+        }
     </style>
     <body>
         <div class="modal modals fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
@@ -79,6 +87,7 @@ if( !$boolean_session ){
             </div>
         </div>
         <?php include_once('./templates/components/modalAlert.php'); ?>
+        <?php include_once('./templates/components/modal.php'); ?>
         <div class="container-scroller">
             <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row" style="user-select: none;">
                 <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
@@ -99,9 +108,12 @@ if( !$boolean_session ){
                 <div class="navbar-menu-wrapper d-flex align-items-top">
                     <ul class="navbar-nav">
                         <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-                            <h1 class="welcome-text">Hola!, <span class="text-black fw-bold"><?php echo $_SESSION['nombre']." ".$_SESSION['apellidoPaterno']; ?></span></h1>
+                            <h1 class="welcome-text" style="margin-right: 15px;text-wrap: nowrap;">Hola!, <span class="text-black fw-bold"><?php echo $_SESSION['nombre']." ".$_SESSION['apellidoPaterno']; ?></span></h1>
                         </li>
                     </ul>
+                    <div style="width: 100%;" id="texttMarquee">
+                        
+                    </div>
                     <ul class="navbar-nav ms-auto"></ul>
                     <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-bs-toggle="offcanvas" id="btnHideDash">
                         <span class="material-icons"> menu </span>
@@ -111,7 +123,7 @@ if( !$boolean_session ){
             <div class="container-fluid page-body-wrapper">
                 <nav class="sidebar sidebar-offcanvas" id="sidebar" style="position: fixed; user-select: none;">
                     <ul class="nav" id="navSide">
-                        <li class="nav-item">
+                        <li class="nav-item nav_item2">
                             <a class="nav-link" href="./dashboard.php">
                                 <span class="material-icons me-2"> dashboard </span>
                                 <span class="menu-title">Dashboard</span>
@@ -199,7 +211,14 @@ if( !$boolean_session ){
                                             <div class="col-md-6 grid-margin stretch-card">
                                                 <div class="card2 mb-2">
                                                     <div class="card-body">
-                                                        <h4 class="statistics-title">TOP 5 Productos más vendidos</h4>
+                                                    <div style="display: flex;flex-direction: row;align-items: center;width: 100%;">
+                                                            <h4 class="statistics-title">TOP 5 Productos más vendidos</h4>
+                                                            <div class="mb-2" style="display: flex;justify-content: end;margin: auto;">
+                                                                <div class="buttom-green buttom" onclick="reporteProductosVendidos()">
+                                                                    <span class="text-sm mb-0"> Exportar <i class="material-icons"> file_download </i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div id="div_citas">
                                                             <canvas id="bar-chart2" width="800" height="450"></canvas>
                                                         </div>
@@ -221,6 +240,20 @@ if( !$boolean_session ){
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div id="dataToExport" style="display:none;">
+                        <table  class="table table-bordered tableExport" data-cols-width="10,20,30">
+                            <thead thead class = "cabecerath">
+                                <tr>
+                                    <th data-f-bold="true" data-fill-color="ff91d2ff">#</th>
+                                    <th data-f-bold="true" data-fill-color="ff91d2ff">Nombre producto</th>
+                                    <th data-f-bold="true" data-fill-color="ff91d2ff">Cantidad</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyExportInventario">
+                                
+                            </tbody>
+                        </table>
                     </div>
                     <!-- content-wrapper ends -->
                     <footer class="footer">
@@ -259,7 +292,14 @@ if( !$boolean_session ){
         <script src="./libraries/jsCalendar/jsCalendar.lang.es.js"></script>
         <script src="./libraries/jsCalendar/jsCalendar.min.js"></script>
         <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script> -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="./libraries/ChartJS/Chart.min.js"></script>
+        <script src="./libraries/clipboard/clipboard.min.js"></script>
+        <script src="./libraries/mdtimepicker/mdtimepicker.js"></script>
+        <script src="./libraries/duDatepicker/duDatepicker.js"></script>
+        <script src="./libraries/exportExcel/tableToExcel.js"></script>
+        <script src="./libraries/exportExcel/zip.js"></script>
+        <script src="./libraries/exportExcel/xlsx.js"></script>
+        <script src="./libraries/exportExcel/xlsx.min.js"></script>
     </body>
 </html>

@@ -89,7 +89,7 @@ $(document).ready(() => {
 
                         if (data.ID_modulo != 1 && data.ID_modulo != 2) {
                             $("#navSide").append(`
-                                <li class="nav-item" id="${data.id_element}_li">
+                                <li class="nav-item nav_item2" id="${data.id_element}_li">
                                     <a class="nav-link tagAMenu" href="#" id="${data.id_element}" onclick="cargaTemplate(this.id, '${data.permiso}')">
                                         <span class="material-icons me-2"> ${data.icono} </span>
                                         <span class="menu-title">${data.titulo}</span>
@@ -134,6 +134,8 @@ $(document).ready(() => {
 });
 
 function cargaDataDash() {
+    cargaDataMarquee();
+
     $.ajax({
         method: "POST",
         dataType: "json",
@@ -146,7 +148,7 @@ function cargaDataDash() {
             switch (success) {
                 case true:
                     results.forEach((data, index) => {
-                        $("#gananciasDia").html(`$${Number(data.cuenta).toFixed(2)}`);
+                        $("#gananciasDia").html(`$ ${CantidadConCommas(Number(data.cuenta).toFixed(2))}`);
                         $("#citasAgendadasCita").html(`${Number(data.cuentaAgenda)}`);
                         $("#citasAtendidasDia").html(`${Number(data.cuentaAtendidas)}`);
                     });
@@ -178,17 +180,21 @@ function cargaDataDash() {
             let html = "";
             switch (success) {
                 case true:
-                    results.forEach((data, index) => {
-                        html += `
-                            <tr>
-                                <td>${Number(index + 1)}</td>
-                                <td>${data.nombreCita}</td>
-                                <td>${data.nombreMascota}</td>
-                            </tr>
-                        `;
-                    });
+                    if (results == "Sin Datos") {
+                        $("#bodyCitasDashbora").html(html);
+                    } else {
+                        results.forEach((data, index) => {
+                            html += `
+                                <tr>
+                                    <td>${Number(index + 1)}</td>
+                                    <td>${data.nombreCita}</td>
+                                    <td>${data.nombreMascota}</td>
+                                </tr>
+                            `;
+                        });
 
-                    $("#bodyCitasDashbora").html(html);
+                        $("#bodyCitasDashbora").html(html);
+                    }
 
                     break;
                 case false:
@@ -222,7 +228,7 @@ function cargaDataDash() {
                             <tr>
                                 <td>${Number(index + 1)}</td>
                                 <td>${data.FlagProducto}</td>
-                                <td>$${Number(data.total).toFixed(2)}</td>
+                                <td>$ ${CantidadConCommas(Number(data.total).toFixed(2))}</td>
                             </tr>
                         `;
                     });
@@ -329,13 +335,165 @@ function cargaDataDash() {
     });
 }
 
+function cargaDataMarquee() {
+    $.ajax({
+        method: "POST",
+        dataType: "json",
+        url: "views/avisos/obtenerAvisosToday.php",
+        data: {},
+    })
+        .done(function (result) {
+            let success = result.success;
+            let results = result.result;
+            let htmlAviso = "";
+            switch (success) {
+                case true:
+                    if (results == "Sin Datos") {
+                        $("#texttMarquee").html(
+                            `<marquee class="card2"><p class="p_marquee" style="padding-top: 15px;padding-bottom: 15px;margin-bottom: 0;">&nbsp;</p></marquee>`
+                        );
+                    } else {
+                        results.forEach((data, index) => {
+                            htmlAviso += data.aviso + `&emsp;- -&emsp;`;
+                        });
+
+                        htmlAviso = String(htmlAviso).slice(0, -9);
+                        $("#texttMarquee").html(
+                            `<marquee class="card2"><p class="p_marquee" style="padding-top: 15px;padding-bottom: 15px;margin-bottom: 0;">${htmlAviso}</p></marquee>`
+                        );
+                    }
+                    break;
+                case false:
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Aviso",
+                        text: "Algo salió mal.",
+                    });
+
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.log("accesoUsuarioView  - Server: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
+}
+
+function reporteProductosVendidos() {
+    $("#labelModal").html(`Reporte Productos más vendidos`);
+
+    $("#body_modal").html(`<br>
+        <div>
+            <div class="coolinput">
+                <label for="fechaReporteInicio" class="text">Fecha Inicio:</label>
+                <input name="Fecha" type="text" class="input obligatorio" id="fechaReporteInicio" autocomplete="off" />
+            </div>
+
+            <div class="coolinput">
+                <label for="fechaReporteFin" class="text">Fecha Fin:</label>
+                <input name="Fecha" type="text" class="input obligatorio" id="fechaReporteFin" autocomplete="off" />
+            </div>
+        </div>
+
+        <div class="center-fitcomponent" style="width: 100%;">
+            <div class="buttom-blue buttom" style="margin-left: auto;margin-right: auto;" onclick="generarReporteInventario();">
+                <span class="text-sm mb-0 span-buttom"> 
+                    Generar
+                    <i class="material-icons"> file_download </i>
+                </span>
+            </div>
+        </div>
+    `);
+
+    $("#fechaReporteInicio").duDatepicker({ format: "dd-mm-yyyy", clearBtn: true, cancelBtn: true });
+    $("#fechaReporteFin").duDatepicker({ format: "dd-mm-yyyy", clearBtn: true, cancelBtn: true });
+
+    $("#modalTemplate").modal({
+        backdrop: "static",
+        keyboard: false,
+    });
+
+    $("#modalTemplate").modal("show");
+
+    $("#btnClose").on("click", () => {
+        $("#modalTemplate").modal("hide");
+        $("#btnClose").off("click");
+    });
+}
+
+function generarReporteInventario() {
+    if (!$("#fechaReporteInicio").val() || !$("#fechaReporteInicio").val()) {
+        // msj.show("Aviso", ".", [{ text1: "OK" }]);
+        Swal.fire({
+            icon: "warning",
+            title: "Aviso",
+            text: "Debes indicar una Fecha Inicio y una Fecha Fin a buscar.",
+        });
+        return false;
+    }
+
+    let fechaReporteInicio = volteaFecha($("#fechaReporteInicio").val(), 2);
+    let fechaReporteFin = volteaFecha($("#fechaReporteFin").val(), 2);
+    preloader.show();
+    $.ajax({
+        method: "POST",
+        dataType: "JSON",
+        url: "./views/inventario/generarReporteInventario.php",
+        data: { fechaReporteInicio, fechaReporteFin },
+    })
+        .done(function (results) {
+            let success = results.success;
+            let result = results.result;
+            let html = "";
+            switch (success) {
+                case true:
+                    if (result == "Sin Datos") {
+                        msj.show("Aviso", "No se encontró información en este rango de fechas.", [{ text1: "OK" }]);
+                        preloader.hide();
+                    } else {
+                        result.forEach((data, index) => {
+                            html += `<tr>
+                                <td data-b-b-s="thin" data-b-l-s="thin" data-b-r-s="thin" data-a-wrap="true">${Number(index + 1)}</td>
+                                <td data-b-b-s="thin" data-b-l-s="thin" data-b-r-s="thin" data-a-wrap="true">${data.FlagProducto}</td>
+                                <td data-b-b-s="thin" data-b-l-s="thin" data-b-r-s="thin" data-a-wrap="true">${data.suma}</td>
+                            </tr>`;
+                        });
+
+                        $("#tbodyExportInventario").html(html);
+                        let table = document.getElementsByClassName("tableExport");
+                        let now = String(Date.now());
+                        let lastFive = now.substr(now.length - 8);
+                        TableToExcel.convert(table[0], {
+                            name: `Reporte_${lastFive}.xlsx`,
+                            sheet: {
+                                name: "Ventas",
+                            },
+                        });
+                        $("#modalTemplate").modal("hide");
+                        $("#btnClose").off("click");
+                        preloader.hide();
+                    }
+                    break;
+                case false:
+                    preloader.hide();
+                    msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            preloader.hide();
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+            console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
+}
+
 function activeSubmenu(id_element_submenu) {
-    $(".nav-item").attr("class", "nav-item");
-    $("#" + id_element_submenu + "_li").attr("class", "nav-item active");
+    $(".nav-item.nav_item2").attr("class", "nav-item nav_item2");
+    $("#" + id_element_submenu + "_li").attr("class", "nav-item nav_item2 active");
 }
 
 function cargaTemplate(id, permiso) {
     preloader.show();
+    cargaDataMarquee();
     switch (id) {
         case "apps_menu":
             cargarTemplateCatalogos();
@@ -364,6 +522,31 @@ function cargaTemplate(id, permiso) {
 
         case "inventory_menu":
             cargaTemplateInventario();
+            activeSubmenu(id);
+            break;
+
+        case "grade_menu":
+            cargaTemplateEncuestas();
+            activeSubmenu(id);
+            break;
+
+        case "bar_chart_menu":
+            cargaTemplateKPI();
+            activeSubmenu(id);
+            break;
+
+        case "campaign_menu":
+            cargaTemplateAvisos();
+            activeSubmenu(id);
+            break;
+
+        case "store_menu":
+            cargaTemplatePerfilStore();
+            activeSubmenu(id);
+            break;
+
+        case "person_menu":
+            cargaTemplateFrecuentes();
             activeSubmenu(id);
             break;
 
@@ -417,8 +600,54 @@ function cargaTemplateCitas() {
         }
     });
 }
+
 function cargaTemplateInventario() {
     $("#contenido").load("templates/inventario/inventario.php", function (responseTxt, statusTxt, xhr) {
+        if (statusTxt != "error") {
+            changeViewMenuIcon();
+            // documentReadyVacantes();
+        }
+    });
+}
+
+function cargaTemplateEncuestas() {
+    $("#contenido").load("templates/encuestas/encuestas.php", function (responseTxt, statusTxt, xhr) {
+        if (statusTxt != "error") {
+            changeViewMenuIcon();
+            // documentReadyVacantes();
+        }
+    });
+}
+
+function cargaTemplateKPI() {
+    $("#contenido").load("templates/satisfaccion/satisfaccion.php", function (responseTxt, statusTxt, xhr) {
+        if (statusTxt != "error") {
+            changeViewMenuIcon();
+            // documentReadyVacantes();
+        }
+    });
+}
+
+function cargaTemplateAvisos() {
+    $("#contenido").load("templates/avisos/avisos.php", function (responseTxt, statusTxt, xhr) {
+        if (statusTxt != "error") {
+            changeViewMenuIcon();
+            // documentReadyVacantes();
+        }
+    });
+}
+
+function cargaTemplatePerfilStore() {
+    $("#contenido").load("templates/store/store.php", function (responseTxt, statusTxt, xhr) {
+        if (statusTxt != "error") {
+            changeViewMenuIcon();
+            // documentReadyVacantes();
+        }
+    });
+}
+
+function cargaTemplateFrecuentes() {
+    $("#contenido").load("templates/frecuentes/frecuentes.php", function (responseTxt, statusTxt, xhr) {
         if (statusTxt != "error") {
             changeViewMenuIcon();
             // documentReadyVacantes();

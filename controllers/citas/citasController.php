@@ -43,6 +43,12 @@
             $result_model = $model_citas->validaCita($data);
             return $result_model;
         }
+
+        function generarLinkEncuesta($data){
+            $model_citas = $this->getConexionModelClass();
+            $result_model = $model_citas->generarLinkEncuesta($data);
+            return $result_model;
+        }
         
     }
 ?>

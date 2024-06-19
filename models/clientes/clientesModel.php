@@ -52,6 +52,9 @@ namespace clientes\clientesModel;
         }
         
         function guardaCliente($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -60,10 +63,11 @@ namespace clientes\clientesModel;
             $apellidoM = $data['apellidoM'];
             $telefono = $data['telefono'];
             $correo = $data['correo'];
+            $indicadorCliente = $data['indicadorCliente'];
             $motivoMovimiento = 'Cliente registrado';
 
-            $sql = "INSERT INTO Clientes (nombre, apellidoP, apellidoM, telefono, correo, fechaUlmitoMovimiento, motivoMovimiento)
-            VALUES ('$nombre', '$apellidoP', '$apellidoM', '$telefono', '$correo', current_timestamp(), '$motivoMovimiento')";
+            $sql = "INSERT INTO Clientes (nombre, apellidoP, apellidoM, telefono, correo, fechaUlmitoMovimiento, motivoMovimiento, indicadorCliente)
+            VALUES ('$nombre', '$apellidoP', '$apellidoM', '$telefono', '$correo', current_timestamp(), '$motivoMovimiento', '$indicadorCliente')";
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
@@ -101,6 +105,9 @@ namespace clientes\clientesModel;
         }
         
         function obtenerCliente($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+            
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -131,6 +138,10 @@ namespace clientes\clientesModel;
         }
 
         function actualizaCliente($data){
+
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -141,9 +152,10 @@ namespace clientes\clientesModel;
             $correo = $data['correo'];
             $motivoMovimiento = 'Datos Cliente Actualizado';
             $ID = $data['ID'];
+            $indicadorClienteModal = $data['indicadorCliente'];
 
             $sql = "UPDATE Clientes SET nombre = '$nombre', apellidoP = '$apellidoP', apellidoM = '$apellidoM', telefono = '$telefono', 
-            correo = '$correo', fechaUlmitoMovimiento = current_timestamp(), motivoMovimiento = '$motivoMovimiento' WHERE ID = $ID ";
+            correo = '$correo', fechaUlmitoMovimiento = current_timestamp(), motivoMovimiento = '$motivoMovimiento', indicadorCliente = '$indicadorClienteModal' WHERE ID = $ID ";
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
@@ -161,6 +173,9 @@ namespace clientes\clientesModel;
         }
 
         function eliminarCliente($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -185,12 +200,49 @@ namespace clientes\clientesModel;
         }
         
         function traerHistorialCliente($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+            
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
             $ID = $data['ID'];
 
-            $sql = "SELECT ID, fecha, FK_cliente, nombre, FK_modulo, nombre_modulo, motivo_movimiento FROM historial_cliente WHERE estatus = 1 AND FK_cliente = $ID ORDER BY ID DESC";
+            $sql = "SELECT ID, fecha, FK_cliente, nombre, FK_modulo, nombre_modulo, motivo_movimiento, FK_registro_accion FROM historial_cliente WHERE estatus = 1 AND FK_cliente = $ID ORDER BY ID DESC";
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $rowcount=mysqli_num_rows($stmt);   
+                    if ( $rowcount ) {
+                        while($row = mysqli_fetch_assoc($stmt)) {
+                            $array[] =$row;
+                        }
+                        $result = array('success' => true, 'result' => $array);
+                    } else{
+                        $result = array('success' => true, 'result' => 'Sin Datos');
+                    }
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+            
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;
+        }
+
+        function getDireecionCliente($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $FK_dueno = $data['FK_dueno'];
+            
+            $sql = "SELECT * FROM domicilios_clientes WHERE FKNombreCliente = '$FK_dueno'";
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){

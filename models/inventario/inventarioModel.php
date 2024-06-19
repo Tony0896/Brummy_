@@ -38,6 +38,9 @@ namespace inventario\inventarioModel;
         }
 
         function guardarProducto($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -70,6 +73,9 @@ namespace inventario\inventarioModel;
         }
 
         function obtenerProducto($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -100,6 +106,9 @@ namespace inventario\inventarioModel;
         }
 
         function actualizaProducto($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -130,6 +139,9 @@ namespace inventario\inventarioModel;
         }
         
         function eliminarProdcuto($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+            
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
@@ -152,6 +164,41 @@ namespace inventario\inventarioModel;
             $resultJson = json_encode( $result );
             return $resultJson;
         }
-         
+
+        function generarReporteInventario($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+            
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $fechaReporteInicio = $data['fechaReporteInicio'];
+            $fechaReporteFin = $data['fechaReporteFin'];
+
+            $sql = "SELECT SUM(cantidad) as suma, FlagProducto, FKProducto FROM ventadetalle WHERE DATE(fechaCreacion) BETWEEN '$fechaReporteInicio' AND '$fechaReporteFin' GROUP BY FKProducto ORDER BY suma DESC;";
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $rowcount=mysqli_num_rows($stmt);   
+                    if ( $rowcount ) {
+                        while($row = mysqli_fetch_assoc($stmt)) {
+                            $array[] =$row;
+                        }
+                        $result = array('success' => true, 'result' => $array);
+                    } else{
+                        $result = array('success' => true, 'result' => 'Sin Datos');
+                    }
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+            
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;
+        }
+        
     }
 ?>

@@ -22,6 +22,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th></th>
                             <th>Cliente</th>
                             <th>Teléfono</th>
                             <th>Correo</th>
@@ -38,4 +39,5 @@
     
 <?php 
     require_once('./../components/modal.php');
+    require_once('./../components/modalPop.php');
 ?>
