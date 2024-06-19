@@ -692,10 +692,25 @@ function validacioesCita() {
     let values = get_datos_completos("nuevaCita");
     let response = values.response;
     let valido = values.valido;
+    let fecha_actual_val = new Date();
+
+    const year = fecha_actual_val.getFullYear();
+    const month = String(fecha_actual_val.getMonth() + 1).padStart(2, '0');
+    const day = String(fecha_actual_val.getDate()).padStart(2, '0');
+
+    let fecha_actual_format = `${year}-${month}-${day}`;
+
     if (valido) {
         preloader.show();
         let fechaCita = volteaFecha($("#fechaCita").val(), 2);
         let horaCita = $("#horaCita").val();
+
+        if ($("#fechaCita").val() < fecha_actual_format) {
+            console.log("La fecha seleccionada es menor a la actual");
+            msj.show("Aviso", "La fecha de la cita no puede ser menor a la actual", [{ text1: "OK" }]);
+            preloader.hide();
+            return false;
+        }
 
         if ($("#cbx-46").prop("checked")) {
             let calleDomi = String($("#calleDomi_input").val()).trim();

@@ -292,6 +292,7 @@ if( !$boolean_session ){
         <script src="./libraries/jsCalendar/jsCalendar.lang.es.js"></script>
         <script src="./libraries/jsCalendar/jsCalendar.min.js"></script>
         <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="./libraries/ChartJS/Chart.min.js"></script>
         <script src="./libraries/clipboard/clipboard.min.js"></script>
         <script src="./libraries/mdtimepicker/mdtimepicker.js"></script>

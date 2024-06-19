@@ -69,19 +69,27 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6 mb-2">
+                            <div class="col-md-4 mb-2">
                                 <div class="cointainer-info">
                                     <h4> Dueño </h4>
                                     <span class="capitalize" style="padding: 10px;" id="FK_dueno"></span>
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-2">
+                            <div class="col-md-4 mb-2">
                                 <div class="buttom-red buttom" onclick="eliminarMascota(localStorage.getItem('IDMascota'));">
                                     <span class="text-sm mb-0 span-buttom"> 
                                         Eliminar
                                         <i class="material-icons"> delete </i>
                                     </span>
                                 </div>
+                            </div>
+                            <div class="col-md-4 mb-2" id="btn_editar_mascota">
+                                <!-- <div class="buttom-blue buttom" onclick="editarMascota(localStorage.getItem('IDMascota'));">
+                                    <span class="text-sm mb-0 span-buttom"> 
+                                        Editar
+                                        <i class="material-icons"> edit </i>
+                                    </span>
+                                </div> -->
                             </div>
                         </div>
                         
@@ -92,13 +100,13 @@
                 <div class="card2">
                     <div class="card-body">
                         <div class="divNotas">
-                            <h4 class="card-title">Comentario</h4>
-                            <div class="buttom-green buttom" onclick="editComentarios()">
-                                <span class="text-sm mb-0">Editar <i class="material-icons"> edit </i></span>
+                            <h4 class="card-title">Comentarios</h4>
+                            <div class="buttom-green buttom" onclick="crearComentarioMascota()">
+                                <span class="text-sm mb-0">Crear <i class="material-icons"> add_circle </i></span>
                             </div>
                         </div>
-                        <div>
-                            <h4><small class="text-muted"> Sin comentarios adicionales </small> </h4>
+                        <div id = "content_comentario">
+                            <!-- <h4><small class="text-muted"> Sin comentarios adicionales </small> </h4> -->
                         </div>
                     </div>
                 </div>
