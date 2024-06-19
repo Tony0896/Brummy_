@@ -30,7 +30,6 @@ function obtenerAvisos(estatus) {
                         preloader.hide();
                     } else {
                         dataTableDestroy();
-                        let html;
                         result.forEach((data, index) => {
                             html += `<tr>
                                 <td>${Number(index + 1)}</td>

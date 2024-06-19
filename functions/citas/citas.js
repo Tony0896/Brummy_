@@ -926,7 +926,6 @@ function muestraDomicilio() {
 }
 
 function getDireecionCliente(FK_dueno) {
-    console.log(FK_dueno);
     $.ajax({
         method: "POST",
         dataType: "JSON",

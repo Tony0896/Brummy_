@@ -230,3 +230,23 @@ function obtenerFechaLarga(date) {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return nuevaFecha.toLocaleDateString("es-MX", options);
 }
+
+function CantidadConCommas(valor) {
+    let retorno = 0;
+    if (String(valor).includes(".")) {
+        let newValor = valor.split(".");
+        valor = String(newValor[0]).replaceAll(",", "");
+        let newValor2 = numberWithCommas(valor);
+        retorno = newValor2 + "." + newValor[1];
+    } else {
+        valor = String(valor).replaceAll(",", "");
+        let newValor = numberWithCommas(valor);
+        retorno = newValor;
+    }
+
+    return retorno;
+}
+
+function numberWithCommas(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

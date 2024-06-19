@@ -23,7 +23,6 @@ function obtenerClientes() {
                         dataTableCreate();
                     } else {
                         dataTableDestroy();
-                        let html;
                         let temperamento = "";
                         let tdSinData = `<span class='material-icons'> remove </span> &nbsp; <span class='material-icons'> remove </span>`;
                         result.forEach((data, index) => {
