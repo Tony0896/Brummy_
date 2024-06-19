@@ -232,5 +232,39 @@ namespace clientes\clientesModel;
             $resultJson = json_encode( $result );
             return $resultJson;
         }
+
+        function getDireecionCliente($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $FK_dueno = $data['FK_dueno'];
+            
+            $sql = "SELECT * FROM domicilios_clientes WHERE FKNombreCliente = '$FK_dueno'";
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $rowcount=mysqli_num_rows($stmt);   
+                    if ( $rowcount ) {
+                        while($row = mysqli_fetch_assoc($stmt)) {
+                            $array[] =$row;
+                        }
+                        $result = array('success' => true, 'result' => $array);
+                    } else{
+                        $result = array('success' => true, 'result' => 'Sin Datos');
+                    }
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+            
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;
+        }
     }
 ?>

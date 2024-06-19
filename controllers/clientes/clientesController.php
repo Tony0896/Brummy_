@@ -50,5 +50,11 @@
             return $result_model;
         }
         
+        function getDireecionCliente($data){
+            $model_clientes = $this->getConexionModelClass();
+            $result_model = $model_clientes->getDireecionCliente($data);
+            return $result_model;
+        }
+        
     }
 ?>

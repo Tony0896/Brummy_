@@ -46,6 +46,8 @@ if( !$boolean_session ){
         <link rel="stylesheet" href="./libraries/datatables-1.12.1/jquery.dataTables.min.css" />
         <link rel="stylesheet" href="./libraries/datatables-1.12.1/responsive/2.3.0/responsive.dataTables.min.css" />
         <link rel="stylesheet" href="./libraries/jsCalendar/jsCalendar.min.css" />
+        <link rel="stylesheet" href="./libraries/mdtimepicker/mdtimepicker.css" />
+        <link rel="stylesheet" href="./libraries/duDatepicker/duDatepicker.css" />
     </head>
 
     <style>
@@ -268,7 +270,9 @@ if( !$boolean_session ){
         <script src="./libraries/jsCalendar/jsCalendar.lang.es.js"></script>
         <script src="./libraries/jsCalendar/jsCalendar.min.js"></script>
         <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script> -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
+        <script src="./libraries/ChartJS/Chart.min.js"></script>
+        <script src="./libraries/clipboard/clipboard.min.js"></script>
+        <script src="./libraries/mdtimepicker/mdtimepicker.js"></script>
+        <script src="./libraries/duDatepicker/duDatepicker.js"></script>
     </body>
 </html>

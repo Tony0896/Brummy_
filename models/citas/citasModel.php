@@ -8,6 +8,52 @@ namespace citas\citasModel;
     require_once ( __DIR__ . './../../conexion/dataBase.php' );
     class citasModel{ 
 
+        function InsertDomicilio($FKNombreCliente, $nombreCliente, $calle, $numero, $cp, $col, $municipio, $estado){
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $sql = "SELECT ID FROM domicilios_clientes WHERE FKNombreCliente = '$FKNombreCliente'";
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $rowcount=mysqli_num_rows($stmt);   
+                    if ( $rowcount ) {
+                        $FK_Usuario = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1;
+                        $nameUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
+                        
+                        $sql = "UPDATE domicilios_clientes SET nombreCliente = '$nombreCliente', calle = '$calle', numero = '$numero', cp = '$cp', col = '$col', municipio = '$municipio', estado = '$estado' 
+                        WHERE FKNombreCliente = $FKNombreCliente";
+
+                        try{
+                            $stmt = mysqli_query($conexion, $sql);
+                            if($stmt){
+
+                            }
+                        } catch (mysqli_sql_exception $e) { }
+                    } else{
+                        $FK_Usuario = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1;
+                        $nameUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
+                        
+                        $sql = "INSERT INTO domicilios_clientes (FKNombreCliente, nombreCliente, calle, numero, cp, col, municipio, estado, pais, estatus, FKUsuarioCrea, FlagUsuarioCrea) 
+                        VALUES ($FKNombreCliente, '$nombreCliente', '$calle', '$numero', '$cp', '$col', '$municipio', '$estado', 'México', 1, '$FK_Usuario', '$nameUsuario')";
+
+                        try{
+                            $stmt = mysqli_query($conexion, $sql);
+                            if($stmt){
+
+                            }
+                        } catch (mysqli_sql_exception $e) { }
+                    }
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+
+            mysqli_close( $conexion );
+        }
+
         function InsertHistoriaMascota($FK_mascota, $nombre, $FK_modulo, $nombreModulo, $motivo, $FK_Usuario, $nameUsuario, $ID_mov){
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
@@ -75,6 +121,14 @@ namespace citas\citasModel;
             $FKMotivo = $data['FKMotivo'];
             $fechaHoraCita = $data['fechaCita'].' '.$data['horaCita'];
 
+            $calle = $data['calleDomi'];
+            $numero = $data['numeroDomi'];
+            $cp = $data['cpDomi'];
+            $col = $data['colDomi'];
+            $municipio = $data['municipioDomi'];
+            $estado = $data['estadoDomi'];
+            $domicilio = $data['domicilio'];
+
             $sql = "INSERT INTO citas (FKnombreCita, nombreCita, FKnombreMascota, nombreMascota, fechaCita, horaCita, motivoCita, comentariosCita, FKMotivo, fechaHoraCita)
             VALUES ('$FKnombreCita', '$nombreCita', '$FKnombreMascota', '$nombreMascota', '$fechaCita', '$horaCita', '$motivoCita', '$comentariosCita', '$FKMotivo', '$fechaHoraCita')";
             try{
@@ -98,6 +152,9 @@ namespace citas\citasModel;
                                     $ID_mov = $row['ID'];
                                 }
                                 $this->InsertHistoriaMascota($FK_mascota, $nombre, $FK_modulo, $nombreModulo, $motivo, $FK_Usuario, $nameUsuario, $ID_mov);
+                                if($domicilio == 1){
+                                    $this->InsertDomicilio($FKnombreCita, $nombreCita, $calle, $numero, $cp, $col, $municipio, $estado);
+                                }
                             }
                         }
                     } catch (mysqli_sql_exception $e) { }
