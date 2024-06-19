@@ -118,7 +118,6 @@ function obtenerEncuestas() {
                         dataTableCreate();
                     } else {
                         dataTableDestroy();
-                        let html;
                         result.forEach((data, index) => {
                             html += `<tr>
                                 <td>${index + 1}</td>

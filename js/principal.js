@@ -437,6 +437,11 @@ function cargaTemplate(id, permiso) {
             activeSubmenu(id);
             break;
 
+        case "person_menu":
+            cargaTemplateFrecuentes();
+            activeSubmenu(id);
+            break;
+
         default:
             preloader.hide();
             console.log("sin menu");
@@ -526,6 +531,15 @@ function cargaTemplateAvisos() {
 
 function cargaTemplatePerfilStore() {
     $("#contenido").load("templates/store/store.php", function (responseTxt, statusTxt, xhr) {
+        if (statusTxt != "error") {
+            changeViewMenuIcon();
+            // documentReadyVacantes();
+        }
+    });
+}
+
+function cargaTemplateFrecuentes() {
+    $("#contenido").load("templates/frecuentes/frecuentes.php", function (responseTxt, statusTxt, xhr) {
         if (statusTxt != "error") {
             changeViewMenuIcon();
             // documentReadyVacantes();
