@@ -431,10 +431,14 @@ function obtenerMotivos() {
                             html += `<tr>
                                 <td>${index + 1}</td>
                                 <td class="capitalize">${data.motivoCita}</td>
+                                <td >${data.tiempoPromedio}</td>
                                 <td>
                                     <div style="display: flex; flex-direction: row;">
                                         <div class="buttom-red buttom button-sinText mx-1" title="Eliminar" onclick="deleteMotivoCita(${data.ID})">
                                             <span class="text-sm mb-0"><i class="material-icons"> delete </i></span>
+                                        </div>
+                                        <div class="buttom-blue buttom button-sinText mx-1" title="Editar" onclick="editMotivoCita(${data.ID} ,'${data.motivoCita}' , '${data.tiempoPromedio}' )">
+                                            <span class="text-sm mb-0"><i class="material-icons"> edit </i></span>
                                         </div>
                                     </div>
                                 </td>
@@ -466,6 +470,10 @@ function crearNuevoMotivo() {
                 <label name="Motivo" for="motivo" class="text">Motivo</label>
                 <input name="Motivo" type="text" class="capitalize obligatorio input" id="motivo" autocomplete="off" maxlength"50"/>
             </div>
+            <div class="coolinput" id="">
+                <label for="horaCita" class="text">Tiempo promedio Motivo:</label>
+                <input type="text" name="Hora" class="input obligatorio" id="tiempoPromedioMotivo" autocomplete="off"/>
+            </div>
         </div>
 
         <div class="center-fitcomponent" style="width: 100%;">
@@ -483,6 +491,14 @@ function crearNuevoMotivo() {
         keyboard: false,
     });
 
+    $("#tiempoPromedioMotivo").mdtimepicker({
+        timeFormat: "hh:mm:ss", // format of the time value (data-time attribute)
+        format: "hh:mm", // format of the input value
+        theme: "blue", // theme of the timepicker
+        clearBtn: true, // determines if clear button is visible
+        is24hour: true, // determines if the clock will use 24-hour format in the UI; format config will be forced to `hh:mm` if not specified
+    });
+
     $("#modalTemplate").modal("show");
 
     $("#btnClose").on("click", () => {
@@ -497,6 +513,7 @@ function guardarMotivoCita() {
     let valido = values.valido;
     if (valido) {
         let motivoCita = String($("#motivo").val()).trim();
+        let tiempoPromedio = $("#tiempoPromedioMotivo").val();
 
         motivoCita.replaceAll("'", '"');
 
@@ -506,7 +523,7 @@ function guardarMotivoCita() {
             method: "POST",
             dataType: "JSON",
             url: "./views/catalogos/guardarMotivoCita.php",
-            data: { motivoCita },
+            data: { motivoCita , tiempoPromedio },
         })
             .done(function (results) {
                 let success = results.success;
@@ -757,4 +774,96 @@ function deleteMotivoRechazo(ID) {
                 });
         }
     });
+}
+
+
+function editMotivoCita(idCita , motivoCita , tiempoPromedio) {
+    $("#labelModal").html(`Editar Motivo de Cita`);
+
+    $("#body_modal").html(`<br>
+        <div id="formMotivoCita">
+            <div class="coolinput">
+                <label name="Motivo" for="motivo" class="text">Motivo</label>
+                <input name="Motivo" type="text" class="capitalize obligatorio input" id="motivoEdit" autocomplete="off" maxlength"50"/ value ="${motivoCita}">
+            </div>
+            <div class="coolinput" id="">
+                <label for="horaCita" class="text">Tiempo promedio Motivo:</label>
+                <input type="text" name="Hora" class="input obligatorio" id="tiempoPromedioMotivoEdit" autocomplete="off"/ value ="${tiempoPromedio}">
+            </div>
+        </div>
+
+        <div class="center-fitcomponent" style="width: 100%;">
+            <div class="buttom-blue buttom" style="margin-left: auto;margin-right: auto;" onclick="updateMotivoCita(${idCita});">
+                <span class="text-sm mb-0 span-buttom"> 
+                    Guardar
+                    <i class="material-icons"> save </i>
+                </span>
+            </div>
+        </div>
+    `);
+
+    $("#modalTemplate").modal({
+        backdrop: "static",
+        keyboard: false,
+    });
+
+    $("#tiempoPromedioMotivoEdit").mdtimepicker({
+        timeFormat: "hh:mm:ss", // format of the time value (data-time attribute)
+        format: "hh:mm", // format of the input value
+        theme: "blue", // theme of the timepicker
+        clearBtn: true, // determines if clear button is visible
+        is24hour: true, // determines if the clock will use 24-hour format in the UI; format config will be forced to `hh:mm` if not specified
+    });
+
+    $("#modalTemplate").modal("show");
+
+    $("#btnClose").on("click", () => {
+        $("#modalTemplate").modal("hide");
+        $("#btnClose").off("click");
+    });
+}
+
+function updateMotivoCita(idCita) {
+    preloader.show();
+    console.log(idCita);
+
+    let nuevoMotivo = $("#motivoEdit").val();
+    let tiempoPromedioMotivoEdit = $("#tiempoPromedioMotivoEdit").val();
+    console.log(nuevoMotivo);
+    console.log(tiempoPromedioMotivoEdit);
+
+    axios
+        .post("./views/catalogos/updateMotivoCita.php", { ID: idCita  ,motivoCita : nuevoMotivo, tiempoPromedio : tiempoPromedioMotivoEdit })
+        .then((response) => {
+            console.log(response);
+            if (response.status === 200) {
+                let success = response.data.success;
+                let result = response.data.result;
+
+                switch (success) {
+                    case true:
+                        if (result == "Sin Datos") {
+                            obtenerMotivos();
+                            msj.show("Aviso", "Guardado correctamente", [{ text1: "OK" }]);
+                            $("#modalTemplate").modal("hide");
+                            preloader.hide();
+                        } 
+                        break;
+                    case false:
+                        preloader.hide();
+                        msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+                        break;
+                }
+            }
+        })
+        .catch((error) => {
+            preloader.hide();
+            msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
+            // console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+            console.error("Ocurrio un error : " + error);
+        })
+        .finally(() => {
+            // siempre sera ejecutado
+        });
+
 }

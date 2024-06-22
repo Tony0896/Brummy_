@@ -212,8 +212,9 @@ namespace catalogos\catalogosModel;
             $conexion = $db->getConectaDB();
 
             $motivoCita = $data['motivoCita'];
+            $tiempoPromedio = $data['tiempoPromedio'];
 
-            $sql = "INSERT INTO motivoscitas (motivoCita) VALUES ('$motivoCita')";
+            $sql = "INSERT INTO motivoscitas (motivoCita , tiempoPromedio) VALUES ('$motivoCita' , '$tiempoPromedio')";
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
@@ -331,5 +332,37 @@ namespace catalogos\catalogosModel;
             $resultJson = json_encode( $result );
             return $resultJson;
         }
+
+        function updateMotivoCita($data){
+            $request_body = file_get_contents('php://input');
+            $data = json_decode($request_body, true);
+    
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+    
+            $motivoCita = $data['motivoCita'];
+            $tiempoPromedio = $data['tiempoPromedio'];
+            $ID = $data['ID'];
+    
+            $sql = "UPDATE motivoscitas SET motivoCita  = '$motivoCita' , tiempoPromedio = '$tiempoPromedio' WHERE ID = $ID";
+    
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $result = array('success' => true, 'result' => 'Sin Datos');
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+            
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;
+        }
     }
+
+
+    
 ?>
