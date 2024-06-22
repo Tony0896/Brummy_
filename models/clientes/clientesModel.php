@@ -65,9 +65,10 @@ namespace clientes\clientesModel;
             $correo = $data['correo'];
             $indicadorCliente = $data['indicadorCliente'];
             $motivoMovimiento = 'Cliente registrado';
+            $idImagen = $data['idImagen'];
 
-            $sql = "INSERT INTO Clientes (nombre, apellidoP, apellidoM, telefono, correo, fechaUlmitoMovimiento, motivoMovimiento, indicadorCliente)
-            VALUES ('$nombre', '$apellidoP', '$apellidoM', '$telefono', '$correo', current_timestamp(), '$motivoMovimiento', '$indicadorCliente')";
+            $sql = "INSERT INTO Clientes (nombre, apellidoP, apellidoM, telefono, correo, fechaUlmitoMovimiento, motivoMovimiento, indicadorCliente , idImagen)
+            VALUES ('$nombre', '$apellidoP', '$apellidoM', '$telefono', '$correo', current_timestamp(), '$motivoMovimiento', '$indicadorCliente' , '$idImagen')";
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){

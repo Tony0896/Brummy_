@@ -382,3 +382,41 @@ function CantidadConCommas(valor) {
 function numberWithCommas(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+function searchAndDestroyDropZone() {
+    $('.dropzone '+class_name).each(function () {
+        let dropzoneControl = $(this)[0].dropzone;
+        if (dropzoneControl) {
+            dropzoneControl.destroy();
+        }
+    });
+}
+
+function instanciarDropZone(idElement , maxFilesize , maxFiles , acceptedFiles ) {
+
+    let arr_excel = [];
+    // Dropzone.autoDiscover = false;
+    let myDropzoneFormat = new Dropzone("#"+idElement+"", {
+        // url: "https://keenthemes.com/scripts/void.php", // Set the url for your upload script location
+        url: "/",
+        maxFilesize: maxFilesize, // MB
+        maxFiles: maxFiles, //CANTIDAD DE ARCHIVOS A SUBIR
+        acceptedFiles: acceptedFiles,
+        addRemoveLinks: true, // QUITAR ARCHIVOS AGREGADOS
+        dictRemoveFile: "QUITAR",
+        paramName: "file", // The name that will be used to transfer the file
+        createImageThumbnails: true,
+    });
+
+    myDropzoneFormat.on('addedfile', file => {
+        console.log(file);
+        arr_excel.push(file);
+    });
+
+    myDropzoneFormat.on('removedfile', file => {
+        let i = arr_excel.indexOf(file);
+        arr_excel.splice(i, 1);
+    });
+
+    return arr_excel;
+}
