@@ -48,6 +48,8 @@ if( !$boolean_session ){
         <link rel="stylesheet" href="./libraries/jsCalendar/jsCalendar.min.css" />
         <link rel="stylesheet" href="./libraries/mdtimepicker/mdtimepicker.css" />
         <link rel="stylesheet" href="./libraries/duDatepicker/duDatepicker.css" />
+        <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" />
+
     </head>
 
     <style>
@@ -301,5 +303,6 @@ if( !$boolean_session ){
         <script src="./libraries/exportExcel/zip.js"></script>
         <script src="./libraries/exportExcel/xlsx.js"></script>
         <script src="./libraries/exportExcel/xlsx.min.js"></script>
+        <script src="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js"></script>
     </body>
 </html>

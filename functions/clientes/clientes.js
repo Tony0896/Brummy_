@@ -4,6 +4,10 @@ $(document).ready(() => {
     obtenerClientes();
 });
 
+// Definicion variables globales
+
+let imgCliente;
+
 function obtenerClientes() {
     $.ajax({
         method: "POST",
@@ -124,6 +128,15 @@ function crearCliente() {
             </div>
         </div>
 
+        <div class="coolinput">
+            <div class="container_upload dropzone dropzone_img_cliente container_upload" id="img_cliente" > 
+                <div class="dz-message needsclick header_upload">
+                    <svg class "dz-message needsclick" style ="border: none;"  viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> 
+                    <path d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 15.4806 20.1956 16.8084 19 17.5M7 10C4.79086 10 3 11.7909 3 14C3 15.4806 3.8044 16.8084 5 17.5M7 10C7.43285 10 7.84965 10.0688 8.24006 10.1959M12 12V21M12 12L15 15M12 12L9 15" stroke="#009071" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> <p>Adjuntar una foto del Cliente!</p>
+                </div>
+            </div>
+        </div>
+
         <div class="center-fitcomponent" style="width: 100%;">
             <div class="buttom-blue buttom" style="margin-left: auto;margin-right: auto;" onclick="guardarCliente();">
                 <span class="text-sm mb-0 span-buttom"> 
@@ -138,6 +151,10 @@ function crearCliente() {
         backdrop: "static",
         keyboard: false,
     });
+
+    imgCliente = instanciarDropZone("img_cliente" , 20 , 1 , ".img,.png,.jpg" );
+
+    // searchAndDestroyDropZone("dropzone_img_cliente");
 
     $("#modalTemplate").modal("show");
 
@@ -273,6 +290,7 @@ function guardarCliente() {
         let telefono = String($("#telefono").val()).trim();
         let correo = String($("#correo").val()).trim();
         let indicadorCliente = $("#indicadorCliente").val();
+        let idImagen = imgCliente[0]['upload']['filename'];
 
         let arr_data_form = {
             'arr_components' : ['nombre' , 'apellidoP' , 'apellidoM' , 'telefono' , 'correo'],
@@ -300,7 +318,7 @@ function guardarCliente() {
             method: "POST",
             dataType: "JSON",
             url: "./views/clientes/guardaCliente.php",
-            data: { nombre, apellidoP, apellidoM, telefono, correo, indicadorCliente },
+            data: { nombre, apellidoP, apellidoM, telefono, correo, indicadorCliente , idImagen },
         })
             .done(function (results) {
                 let success = results.success;

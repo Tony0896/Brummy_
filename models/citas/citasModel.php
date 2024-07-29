@@ -218,8 +218,13 @@ namespace citas\citasModel;
 
             $FK_mascota = $data['FK_mascota'];
             $nombre = $data['nombre'];
+            $nuevaHora = $data['nuevaHora'];
+            $nuevaFecha = $data['nuevaFecha'];
 
-            $sql = "UPDATE citas SET flagEstatus = '$flagEstatus', estatus = '$estatus', comentariosCita2 = '$comentariosCita2' WHERE ID = $ID";
+            $fecha_hora_nueva = ($flagEstatus == 'REAGENDADA') ? " , horaCita = '$nuevaHora' , fechaCita = '$nuevaFecha' " : ''; 
+
+            $sql = "UPDATE citas SET flagEstatus = '$flagEstatus', estatus = '$estatus', comentariosCita2 = '$comentariosCita2' $fecha_hora_nueva  WHERE ID = $ID";
+            
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){

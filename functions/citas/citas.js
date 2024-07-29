@@ -601,6 +601,14 @@ function cargaEventosMes(fecha) {
         });
 }
 
+function reagendarOption() {
+
+    let newEstatusCita = $("#newEstatusCita").val();
+
+    if (newEstatusCita == 4) { $("#content_nueva_fecha_cita").prop('hidden' , false); $("#content_nueva_hora_cita").prop('hidden' , false); }
+    else{ $("#content_nueva_fecha_cita").prop('hidden' , true); $("#content_nueva_hora_cita").prop('hidden' , true); }
+}
+
 function marcarCita(ID) {
     $("#labelModal").html(`Marcar Cita`);
 
@@ -608,7 +616,7 @@ function marcarCita(ID) {
         <div id="formEspecies">
             <div class="coolinput">
                 <label for="newEstatusCita" class="text">La cita fue:</label>
-                <select class="input capitalize" id="newEstatusCita" style="background-color: rgb(255, 255, 255);width:100%;">
+                <select class="input capitalize" id="newEstatusCita" style="background-color: rgb(255, 255, 255);width:100%;" onChange = "reagendarOption();">
                     <option value="2">ATENDIDA</option>
                     <option value="3">CANCELADA</option>
                     <option value="4">REAGENDADA</option>
@@ -618,6 +626,17 @@ function marcarCita(ID) {
             <div class="coolinput">
                 <label for="comentariosAdicionales" class="text">Comentarios Adicionales</label>
                 <input type="text" class="capitalize input" id="comentariosAdicionales" autocomplete="off" maxlength"50"/>
+            </div>
+            <div class="coolinput" id="content_nueva_fecha_cita" hidden>
+                <label for="fechaCita" class="text">Nueva Fecha:</label>
+                <!-- <input name="Fecha" type="date" class="input obligatorio" id="fechaCita" autocomplete="off" maxlength"50"/> -->
+                <input name="Fecha" type="text" class="input obligatorio" id="fechaCitaReagenda" autocomplete="off" />
+            </div>
+
+            <div class="coolinput" id="content_nueva_hora_cita" hidden>
+                <label for="horaCita" class="text">Nueva Hora:</label>
+                <!-- <input name="Hora" type="time" class="input obligatorio" id="horaCita" autocomplete="off" maxlength"50"/> -->
+                <input type="text" name="Hora" class="input obligatorio" id="horaCitaReagenda" autocomplete="off"/>
             </div>
         </div>
 
@@ -630,6 +649,15 @@ function marcarCita(ID) {
             </div>
         </div>
     `);
+
+    $("#fechaCitaReagenda").duDatepicker({ format: "dd-mm-yyyy", clearBtn: true, cancelBtn: true });
+    $("#horaCitaReagenda").mdtimepicker({
+        timeFormat: "hh:mm:ss", // format of the time value (data-time attribute)
+        format: "hh:mm", // format of the input value
+        theme: "blue", // theme of the timepicker
+        clearBtn: true, // determines if clear button is visible
+        is24hour: true, // determines if the clock will use 24-hour format in the UI; format config will be forced to `hh:mm` if not specified
+    });
 
     $("#modalTemplate").modal({
         backdrop: "static",
@@ -651,6 +679,11 @@ function guardarEstausCita(ID) {
     let FK_mascota = $("#input_FK_mascota_" + ID).val();
     let nombre = $("#input_nombre_" + ID).val();
 
+    let nuevaFecha = "";
+    let nuevaHora = "";
+
+    if (flagEstatus == "REAGENDADA") nuevaFecha = volteaFecha($("#fechaCitaReagenda").val(), 2); nuevaHora = $("#horaCitaReagenda").val(); 
+
     $.ajax({
         method: "POST",
         dataType: "JSON",
@@ -662,11 +695,14 @@ function guardarEstausCita(ID) {
             ID,
             FK_mascota,
             nombre,
+            nuevaFecha,
+            nuevaHora,
         },
     })
         .done(function (results) {
             let success = results.success;
             let result = results.result;
+            console.log(results);
             switch (success) {
                 case true:
                     $("#modalTemplate").modal("hide");
@@ -674,6 +710,7 @@ function guardarEstausCita(ID) {
                     msj.show("Aviso", "Guardado correctamente", [{ text1: "OK" }]);
                     // preloader.hide();
                     recargaEventosDay($("#fechaActual").val());
+                    cargaBolitasCalendar();
                     break;
                 case false:
                     preloader.hide();

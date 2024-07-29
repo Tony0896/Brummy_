@@ -14,6 +14,12 @@
             return $model_class = new ClaseCatalogosModelo\catalogosModel();
         }
 
+        function updateMotivoCita($data){
+            $model_catalogos = $this->getConexionModelClass();
+            $result_model = $model_catalogos->updateMotivoCita($data);
+            return $result_model;
+        }
+
         function obtenerEspecies(){
             $model_catalogos = $this->getConexionModelClass();
             $result_model = $model_catalogos->obtenerEspecies();
