@@ -172,8 +172,15 @@ namespace ventas\ventasModel;
             $conexion = $db->getConectaDB();
 
             $ID = $data['ID'];
+            $cambioVenta = $data['cambioVenta'];
 
-            $sql = "SELECT * FROM vwVentaDetails WHERE ID = $ID";
+            if($cambioVenta == 1){
+                $tb = 'vwventadetailscambios';
+            } else {
+                $tb = 'vwventadetails';
+            }
+
+            $sql = "SELECT * FROM $tb WHERE ID = $ID";
 
             try{
                 $stmt = mysqli_query($conexion, $sql);
@@ -194,6 +201,123 @@ namespace ventas\ventasModel;
                 $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
             }
             
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;
+        }
+
+        function guardarHeaderVentaCambio($data){
+
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $ID = $data['ID'];
+            $price = $data['price'];
+            $efectivo = $data['efectivo'];
+
+            $sql = "INSERT INTO ventaheadercambios (FKVentaOriginal, cliente, price, FlagExacto, efectivo)
+            SELECT '$ID', cliente, price, FlagExacto, efectivo FROM ventaheader WHERE ID = $ID ;";
+
+            $sql1 = "UPDATE ventaheader SET cambioVenta = 1, devuelto = '$price' WHERE ID = $ID ;";
+
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    try{
+                        $stmt = mysqli_query($conexion, $sql1);
+                        if($stmt){
+                            $sql = "SELECT ID as IDHeader, cliente FROM ventaheadercambios WHERE FKVentaOriginal = $ID;";
+                            try{
+                                $stmt = mysqli_query($conexion, $sql);
+                                if($stmt){
+                                    $rowcount=mysqli_num_rows($stmt);   
+                                    if ( $rowcount ) {
+                                        while($row = mysqli_fetch_assoc($stmt)) {
+                                            $array[] =$row;
+        
+                                            $FK_Cliente = $row['cliente'];
+                                            $nombre = 'FALTA CREAR GETNAME'; //! FALTA
+                                            $FK_modulo = 4;
+                                            $nombreModulo = 'Ventas';
+                                            $motivo = 'Cancelación compra, Devuelto : $'.$price ;
+                                            $FK_Usuario = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1 ;
+                                            $nameUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
+                                            $ID_mov = $row['IDHeader'];
+                                        }
+                                        $this->InsertHistoriaCliente($FK_Cliente, $nombre, $FK_modulo, $nombreModulo, $motivo, $FK_Usuario, $nameUsuario, $ID_mov);
+                                        $result = array('success' => true, 'result' => $array);
+                                    } else{
+                                        $result = array('success' => true, 'result' => 'Sin Datos');
+                                    }
+                                } else {
+                                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                                }
+                            } catch (mysqli_sql_exception $e) {
+                                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+                            }
+                        } else {
+                            $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                        }
+                    } catch (mysqli_sql_exception $e) {
+                        $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+                    }       
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;
+        }
+
+        function guardarDetalleVentaCambio($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $IDorigin = $data['ID'];
+            $dataID = $data['dataID'];
+            $FlagProducto = $data['FlagProducto'];
+            $FKProducto = $data['FKProducto'];
+            $label = $data['label'];
+            $total = $data['total'];
+            $newStock = $data['newStock'];
+            $devuelveStock = $data['devuelveStock'];
+            $comentariosAdicionales = $data['comentariosAdicionales'];
+
+            $sql = "INSERT INTO ventadetallecambios (FKVentaOrigin, FKVenta, FlagProducto, FKProducto, cantidad, total, newStock, devulveStock, comentarios)
+            VALUES ( '$IDorigin', '$dataID', '$FlagProducto', '$FKProducto', '$label', '$total', '$newStock', $devuelveStock, '$comentariosAdicionales' )";
+
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $result = array('success' => true, 'result' => 'Sin Datos');
+                    if($devuelveStock == 1){
+                        $sql = "UPDATE inventario SET stockReal = (SELECT SUM(stockReal + $newStock) FROM inventario WHERE ID = $FKProducto) WHERE ID = $FKProducto";
+                        try{
+                            $stmt = mysqli_query($conexion, $sql);
+                            if($stmt){
+                            } else {
+                                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                            }
+                        } catch (mysqli_sql_exception $e) {
+                            $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+                        }
+                    }
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+
             mysqli_close( $conexion );
             $resultJson = json_encode( $result );
             return $resultJson;

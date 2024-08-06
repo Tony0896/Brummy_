@@ -84,8 +84,8 @@ namespace clientes\clientesModel;
                                     $FK_modulo = 5;
                                     $nombreModulo = 'Clientes';
                                     $motivo = 'Nuevo Cliente Registrado';
-                                    $FK_Usuario = $_SESSION['ID_usuario'];
-                                    $nameUsuario = $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'];
+                                    $FK_Usuario = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1;
+                                    $nameUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
                                     $ID_mov = $row['ID'];
                                 }
                                 $this->InsertHistoriaCliente($FK_Cliente, $nombre, $FK_modulo, $nombreModulo, $motivo, $FK_Usuario, $nameUsuario, $ID_mov);

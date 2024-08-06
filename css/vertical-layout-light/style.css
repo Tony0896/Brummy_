@@ -6306,12 +6306,20 @@ fieldset:disabled .swal2-modal .swal2-buttonswrapper .swal2-styled,
     .modal-sm {
         max-width: 300px;
     }
+
+    .modal-md {
+        max-width: 80%;
+    }
 }
 
 @media (min-width: 992px) {
     .modal-lg,
     .modal-xl {
         max-width: 90%;
+    }
+
+    .modal-md {
+        max-width: 50%;
     }
 }
 

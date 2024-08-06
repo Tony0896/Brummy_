@@ -22,7 +22,7 @@
 
         function obtenerDataVeterinaria(){
             $model_store = $this->getConexionModelClass();
-            $result_model = $model_store->obtenerDataVeterinaria($_SESSION['empresa']);
+            $result_model = $model_store->obtenerDataVeterinaria(isset($_SESSION['empresa']) ? $_SESSION['empresa'] : 1);
             return $result_model;
         }
 
@@ -52,7 +52,7 @@
 
         function obtenerRedesSocialesVete(){
             $model_store = $this->getConexionModelClass();
-            $result_model = $model_store->obtenerRedesSocialesVete($_SESSION['empresa']);
+            $result_model = $model_store->obtenerRedesSocialesVete(isset($_SESSION['empresa']) ? $_SESSION['empresa'] : 1);
             return $result_model;
         }
 
@@ -64,7 +64,7 @@
 
         function obtenerContactosVete(){
             $model_store = $this->getConexionModelClass();
-            $result_model = $model_store->obtenerContactosVete($_SESSION['empresa']);
+            $result_model = $model_store->obtenerContactosVete(isset($_SESSION['empresa']) ? $_SESSION['empresa'] : 1);
             return $result_model;
         }
 
@@ -76,7 +76,7 @@
         
         function obtenerHorariosVete(){
             $model_store = $this->getConexionModelClass();
-            $result_model = $model_store->obtenerHorariosVete($_SESSION['empresa']);
+            $result_model = $model_store->obtenerHorariosVete(isset($_SESSION['empresa']) ? $_SESSION['empresa'] : 1);
             return $result_model;
         }
 

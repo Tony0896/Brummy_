@@ -46,7 +46,7 @@ namespace store\storeModel;
             $conexion = $db->getConectaDB();
 
             $nombre = $data['nombreVete'];
-            $empresa = $_SESSION['empresa'];
+            $empresa = isset($_SESSION['empresa']) ? $_SESSION['empresa'] : 1;
 
             $sql = "UPDATE perfil_veterinaria SET nombreVete = '{$nombre}' WHERE ID = {$empresa}";
 
@@ -75,7 +75,7 @@ namespace store\storeModel;
             $conexion = $db->getConectaDB();
 
             $eslogan = $data['esloganVete'];
-            $empresa = $_SESSION['empresa'];
+            $empresa = isset($_SESSION['empresa']) ? $_SESSION['empresa'] : 1;
 
             $sql = "UPDATE perfil_veterinaria SET eslogan = '{$eslogan}' WHERE ID = {$empresa}";
 
@@ -103,7 +103,7 @@ namespace store\storeModel;
             $conexion = $db->getConectaDB();
 
             $descripcion = $data['descripcionVete'];
-            $empresa = $_SESSION['empresa'];
+            $empresa = isset($_SESSION['empresa']) ? $_SESSION['empresa'] : 1;
 
             $sql = "UPDATE perfil_veterinaria SET descripcion = '{$descripcion}' WHERE ID = {$empresa}";
 
@@ -131,7 +131,7 @@ namespace store\storeModel;
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
-            $empresa = $_SESSION['empresa'];
+            $empresa = isset($_SESSION['empresa']) ? $_SESSION['empresa'] : 1;
   
             $calle =  $data['calleVete'];
             $col =  $data['colVete'];
@@ -166,13 +166,13 @@ namespace store\storeModel;
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
-            $empresa = $_SESSION['empresa'];
+            $empresa = isset($_SESSION['empresa']) ? $_SESSION['empresa'] : 1;
 
             $tipoRed = $data['redSocial_input'];
             $url_nombre = $data['urlRedSocial_input'];
             $estatus = 1;
-            $FKUsuarioCrea = $_SESSION['ID_usuario'];
-            $FlagUsuarioCrea = $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'];
+            $FKUsuarioCrea = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1;
+            $FlagUsuarioCrea = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
 
             $sql = "INSERT INTO redes_veterinaria (FKEmpresa, tipoRed, url_nombre, estatus, FKUsuarioCrea, FlagUsuarioCrea) 
             VALUES ({$empresa}, '{$tipoRed}', '{$url_nombre}', '{$estatus}', '{$FKUsuarioCrea}', '{$FlagUsuarioCrea}')";
@@ -229,13 +229,13 @@ namespace store\storeModel;
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
-            $empresa = $_SESSION['empresa'];
+            $empresa = isset($_SESSION['empresa']) ? $_SESSION['empresa'] : 1;
 
             $nombre = $data['nombreVeteContacto'];
             $numero = $data['numeroVeteContacto'];
             $estatus = 1;
-            $FKUsuarioCrea = $_SESSION['ID_usuario'];
-            $FlagUsuarioCrea = $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'];
+            $FKUsuarioCrea = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1;;
+            $FlagUsuarioCrea = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
 
             $sql = "INSERT INTO contactos_veterinaria (FKEmpresa, nombre, numero, estatus, FKUsuarioCrea, FlagUsuarioCrea) 
             VALUES ({$empresa}, '{$nombre}', '{$numero}', '{$estatus}', '{$FKUsuarioCrea}', '{$FlagUsuarioCrea}')";
@@ -292,7 +292,7 @@ namespace store\storeModel;
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
-            $empresa = $_SESSION['empresa'];
+            $empresa = isset($_SESSION['empresa']) ? $_SESSION['empresa'] : 1;
 
             $horario_1 = $data['horario_1'];
             $horario_2 = $data['horario_2'];
@@ -305,8 +305,8 @@ namespace store\storeModel;
             $numerodia1 = $data['diaNumero1'];
             $numerodia2 = $data['diaNumero2'];
             $estatus = 1;
-            $FKUsuarioCrea = $_SESSION['ID_usuario'];
-            $FlagUsuarioCrea = $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'];
+            $FKUsuarioCrea = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1;;
+            $FlagUsuarioCrea = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
 
             $sql = "INSERT INTO horarios_veterinaria (FKEmpresa, numerodia1, numerodia2, dia1, dia2, abreviacion1, abreviacion2, estatusTienda, FlagEstatusTienda, horario1, horario2, estatus, FKUsuarioCrea, FlagUsuarioCrea) 
             VALUES ({$empresa}, {$numerodia1}, {$numerodia2}, '{$diaCompleto}', '{$diaCompleto2}', '{$abreviacion1}', '{$abreviacion2}', '{$estatusTienda}', '{$diaVete_cerrado}', '{$horario_1}', '{$horario_2}', '{$estatus}', '{$FKUsuarioCrea}', '{$FlagUsuarioCrea}')";

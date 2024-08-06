@@ -37,6 +37,18 @@
             $result_model = $model_ventas->obtenerVenta($data);
             return $result_model;
         }
-        
+
+        function guardarHeaderVentaCambio($data){
+            $model_ventas = $this->getConexionModelClass();
+            $result_model = $model_ventas->guardarHeaderVentaCambio($data);
+            return $result_model;
+        }
+
+        function guardarDetalleVentaCambio($data){
+            $model_ventas = $this->getConexionModelClass();
+            $result_model = $model_ventas->guardarDetalleVentaCambio($data);
+            return $result_model;
+        }
+     
     }
 ?>

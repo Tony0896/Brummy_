@@ -18,8 +18,8 @@ namespace encuestas\encuestasModel;
             $pregunta = $data['pregunta'];
             $tipoPregunta = $data['tipoPregunta'];
             $tipoPregunta == 1 ? $flagTipoPregunta = 'Opciones' : $flagTipoPregunta = 'Abierta';
-            $FKUserMovimiento = $_SESSION['ID_usuario'];
-            $FlaguserMov = $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'];
+            $FKUserMovimiento = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1 ;
+            $FlaguserMov = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
 
             $sql = "INSERT INTO encuestapreguntas (Pregunta, tipoPregunta, flagTipoPregunta, FKUserMovimiento, FlaguserMov, MotivoMov)
             VALUES ('$pregunta', '$tipoPregunta', '$flagTipoPregunta', '$FKUserMovimiento', '$FlaguserMov', 'Nueva Pregunta Creada')";
@@ -76,8 +76,8 @@ namespace encuestas\encuestasModel;
             $conexion = $db->getConectaDB();
 
             $IDpregunta = $data['ID'];
-            $FKUserMovimiento = $_SESSION['ID_usuario'];
-            $FlaguserMov = $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'];
+            $FKUserMovimiento = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1 ;
+            $FlaguserMov = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
 
             $sql = "UPDATE encuestapreguntas SET estatus = 0, FKUserMovimiento = $FKUserMovimiento, FlaguserMov = '$FlaguserMov', MotivoMov = 'Eliminacion Pregunta', fechaMov = CURRENT_TIMESTAMP() WHERE ID = $IDpregunta";
             try{
@@ -138,8 +138,8 @@ namespace encuestas\encuestasModel;
             $tipoPregunta = $data['tipoPregunta'];
             $IDpregunta = $data['ID'];
             $tipoPregunta == 1 ? $flagTipoPregunta = 'Opciones' : $flagTipoPregunta = 'Abierta';
-            $FKUserMovimiento = $_SESSION['ID_usuario'];
-            $FlaguserMov = $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'];
+            $FKUserMovimiento = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1 ;
+            $FlaguserMov = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
 
             $sql = "UPDATE encuestapreguntas SET fechaMov = CURRENT_TIMESTAMP(), Pregunta = '$pregunta', tipoPregunta = $tipoPregunta, 
             flagTipoPregunta = '$flagTipoPregunta', FKUserMovimiento = $FKUserMovimiento, FlaguserMov = '$FlaguserMov', MotivoMov = 'Edición Pregunta' 

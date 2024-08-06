@@ -695,8 +695,8 @@ function validacioesCita() {
     let fecha_actual_val = new Date();
 
     const year = fecha_actual_val.getFullYear();
-    const month = String(fecha_actual_val.getMonth() + 1).padStart(2, '0');
-    const day = String(fecha_actual_val.getDate()).padStart(2, '0');
+    const month = String(fecha_actual_val.getMonth() + 1).padStart(2, "0");
+    const day = String(fecha_actual_val.getDate()).padStart(2, "0");
 
     let fecha_actual_format = `${year}-${month}-${day}`;
 
@@ -705,7 +705,7 @@ function validacioesCita() {
         let fechaCita = volteaFecha($("#fechaCita").val(), 2);
         let horaCita = $("#horaCita").val();
 
-        if ($("#fechaCita").val() < fecha_actual_format) {
+        if (fechaCita < fecha_actual_format) {
             console.log("La fecha seleccionada es menor a la actual");
             msj.show("Aviso", "La fecha de la cita no puede ser menor a la actual", [{ text1: "OK" }]);
             preloader.hide();
@@ -728,6 +728,7 @@ function validacioesCita() {
             estadoDomi.replaceAll("'", '"');
 
             if (!calleDomi || !numeroDomi || !cpDomi || !colDomi || !municipioDomi || !estadoDomi) {
+                msj.show("Aviso", "El domicilio esta incompleto", [{ text1: "OK" }]);
                 return false;
             }
         }

@@ -93,8 +93,8 @@ namespace mascotas\mascotasModel;
                                     $FK_modulo = 6;
                                     $nombreModulo = 'Mascotas';
                                     $motivo = 'Nueva Mascota Registrada';
-                                    $FK_Usuario = $_SESSION['ID_usuario'];
-                                    $nameUsuario = $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'];
+                                    $FK_Usuario = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1;
+                                    $nameUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
                                     $ID_mov = $row['ID'];
                                 }
                                 $this->InsertHistoriaMascota($FK_mascota, $nombre, $FK_modulo, $nombreModulo, $motivo, $FK_Usuario, $nameUsuario, $ID_mov);
@@ -287,10 +287,10 @@ namespace mascotas\mascotasModel;
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
-            $FK_usuario_up = $_SESSION['ID_usuario'];
-            $nombre_usa_mov_up = $_SESSION['nombre'];
-            $apellidop_usa_mov_up = $_SESSION['apellidoPaterno'];
-            $apellidom_usa_mov_up = $_SESSION['apellidoMaterno'];
+            $FK_usuario_up = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : '1';
+            $nombre_usa_mov_up = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : 'app';
+            $apellidop_usa_mov_up = isset($_SESSION['apellidoPaterno']) ? $_SESSION['apellidoPaterno'] : 'app';
+            $apellidom_usa_mov_up = isset($_SESSION['apellidoMaterno']) ? $_SESSION['apellidoMaterno'] : 'app';
             $redaccion = $data['arr_data']['contenido_comentario'];
             $FK_mascota = $data['arr_data']['ID_MASCOTA'];
             $estatus = 1;
@@ -330,10 +330,10 @@ namespace mascotas\mascotasModel;
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
-            $FK_usuario_down = $_SESSION['ID_usuario'];
-            $nombre_usa_mov_down = $_SESSION['nombre'];
-            $apellidop_usa_mov_down = $_SESSION['apellidoPaterno'];
-            $apellidom_usa_mov_down = $_SESSION['apellidoMaterno'];
+            $FK_usuario_down = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : '1';
+            $nombre_usa_mov_down = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : 'app';
+            $apellidop_usa_mov_down = isset($_SESSION['apellidoPaterno']) ? $_SESSION['apellidoPaterno'] : 'app';
+            $apellidom_usa_mov_down = isset($_SESSION['apellidoMaterno']) ? $_SESSION['apellidoMaterno'] : 'app';
             $id_comentario = $data['arr_data']['id_comentario']; 
             $FK_dueno = $data['arr_data']['FK_dueno'];
             $estatus = 0;
@@ -365,10 +365,10 @@ namespace mascotas\mascotasModel;
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
-            $FK_usuario_up = $_SESSION['ID_usuario'];
-            $nombre_usa_mov_up = $_SESSION['nombre'];
-            $apellidop_usa_mov_up = $_SESSION['apellidoPaterno'];
-            $apellidom_usa_mov_up = $_SESSION['apellidoMaterno'];
+            $FK_usuario_up = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : '1';
+            $nombre_usa_mov_up = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : 'app';
+            $apellidop_usa_mov_up = isset($_SESSION['apellidoPaterno']) ? $_SESSION['apellidoPaterno'] : 'app';
+            $apellidom_usa_mov_up = isset($_SESSION['apellidoMaterno']) ? $_SESSION['apellidoMaterno'] : 'app';
             $id_comentario = $data['arr_data']['id_comentario']; 
             $redaccion = $data['arr_data']['comentario_act'];
 
@@ -400,10 +400,10 @@ namespace mascotas\mascotasModel;
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
 
-            $FK_usuario_up = $_SESSION['ID_usuario'];
-            $nombre_usa_mov_up = $_SESSION['nombre'];
-            $apellidop_usa_mov_up = $_SESSION['apellidoPaterno'];
-            $apellidom_usa_mov_up = $_SESSION['apellidoMaterno'];
+            $FK_usuario_up = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1;
+            $nombre_usa_mov_up = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : 'app';
+            $apellidop_usa_mov_up = isset($_SESSION['apellidoPaterno']) ? $_SESSION['apellidoPaterno'] : '';
+            $apellidom_usa_mov_up = isset($_SESSION['apellidoMaterno']) ? $_SESSION['apellidoMaterno'] : '';
 
             $editNombreMascota =  $data['arr_data']['editNombreMascota'];
             $editFechaMascota =  $data['arr_data']['editFechaMascota'];

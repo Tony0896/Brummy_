@@ -13,9 +13,6 @@
         background-color: #009071 !important;
         color: #fff;
     }
-    .content-wrapper{
-        padding: 0;
-    }
     .card .card-body {
         padding: 1rem;
     }

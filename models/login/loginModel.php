@@ -158,7 +158,7 @@ namespace login\loginModel;
                 $errores = $errores.$e->getMessage();
             }
 
-            $sql2 = "SELECT SUM(price) as cuenta FROM ventaheader WHERE DATE(fechaCreacion) = CURRENT_DATE();";
+            $sql2 = "SELECT SUM(price - devuelto) as cuenta FROM ventaheader WHERE DATE(fechaCreacion) = CURRENT_DATE();";
             try{
                 $stmt2 = mysqli_query($conexion, $sql2);
                 if($stmt2){

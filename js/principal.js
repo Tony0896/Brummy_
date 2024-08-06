@@ -223,16 +223,21 @@ function cargaDataDash() {
             let html = "";
             switch (success) {
                 case true:
-                    results.forEach((data, index) => {
-                        html += `
+                    if (results == "Sin Datos") {
+                        $("#bodyVentasDashbora").html(html);
+                    } else {
+                        results.forEach((data, index) => {
+                            html += `
                             <tr>
                                 <td>${Number(index + 1)}</td>
                                 <td>${data.FlagProducto}</td>
                                 <td>$ ${CantidadConCommas(Number(data.total).toFixed(2))}</td>
                             </tr>
                         `;
-                    });
-                    $("#bodyVentasDashbora").html(html);
+                        });
+                        $("#bodyVentasDashbora").html(html);
+                    }
+
                     break;
                 case false:
                     Swal.fire({
@@ -262,41 +267,43 @@ function cargaDataDash() {
             let productos = [];
             switch (success) {
                 case true:
-                    results.forEach((data, index) => {
-                        colores = [...colores, "#009071"];
-                        productos = [...productos, data.FlagProducto];
-                        sumasProductos = [...sumasProductos, Number(data.suma)];
-                    });
-
-                    new Chart(document.getElementById("bar-chart2"), {
-                        type: "horizontalBar",
-                        data: {
-                            labels: productos,
-                            datasets: [
-                                {
-                                    label: "Vendidos",
-                                    backgroundColor: colores,
-                                    data: sumasProductos,
-                                },
-                            ],
-                        },
-                        options: {
-                            legend: { display: false },
-                            title: {
-                                display: true,
-                                text: "",
-                            },
-                            scales: {
-                                xAxes: [
+                    if (results == "Sin Datos") {
+                    } else {
+                        results.forEach((data, index) => {
+                            colores = [...colores, "#009071"];
+                            productos = [...productos, data.FlagProducto];
+                            sumasProductos = [...sumasProductos, Number(data.suma)];
+                        });
+                        new Chart(document.getElementById("bar-chart2"), {
+                            type: "horizontalBar",
+                            data: {
+                                labels: productos,
+                                datasets: [
                                     {
-                                        ticks: {
-                                            beginAtZero: true,
-                                        },
+                                        label: "Vendidos",
+                                        backgroundColor: colores,
+                                        data: sumasProductos,
                                     },
                                 ],
                             },
-                        },
-                    });
+                            options: {
+                                legend: { display: false },
+                                title: {
+                                    display: true,
+                                    text: "",
+                                },
+                                scales: {
+                                    xAxes: [
+                                        {
+                                            ticks: {
+                                                beginAtZero: true,
+                                            },
+                                        },
+                                    ],
+                                },
+                            },
+                        });
+                    }
 
                     break;
                 case false:

@@ -52,8 +52,8 @@ namespace avisos\avisosModel;
             $aviso = $data['aviso'];
             $fechaInicio = $data['fechaInicio'];
             $fechaFin = $data['fechaFin'];
-            $FK_Usuario = $_SESSION['ID_usuario'];
-            $nameUsuario = $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'];
+            $FK_Usuario = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1;
+            $nameUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
 
             $sql = "INSERT INTO avisos_generales (aviso, fechaInicio, fechaFin, estatus, FKUsuarioCrea, FlagUsuarioCrea)
             VALUES ('$aviso', '$fechaInicio', '$fechaFin', 1, $FK_Usuario, '$nameUsuario')";

@@ -131,7 +131,7 @@
 
                         <textarea
                             class="FWM-input obligatorio"
-                            style="font-family: 'ITC Avant Garde Gothic', sans-serif; height: 105px; padding-top: 6px"
+                            style="font-family: 'ITC Avant Garde Gothic', sans-serif; height: 105px; padding-top: 11px"
                             id="comentario_sugerencia"
                             name="¿Tienes algún comentario, pregunta o sugerencia?"
                             cols="30"
@@ -228,7 +228,7 @@
                                                                     html += `<span class="span FWM-span-form">${data.Pregunta}:</span>
                                                                     <textarea
                                                                         class="FWM-input obligatorio"
-                                                                        style="font-family: 'ITC Avant Garde Gothic', sans-serif; height: 105px; padding-top: 6px"
+                                                                        style="font-family: 'ITC Avant Garde Gothic', sans-serif; height: 105px; padding-top: 11px"
                                                                         id="pregunta_${data.ID}"
                                                                         name="¿Tienes algún comentario, pregunta o sugerencia?"
                                                                         cols="30"

@@ -991,10 +991,6 @@ h2 {
     cursor: pointer;
 }
 
-button:hover {
-    text-decoration: underline;
-}
-
 .right {
     display: flex;
     flex-direction: column;
@@ -1106,3 +1102,12 @@ button:hover {
 /******************************************************/
 /**********         CHECKBOS       ********************/
 /******************************************************/
+
+.coolinput textarea {
+    padding: 11px 10px;
+    font-size: 0.85rem;
+    border: 2px #009071 solid;
+    border-radius: 5px;
+    background: #fff;
+    border-radius: 10px;
+}
