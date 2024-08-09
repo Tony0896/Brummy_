@@ -281,5 +281,82 @@ namespace login\loginModel;
             $resultJson = json_encode( $result );
             return $resultJson;
         }
+
+        function getCitasPorConfirmar(){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+            
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $sql = "SELECT re.ID, re.FKNombreCliente, re.nombreCliente, re.tipoRecurrencia, re.fechaRecurrenca, re.ID_mov, re.estatus, re.agendada, ci.FKnombreMascota, ci.nombreMascota FROM recurrencia_clientes re 
+            INNER JOIN citas ci ON re.ID_mov = ci.ID WHERE re.tipoRecurrencia = 1  AND re.estatus = 1  AND re.fechaRecurrenca > CURRENT_DATE ()  AND re.fechaRecurrenca <= DATE_ADD( CURRENT_DATE (), INTERVAL 5 DAY );";
+            
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $rowcount=mysqli_num_rows($stmt);   
+                    if ( $rowcount ) {
+                        while($row = mysqli_fetch_assoc($stmt)) {
+                            $array[] =$row;
+                        }
+                        $result = array('success' => true, 'result' => $array);
+                    } else{
+                        $result = array('success' => true, 'result' => 'Sin Datos');
+                    }
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+            
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;
+        }
+
+        function getCitasPorConfirmarMes($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+            
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $fecha = $data['fecha'];
+
+            // $sql = "SELECT re.ID, re.FKNombreCliente, re.nombreCliente, re.tipoRecurrencia, re.fechaRecurrenca, re.ID_mov, re.estatus, re.agendada, ci.FKnombreMascota, ci.nombreMascota,
+            // TIMESTAMPDIFF( YEAR, re.fechaRecurrenca, ('$fecha')) AS Yrs,
+            // TIMESTAMPDIFF( MONTH, re.fechaRecurrenca, ('$fecha'))% 12 AS Mth,
+            // TIMESTAMPDIFF( DAY, ( re.fechaRecurrenca + INTERVAL TIMESTAMPDIFF( YEAR, re.fechaRecurrenca, ('$fecha')) YEAR + INTERVAL TIMESTAMPDIFF( MONTH, re.fechaRecurrenca, '$fecha')% 12 MONTH  ), '$fecha') AS Dayss
+            // FROM recurrencia_clientes re INNER JOIN citas ci ON re.ID_mov = ci.ID  WHERE re.tipoRecurrencia = 30 AND re.estatus = 1";
+
+            $sql = "SELECT re.ID, re.FKNombreCliente, re.nombreCliente, re.tipoRecurrencia, re.fechaRecurrenca, re.ID_mov, re.estatus, re.agendada, ci.FKnombreMascota, ci.nombreMascota FROM recurrencia_clientes re 
+            INNER JOIN citas ci ON re.ID_mov = ci.ID WHERE re.tipoRecurrencia IN (7,14,30) AND re.estatus = 1";
+            
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $rowcount=mysqli_num_rows($stmt);   
+                    if ( $rowcount ) {
+                        while($row = mysqli_fetch_assoc($stmt)) {
+                            $array[] =$row;
+                        }
+                        $result = array('success' => true, 'result' => $array);
+                    } else{
+                        $result = array('success' => true, 'result' => 'Sin Datos');
+                    }
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+            
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;
+        }
+        	
     }
 ?>

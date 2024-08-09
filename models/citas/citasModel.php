@@ -54,6 +54,51 @@ namespace citas\citasModel;
             mysqli_close( $conexion );
         }
 
+        function InsertRecurrencia($FKNombreCliente, $nombreCliente, $Recurrencia, $tipoRecurrencia, $fechaRecurrenca, $ID_mov){
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $sql = "SELECT ID FROM recurrencia_clientes WHERE FKNombreCliente = '$FKNombreCliente' AND estatus = 1";
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $rowcount=mysqli_num_rows($stmt);   
+                    if ( $rowcount ) {
+                        // $FK_Usuario = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1;
+                        // $nameUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
+                        
+                        // $sql = "UPDATE recurrencia_clientes SET estatus = 0  WHERE FKNombreCliente = $FKNombreCliente";
+
+                        // try{
+                        //     $stmt = mysqli_query($conexion, $sql);
+                        //     if($stmt){
+
+                        //     }
+                        // } catch (mysqli_sql_exception $e) { }
+                    } else{
+                        $FK_Usuario = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1;
+                        $nameUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
+                        
+                        $sql = "INSERT INTO recurrencia_clientes (FKNombreCliente, nombreCliente, tipoRecurrencia, fechaRecurrenca, ID_mov, estatus, FKUsuarioCrea, FlagUsuarioCrea) 
+                        VALUES ($FKNombreCliente, '$nombreCliente', '$tipoRecurrencia', '$fechaRecurrenca', '$ID_mov', 1, '$FK_Usuario', '$nameUsuario')";
+
+                        try{
+                            $stmt = mysqli_query($conexion, $sql);
+                            if($stmt){
+
+                            }
+                        } catch (mysqli_sql_exception $e) { }
+                    }
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+
+            mysqli_close( $conexion );
+        }
+
         function InsertHistoriaMascota($FK_mascota, $nombre, $FK_modulo, $nombreModulo, $motivo, $FK_Usuario, $nameUsuario, $ID_mov){
             $db = new ClaseConexionDB\ConexionDB();
             $conexion = $db->getConectaDB();
@@ -129,8 +174,12 @@ namespace citas\citasModel;
             $estado = $data['estadoDomi'];
             $domicilio = $data['domicilio'];
 
-            $sql = "INSERT INTO citas (FKnombreCita, nombreCita, FKnombreMascota, nombreMascota, fechaCita, horaCita, motivoCita, comentariosCita, FKMotivo, fechaHoraCita)
-            VALUES ('$FKnombreCita', '$nombreCita', '$FKnombreMascota', '$nombreMascota', '$fechaCita', '$horaCita', '$motivoCita', '$comentariosCita', '$FKMotivo', '$fechaHoraCita')";
+            $Recurrencia = $data['Recurrencia'];
+            $tipoRecurrencia = $data['tipoRecurrencia'];
+            $fechaRecurrenca = $data['fechaRecurrenca'];
+
+            $sql = "INSERT INTO citas (FKnombreCita, nombreCita, FKnombreMascota, nombreMascota, fechaCita, horaCita, motivoCita, comentariosCita, FKMotivo, fechaHoraCita, Flagdomicilio)
+            VALUES ('$FKnombreCita', '$nombreCita', '$FKnombreMascota', '$nombreMascota', '$fechaCita', '$horaCita', '$motivoCita', '$comentariosCita', '$FKMotivo', '$fechaHoraCita', $domicilio)";
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
@@ -154,6 +203,9 @@ namespace citas\citasModel;
                                 $this->InsertHistoriaMascota($FK_mascota, $nombre, $FK_modulo, $nombreModulo, $motivo, $FK_Usuario, $nameUsuario, $ID_mov);
                                 if($domicilio == 1){
                                     $this->InsertDomicilio($FKnombreCita, $nombreCita, $calle, $numero, $cp, $col, $municipio, $estado);
+                                }
+                                if($Recurrencia == 1){
+                                    $this->InsertRecurrencia($FKnombreCita, $nombreCita, $Recurrencia, $tipoRecurrencia, $fechaRecurrenca, $ID_mov);
                                 }
                             }
                         }
@@ -331,5 +383,71 @@ namespace citas\citasModel;
             $resultJson = json_encode( $result );
             return $resultJson;   
         }
+
+        function generarCitaPropuesta($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+            
+            $db = new ClaseConexionDB\ConexionDB();
+            $conexion = $db->getConectaDB();
+
+            $ID = $data['ID'];
+
+            $sql = "SELECT * FROM Citas WHERE ID = {$ID}";
+            try{
+                $stmt = mysqli_query($conexion, $sql);
+                if($stmt){
+                    $rowcount=mysqli_num_rows($stmt);   
+                    if ( $rowcount ) {
+                        while($row = mysqli_fetch_assoc($stmt)) {
+                            $array[] =$row;
+                        }
+                        $result = array('success' => true, 'result' => $array);
+                    } else{
+                        $result = array('success' => true, 'result' => 'Sin Datos');
+                    }
+                } else {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                }
+            } catch (mysqli_sql_exception $e) {
+                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+            }
+            
+            mysqli_close( $conexion );
+            $resultJson = json_encode( $result );
+            return $resultJson;   
+        }
+
+        function cambiaEstatusCitaRecurente($data){
+            // $request_body = file_get_contents('php://input');
+            // $data = json_decode($request_body, true);
+            
+            $ID = $data['IDRec'];
+            $agendada = $data['agendada'];
+            $tipoRecurrencia = $data['tipoRecurrencia'];
+
+            if($tipoRecurrencia == 7 || $tipoRecurrencia == 14 || $tipoRecurrencia == 30){
+                $result = array('success' => true, 'result' => 'Sin Datos');
+            } else {
+                $db = new ClaseConexionDB\ConexionDB();
+                $conexion = $db->getConectaDB();
+                    $sql = "UPDATE recurrencia_clientes SET estatus = 0, agendada = $agendada WHERE ID = {$ID}";
+                try{
+                    $stmt = mysqli_query($conexion, $sql);
+                    if($stmt){
+                        $result = array('success' => true, 'result' => 'Sin Datos');
+                    } else {
+                        $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
+                    }
+                } catch (mysqli_sql_exception $e) {
+                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
+                }
+                mysqli_close( $conexion );
+            }
+
+            $resultJson = json_encode( $result );
+            return $resultJson;   
+        }
+        
     }
 ?>

@@ -49,6 +49,18 @@
             $result_model = $model_citas->generarLinkEncuesta($data);
             return $result_model;
         }
+
+        function generarCitaPropuesta($data){
+            $model_citas = $this->getConexionModelClass();
+            $result_model = $model_citas->generarCitaPropuesta($data);
+            return $result_model;
+        }  
+
+        function cambiaEstatusCitaRecurente($data){
+            $model_citas = $this->getConexionModelClass();
+            $result_model = $model_citas->cambiaEstatusCitaRecurente($data);
+            return $result_model;
+        }
         
     }
 ?>

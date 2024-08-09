@@ -54,6 +54,17 @@
             $result_model = $model_login->topProductos();
             return $result_model;
         }
-        
+
+        function getCitasPorConfirmar(){
+            $model_login = $this->getConexionModelClass();
+            $result_model = $model_login->getCitasPorConfirmar();
+            return $result_model;
+        }
+
+        function getCitasPorConfirmarMes($data){
+            $model_citas = $this->getConexionModelClass();
+            $result_model = $model_citas->getCitasPorConfirmarMes($data);
+            return $result_model;
+        }
     }
 ?>
