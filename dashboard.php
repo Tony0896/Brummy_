@@ -236,6 +236,32 @@ if( !$boolean_session ){
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="row dahsboardContenido" style="display:none;">
+                                            <div class="col-md-12 grid-margin stretch-card">
+                                                <div class="card2 mb-2">
+                                                    <div class="card-body">
+                                                        <h4 class="statistics-title">Citas por Confirmar</h4>
+                                                        <div id="div_citas">
+                                                            <table class="mdl-data-table table responsive table-bordered table-striped dashTable" style="width:100%">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Cliente</th>
+                                                                        <th>Mascota</th>
+                                                                        <th>Fecha Propuesta</th>
+                                                                        <th>&nbsp;</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody id="bodyCitasConfirmarDashbora">
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -301,5 +327,7 @@ if( !$boolean_session ){
         <script src="./libraries/exportExcel/zip.js"></script>
         <script src="./libraries/exportExcel/xlsx.js"></script>
         <script src="./libraries/exportExcel/xlsx.min.js"></script>
+        <script type="text/javascript" src="./libraries/moment/moment.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script type="text/javascript" src="./libraries/moment/moment-precise.min.js"></script>
     </body>
 </html>

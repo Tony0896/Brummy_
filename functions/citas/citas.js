@@ -205,7 +205,7 @@ $(document).ready(() => {
                                                     </label>
                                                 </div>
 
-                                                <div id="div_servicioDomicilio" style="display: none;padding: 10px;margin: 10px 0px;" class="card2">
+                                                <div id="div_servicioDomicilio" style="display: none;padding: 15px 10px 25px;margin: 10px 0px;" class="card2">
                                                     <div class="coolinput">
                                                         <label name="Calle" for="direccionVete" class="text">Calle</label>
                                                         <input name="Calle" type="text" class="input capitalize" id="calleDomi_input" autocomplete="off" />
@@ -234,6 +234,35 @@ $(document).ready(() => {
                                                     </div>
                                                 </div>
                 
+                                                <div class="checkbox-wrapper-46" style="margin: 22px 0px 12px 8px;">
+                                                    <input type="checkbox" id="cbx-47" class="inp-cbx" onchange="muestraRecurrencia()"/>
+                                                    <label for="cbx-47" class="cbx">
+                                                        <span style="transform: scale(1.3);">
+                                                            <svg viewBox="0 0 12 10" height="10px" width="12px">
+                                                                <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                                                            </svg>
+                                                        </span>
+                                                        <span>¿El cliente pide recordar?</span>
+                                                    </label>
+                                                </div>
+
+                                                <div id="div_Recurrencia" style="display: none;padding: 15px 10px 25px;margin: 10px 0px;" class="card2">
+                                                    <div class="coolinput">
+                                                        <label for="eachRecurrencia" class="text">Recurrencia: </label>
+                                                        <select class="input capitalize" name="¿Cada cuánto?" id="eachRecurrencia" style="background-color: rgb(255, 255, 255);width:100%;">
+                                                            <option value="">Selecciona una opción</option>
+                                                            <option value="1">Única ocasión</option>
+                                                            <option value="7">Cada semana</option><!--  -->
+                                                            <option value="14">Cada 2 semanas</option><!--  -->
+                                                            <option value="30">Cada mes</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="coolinput" id="div_fechaRecurrencia" style="display:none;">
+                                                        <label for="fechaCitaRecurrencia" class="text">Fecha:</label>
+                                                        <input name="Fecha" type="text" class="input" id="fechaCitaRecurrencia" autocomplete="off" />
+                                                    </div>
+                                                </div>
                                             </div>
                 
                                             <div class="center-fitcomponent" style="width: 100%;">
@@ -275,6 +304,15 @@ $(document).ready(() => {
                                         });
 
                                         $("#fechaCita").duDatepicker({ format: "dd-mm-yyyy", clearBtn: true, cancelBtn: true });
+                                        $("#fechaCitaRecurrencia").duDatepicker({ format: "dd-mm-yyyy", clearBtn: true, cancelBtn: true });
+
+                                        $("#eachRecurrencia").change(() => {
+                                            if ($("#eachRecurrencia").val() == 1) {
+                                                $("#div_fechaRecurrencia").css("display", "flex");
+                                            } else {
+                                                $("#div_fechaRecurrencia").css("display", "none");
+                                            }
+                                        });
 
                                         $("#nombreCita").change(() => {
                                             let FK_dueno = $("#nombreCita").val();
@@ -707,9 +745,9 @@ function validacioesCita() {
 
         if (fechaCita < fecha_actual_format) {
             console.log("La fecha seleccionada es menor a la actual");
-            msj.show("Aviso", "La fecha de la cita no puede ser menor a la actual", [{ text1: "OK" }]);
-            preloader.hide();
-            return false;
+            // msj.show("Aviso", "La fecha de la cita no puede ser menor a la actual", [{ text1: "OK" }]);
+            // preloader.hide();
+            // return false;
         }
 
         if ($("#cbx-46").prop("checked")) {
@@ -730,6 +768,20 @@ function validacioesCita() {
             if (!calleDomi || !numeroDomi || !cpDomi || !colDomi || !municipioDomi || !estadoDomi) {
                 msj.show("Aviso", "El domicilio esta incompleto", [{ text1: "OK" }]);
                 return false;
+            }
+        }
+
+        if ($("#cbx-47").prop("checked")) {
+            if (!$("#eachRecurrencia").val()) {
+                msj.show("Aviso", "Debes indicar la recurrencia", [{ text1: "OK" }]);
+                return false;
+            }
+
+            if ($("#eachRecurrencia").val() == 1) {
+                if (!$("#fechaCitaRecurrencia").val()) {
+                    msj.show("Aviso", "Debes indicar la fecha para recordar", [{ text1: "OK" }]);
+                    return false;
+                }
             }
         }
 
@@ -811,6 +863,11 @@ function guardarCita() {
     let municipioDomi = "";
     let estadoDomi = "";
     let domicilio = 0;
+
+    let Recurrencia = 0;
+    let tipoRecurrencia = 0;
+    let fechaRecurrenca = "";
+
     if ($("#cbx-46").prop("checked")) {
         domicilio = 1;
         calleDomi = String($("#calleDomi_input").val()).trim();
@@ -826,6 +883,21 @@ function guardarCita() {
         colDomi.replaceAll("'", '"');
         municipioDomi.replaceAll("'", '"');
         estadoDomi.replaceAll("'", '"');
+    }
+
+    if ($("#cbx-47").prop("checked")) {
+        Recurrencia = 1;
+        tipoRecurrencia = $("#eachRecurrencia").val();
+        if (tipoRecurrencia == 1) {
+            fechaRecurrenca = volteaFecha($("#fechaCitaRecurrencia").val(), 2);
+        } else {
+            fechaRecurrenca = volteaFecha($("#fechaCita").val(), 2);
+            if (tipoRecurrencia == 7 || tipoRecurrencia == 14) {
+                moment(fechaRecurrenca).add(Number(tipoRecurrencia), "days").format("YYYY-MM-DD");
+            } else if (tipoRecurrencia == 30) {
+                moment(fechaRecurrenca).add(Number(1), "month").format("YYYY-MM-DD");
+            }
+        }
     }
 
     nombreCita.replaceAll("'", '"');
@@ -855,6 +927,9 @@ function guardarCita() {
             municipioDomi,
             estadoDomi,
             domicilio,
+            Recurrencia,
+            tipoRecurrencia,
+            fechaRecurrenca,
         },
     })
         .done(function (results) {
@@ -938,6 +1013,14 @@ function muestraDomicilio() {
         $("#div_servicioDomicilio").css("display", "block");
     } else {
         $("#div_servicioDomicilio").css("display", "none");
+    }
+}
+
+function muestraRecurrencia() {
+    if ($("#cbx-47").prop("checked")) {
+        $("#div_Recurrencia").css("display", "block");
+    } else {
+        $("#div_Recurrencia").css("display", "none");
     }
 }
 
