@@ -57,6 +57,10 @@ function obtenerClientes() {
                                         })">
                                             <span class="text-sm mb-0"><i class="material-icons"> timeline </i></span>
                                         </div>
+
+                                        <div class="buttom-blue buttom button-sinText mx-1" title="Ver Membresía" onclick="memberCliente(${data.ID})">
+                                            <span class="text-sm mb-0"><i class="material-icons"> portrait </i></span>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>`;
@@ -275,16 +279,19 @@ function guardarCliente() {
         let indicadorCliente = $("#indicadorCliente").val();
 
         let arr_data_form = {
-            'arr_components' : ['nombre' , 'apellidoP' , 'apellidoM' , 'telefono' , 'correo'],
-            'arr_max_components' : [10 , 10 , 10 , 15 , 50],
-            'arr_min_components' : [5 , 5 , 5 , 10 , 10],
-            'arr_tipo_val' : ['str' , 'str' , 'str' , 'number' , 'email'],
-            'arr_required' : [1 , 1 , 0 ,1 , 0],
-        }
+            arr_components: ["nombre", "apellidoP", "apellidoM", "telefono", "correo"],
+            arr_max_components: [10, 10, 10, 15, 50],
+            arr_min_components: [5, 5, 5, 10, 10],
+            arr_tipo_val: ["str", "str", "str", "number", "email"],
+            arr_required: [1, 1, 0, 1, 0],
+        };
 
         let resp_val_form = validarCaracteresForm(arr_data_form);
 
-        if(!resp_val_form){ console.log("No paso filtro validacion formulario"); return false; }
+        if (!resp_val_form) {
+            console.log("No paso filtro validacion formulario");
+            return false;
+        }
 
         console.log(resp_val_form);
 
@@ -645,5 +652,242 @@ function verDetalleVentaCliente(ID) {
             preloader.hide();
             msj.show("Aviso", "Algo salió mal", [{ text1: "OK" }]);
             console.log("error: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+        });
+}
+
+function memberCliente(ID) {
+    preloader.show();
+    $.ajax({
+        method: "POST",
+        dataType: "JSON",
+        url: "./views/clientes/obtenerCliente.php",
+        data: { ID },
+    })
+        .done(function (results) {
+            let success = results.success;
+            let result = results.result;
+            switch (success) {
+                case true:
+                    if (result == "Sin Datos") {
+                        preloader.hide();
+                        Swal.fire({
+                            icon: "warning",
+                            title: "",
+                            text: "No se encontro información.",
+                        });
+                    } else {
+                        // console.log(result);
+                        preloader.hide();
+                        result.forEach((data, index) => {
+                            // console.log(data);
+                            data.apellidoM ? localStorage.setItem("apellidoM", data.apellidoM) : localStorage.setItem("apellidoM", "");
+                            data.apellidoP ? localStorage.setItem("apellidoP", data.apellidoP) : localStorage.setItem("apellidoP", "");
+                            data.correo ? localStorage.setItem("correo", data.correo) : localStorage.setItem("correo", "");
+                            data.nombre ? localStorage.setItem("nombre", data.nombre) : localStorage.setItem("nombre", "");
+                            data.telefono ? localStorage.setItem("telefono", data.telefono) : localStorage.setItem("telefono", "");
+                            localStorage.setItem("IDCte", ID);
+                        });
+
+                        $.ajax({
+                            method: "POST",
+                            dataType: "JSON",
+                            url: "./views/store/obtenerDataVeterinaria.php",
+                            data: { ID },
+                        })
+                            .done(function (results) {
+                                let success = results.success;
+                                let result = results.result;
+                                switch (success) {
+                                    case true:
+                                        if (result == "Sin Datos") {
+                                            preloader.hide();
+                                            Swal.fire({
+                                                icon: "warning",
+                                                title: "",
+                                                text: "No se encontro información.",
+                                            });
+                                        } else {
+                                            // console.log(result);
+                                            preloader.hide();
+                                            result.forEach((data, index) => {
+                                                // console.log(data);
+                                                localStorage.setItem("nameVete", data.nombreVete ? data.nombreVete : "");
+                                                localStorage.setItem("telcredentialvete", data.nombreVete ? data.nombreVete : "");
+                                                localStorage.setItem(
+                                                    "Direccion1credential",
+                                                    data.calle ? data.calle + " " + data.numero + ", " + data.cp : ""
+                                                );
+                                                localStorage.setItem("Direccion1credentia2", data.calle ? data.col + " " + data.municipio : "");
+                                            });
+
+                                            $.ajax({
+                                                method: "POST",
+                                                dataType: "JSON",
+                                                url: "./views/store/obtenerHorariosVete.php",
+                                                data: { ID },
+                                            })
+                                                .done(function (results) {
+                                                    let success = results.success;
+                                                    let result = results.result;
+                                                    switch (success) {
+                                                        case true:
+                                                            if (result == "Sin Datos") {
+                                                                preloader.hide();
+                                                                Swal.fire({
+                                                                    icon: "warning",
+                                                                    title: "",
+                                                                    text: "No se encontro información.",
+                                                                });
+                                                            } else {
+                                                                // console.log(result);
+                                                                preloader.hide();
+                                                                result.forEach((data, index) => {
+                                                                    let horario = "";
+                                                                    if (data.FlagEstatusTienda == "Cerrado") {
+                                                                        if (data.numerodia1 == data.numerodia2) {
+                                                                            horario = `${data.abreviacion1}: Cerrado`;
+                                                                        } else {
+                                                                            $("#horariosVete_span").append(
+                                                                                (horario = `${data.abreviacion1} - ${data.abreviacion2}: Cerrado`)
+                                                                            );
+                                                                        }
+                                                                    } else {
+                                                                        let horario1 =
+                                                                            String(data.horario1).split(":")[0] +
+                                                                            ":" +
+                                                                            String(data.horario1).split(":")[1];
+                                                                        let horario2 =
+                                                                            String(data.horario2).split(":")[0] +
+                                                                            ":" +
+                                                                            String(data.horario2).split(":")[1];
+                                                                        if (data.numerodia1 == data.numerodia2) {
+                                                                            horario = `${data.abreviacion1}: De ${horario1} a ${horario2}`;
+                                                                        } else {
+                                                                            horario = `${data.abreviacion1} - ${data.abreviacion2}: De ${horario1} a ${horario2}`;
+                                                                        }
+                                                                    }
+                                                                    if (index == 2) {
+                                                                        localStorage.setItem("horario3credential", horario);
+                                                                    } else if (index == 0) {
+                                                                        localStorage.setItem("horario1credential", horario);
+                                                                    } else if (index == 1) {
+                                                                        localStorage.setItem("horario2credential", horario);
+                                                                    }
+                                                                });
+                                                                $.ajax({
+                                                                    method: "POST",
+                                                                    dataType: "JSON",
+                                                                    url: "./views/store/obtenerContactosVete.php",
+                                                                    data: { ID },
+                                                                })
+                                                                    .done(function (results) {
+                                                                        let success = results.success;
+                                                                        let result = results.result;
+                                                                        switch (success) {
+                                                                            case true:
+                                                                                if (result == "Sin Datos") {
+                                                                                    preloader.hide();
+                                                                                    Swal.fire({
+                                                                                        icon: "warning",
+                                                                                        title: "",
+                                                                                        text: "No se encontro información.",
+                                                                                    });
+                                                                                } else {
+                                                                                    // console.log(result);
+                                                                                    preloader.hide();
+                                                                                    result.forEach((data, index) => {
+                                                                                        if (index == 0) {
+                                                                                            localStorage.setItem("telcredentialvete", data.numero);
+                                                                                        }
+                                                                                    });
+
+                                                                                    $("#contenido").load(
+                                                                                        "templates/clientes/generarMembresia.php",
+                                                                                        function (responseTxt, statusTxt, xhr) {
+                                                                                            if (statusTxt != "error") {
+                                                                                            }
+                                                                                        }
+                                                                                    );
+                                                                                }
+                                                                                break;
+
+                                                                            case false:
+                                                                                preloader.hide();
+                                                                                Swal.fire({
+                                                                                    icon: "warning",
+                                                                                    title: "Opps..",
+                                                                                    text: "Algo salio mal vuelve a intentarlo.",
+                                                                                });
+                                                                                break;
+                                                                        }
+                                                                    })
+                                                                    .fail(function (jqXHR, textStatus, errorThrown) {
+                                                                        preloader.hide();
+                                                                        console.log(
+                                                                            "adminCapacitacion: " +
+                                                                                jqXHR.responseText +
+                                                                                "\nEstatus: " +
+                                                                                textStatus +
+                                                                                "\nError: " +
+                                                                                errorThrown
+                                                                        );
+                                                                    });
+                                                            }
+                                                            break;
+
+                                                        case false:
+                                                            preloader.hide();
+                                                            Swal.fire({
+                                                                icon: "warning",
+                                                                title: "Opps..",
+                                                                text: "Algo salio mal vuelve a intentarlo.",
+                                                            });
+                                                            break;
+                                                    }
+                                                })
+                                                .fail(function (jqXHR, textStatus, errorThrown) {
+                                                    preloader.hide();
+                                                    console.log(
+                                                        "adminCapacitacion: " +
+                                                            jqXHR.responseText +
+                                                            "\nEstatus: " +
+                                                            textStatus +
+                                                            "\nError: " +
+                                                            errorThrown
+                                                    );
+                                                });
+                                        }
+                                        break;
+
+                                    case false:
+                                        preloader.hide();
+                                        Swal.fire({
+                                            icon: "warning",
+                                            title: "Opps..",
+                                            text: "Algo salio mal vuelve a intentarlo.",
+                                        });
+                                        break;
+                                }
+                            })
+                            .fail(function (jqXHR, textStatus, errorThrown) {
+                                preloader.hide();
+                                console.log("adminCapacitacion: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
+                            });
+                    }
+                    break;
+
+                case false:
+                    preloader.hide();
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Opps..",
+                        text: "Algo salio mal vuelve a intentarlo.",
+                    });
+                    break;
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            preloader.hide();
+            console.log("adminCapacitacion: " + jqXHR.responseText + "\nEstatus: " + textStatus + "\nError: " + errorThrown);
         });
 }

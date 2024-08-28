@@ -1,5 +1,5 @@
 <?php
-    session_start();
+session_start();
 if(isset ( $_SESSION['ID_usuario'] ) ){
     $ID_usuario = $_SESSION['ID_usuario']; 
     if($ID_usuario == ''){
@@ -25,8 +25,8 @@ if( !$boolean_session ){
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <title>Brummy</title>
         <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" /> -->
-        <link href="./css/CDN/Material_Icons.css" rel="stylesheet">
-        <link href="./css/CDN/sweetalert2.min.css" rel="stylesheet">
+        <link href="./css/CDN/Material_Icons.css" rel="stylesheet" />
+        <link href="./css/CDN/sweetalert2.min.css" rel="stylesheet" />
         <link rel="stylesheet" media="all" href="./css/ispinner.prefixed.css" />
         <!-- plugins:css -->
         <link rel="stylesheet" href="./vendors/feather/feather.css" />
@@ -48,6 +48,7 @@ if( !$boolean_session ){
         <link rel="stylesheet" href="./libraries/jsCalendar/jsCalendar.min.css" />
         <link rel="stylesheet" href="./libraries/mdtimepicker/mdtimepicker.css" />
         <link rel="stylesheet" href="./libraries/duDatepicker/duDatepicker.css" />
+        <link rel="stylesheet" media="all" href="./css/CDN/cropper.css" />
     </head>
 
     <style>
@@ -61,7 +62,7 @@ if( !$boolean_session ){
             padding-top: 10px;
             padding-bottom: 10px;
         }
-        .p_marquee{
+        .p_marquee {
             color: #6c7383;
             margin-top: 0;
             font-weight: 500;
@@ -88,8 +89,8 @@ if( !$boolean_session ){
         </div>
         <?php include_once('./templates/components/modalAlert.php'); ?>
         <?php include_once('./templates/components/modal.php'); ?>
-        <div class="container-scroller">
-            <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row" style="user-select: none;">
+        <div class="container-scroller no_print">
+            <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row" style="user-select: none">
                 <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
                     <div class="me-3">
                         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
@@ -108,20 +109,25 @@ if( !$boolean_session ){
                 <div class="navbar-menu-wrapper d-flex align-items-top">
                     <ul class="navbar-nav">
                         <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-                            <h1 class="welcome-text" style="margin-right: 15px;text-wrap: nowrap;">Hola!, <span class="text-black fw-bold"><?php echo $_SESSION['nombre']." ".$_SESSION['apellidoPaterno']; ?></span></h1>
+                            <h1 class="welcome-text" style="margin-right: 15px; text-wrap: nowrap">
+                                Hola!, <span class="text-black fw-bold"><?php echo $_SESSION['nombre']." ".$_SESSION['apellidoPaterno']; ?></span>
+                            </h1>
                         </li>
                     </ul>
-                    <div style="width: 100%;" id="texttMarquee">
-                        
-                    </div>
+                    <div style="width: 100%" id="texttMarquee"></div>
                     <ul class="navbar-nav ms-auto"></ul>
-                    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-bs-toggle="offcanvas" id="btnHideDash">
+                    <button
+                        class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+                        type="button"
+                        data-bs-toggle="offcanvas"
+                        id="btnHideDash"
+                    >
                         <span class="material-icons"> menu </span>
                     </button>
                 </div>
             </nav>
             <div class="container-fluid page-body-wrapper">
-                <nav class="sidebar sidebar-offcanvas" id="sidebar" style="position: fixed; user-select: none;">
+                <nav class="sidebar sidebar-offcanvas" id="sidebar" style="position: fixed; user-select: none">
                     <ul class="nav" id="navSide">
                         <li class="nav-item nav_item2">
                             <a class="nav-link" href="./dashboard.php">
@@ -130,7 +136,6 @@ if( !$boolean_session ){
                             </a>
                         </li>
                         <li class="nav-item nav-category" style="padding-top: 0px"><hr style="margin: 5px 0px" /></li>
-                        
                     </ul>
                 </nav>
                 <!-- partial -->
@@ -139,36 +144,36 @@ if( !$boolean_session ){
                         <div class="row">
                             <div class="col-md-12 grid-margin stretch-card p-0">
                                 <div class="card">
-                                    <div class="card-body" id="contenido" style="padding: 1rem;">
-                                        <div class="row dahsboardContenido" style="display:none;">
+                                    <div class="card-body" id="contenido" style="padding: 1rem">
+                                        <div class="row dahsboardContenido" style="display: none">
                                             <div class="col-sm-12 mb-4">
                                                 <div class="statistics-details d-flex align-items-center justify-content-between">
                                                     <div>
                                                         <p class="statistics-title">Ganancias del día</p>
                                                         <h3 class="rate-percentage" id="gananciasDia">$0.00</h3>
-                                                        
                                                     </div>
                                                     <div>
                                                         <p class="statistics-title">Citas agendadas(HOY)</p>
                                                         <h3 class="rate-percentage" id="citasAgendadasCita">0</h3>
-                                                        
                                                     </div>
                                                     <div>
                                                         <p class="statistics-title">Citas atendidas(HOY)</p>
                                                         <h3 class="rate-percentage" id="citasAtendidasDia">0</h3>
-                                                        
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="row dahsboardContenido" style="display:none;">
+                                        <div class="row dahsboardContenido" style="display: none">
                                             <div class="col-md-6 grid-margin stretch-card">
                                                 <div class="card2 mb-2">
                                                     <div class="card-body">
                                                         <h4 class="statistics-title">Próximas Citas (5)</h4>
                                                         <div id="div_citas">
-                                                            <table class="mdl-data-table table responsive table-bordered table-striped dashTable" style="width:100%">
+                                                            <table
+                                                                class="mdl-data-table table responsive table-bordered table-striped dashTable"
+                                                                style="width: 100%"
+                                                            >
                                                                 <thead>
                                                                     <tr>
                                                                         <th>#</th>
@@ -176,9 +181,7 @@ if( !$boolean_session ){
                                                                         <th>Mascota</th>
                                                                     </tr>
                                                                 </thead>
-                                                                <tbody id="bodyCitasDashbora">
-                                                                    
-                                                                </tbody>
+                                                                <tbody id="bodyCitasDashbora"></tbody>
                                                             </table>
                                                         </div>
                                                     </div>
@@ -189,7 +192,10 @@ if( !$boolean_session ){
                                                     <div class="card-body">
                                                         <h4 class="statistics-title">Últimas ventas (5)</h4>
                                                         <div id="div_citas">
-                                                            <table class="mdl-data-table table responsive table-bordered table-striped dashTable" style="width:100%">
+                                                            <table
+                                                                class="mdl-data-table table responsive table-bordered table-striped dashTable"
+                                                                style="width: 100%"
+                                                            >
                                                                 <thead>
                                                                     <tr>
                                                                         <th>#</th>
@@ -197,9 +203,7 @@ if( !$boolean_session ){
                                                                         <th>Costo</th>
                                                                     </tr>
                                                                 </thead>
-                                                                <tbody id="bodyVentasDashbora">
-
-                                                                </tbody>
+                                                                <tbody id="bodyVentasDashbora"></tbody>
                                                             </table>
                                                         </div>
                                                     </div>
@@ -207,15 +211,17 @@ if( !$boolean_session ){
                                             </div>
                                         </div>
 
-                                        <div class="row dahsboardContenido" style="display:none;">
+                                        <div class="row dahsboardContenido" style="display: none">
                                             <div class="col-md-6 grid-margin stretch-card">
                                                 <div class="card2 mb-2">
                                                     <div class="card-body">
-                                                    <div style="display: flex;flex-direction: row;align-items: center;width: 100%;">
+                                                        <div style="display: flex; flex-direction: row; align-items: center; width: 100%">
                                                             <h4 class="statistics-title">TOP 5 Productos más vendidos</h4>
-                                                            <div class="mb-2" style="display: flex;justify-content: end;margin: auto;">
+                                                            <div class="mb-2" style="display: flex; justify-content: end; margin: auto">
                                                                 <div class="buttom-green buttom" onclick="reporteProductosVendidos()">
-                                                                    <span class="text-sm mb-0"> Exportar <i class="material-icons"> file_download </i></span>
+                                                                    <span class="text-sm mb-0">
+                                                                        Exportar <i class="material-icons"> file_download </i></span
+                                                                    >
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -237,13 +243,16 @@ if( !$boolean_session ){
                                             </div>
                                         </div>
 
-                                        <div class="row dahsboardContenido" style="display:none;">
+                                        <div class="row dahsboardContenido" style="display: none">
                                             <div class="col-md-12 grid-margin stretch-card">
                                                 <div class="card2 mb-2">
                                                     <div class="card-body">
                                                         <h4 class="statistics-title">Citas por Confirmar</h4>
                                                         <div id="div_citas">
-                                                            <table class="mdl-data-table table responsive table-bordered table-striped dashTable" style="width:100%">
+                                                            <table
+                                                                class="mdl-data-table table responsive table-bordered table-striped dashTable"
+                                                                style="width: 100%"
+                                                            >
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Cliente</th>
@@ -252,33 +261,28 @@ if( !$boolean_session ){
                                                                         <th>&nbsp;</th>
                                                                     </tr>
                                                                 </thead>
-                                                                <tbody id="bodyCitasConfirmarDashbora">
-
-                                                                </tbody>
+                                                                <tbody id="bodyCitasConfirmarDashbora"></tbody>
                                                             </table>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div id="dataToExport" style="display:none;">
-                        <table  class="table table-bordered tableExport" data-cols-width="10,20,30">
-                            <thead thead class = "cabecerath">
+                    <div id="dataToExport" style="display: none">
+                        <table class="table table-bordered tableExport" data-cols-width="10,20,30">
+                            <thead thead class="cabecerath">
                                 <tr>
                                     <th data-f-bold="true" data-fill-color="ff91d2ff">#</th>
                                     <th data-f-bold="true" data-fill-color="ff91d2ff">Nombre producto</th>
                                     <th data-f-bold="true" data-fill-color="ff91d2ff">Cantidad</th>
                                 </tr>
                             </thead>
-                            <tbody id="tbodyExportInventario">
-                                
-                            </tbody>
+                            <tbody id="tbodyExportInventario"></tbody>
                         </table>
                     </div>
                     <!-- content-wrapper ends -->
@@ -293,6 +297,106 @@ if( !$boolean_session ){
                 <!-- main-panel ends -->
             </div>
             <!-- page-body-wrapper ends -->
+        </div>
+        <div class="print" id="div_MemberPrint" style="display: none; margin: 0">
+            <div class="col-md-3 no_print"></div>
+            <div
+                class="col-md-2 print nobreak"
+                style="
+                    text-align: center;
+                    border-radius: 10px;
+                    padding: 0;
+                    background-image: URL('./images/capacitacion/frontbr4.png');
+                    background-repeat: no-repeat !important;
+                    background-attachment: scroll !important;
+                    background-position: center center !important;
+                    z-index: auto;
+                    background-size: cover !important;
+                    -webkit-background-size: cover !important;
+                    -moz-background-size: cover !important;
+                    -o-background-size: cover !important;
+                    margin: 0;
+                    padding-bottom: 7px;
+                    width: 215px;
+                "
+            >
+                <div style="display: block" class="nobreak">
+                    <div style="margin-bottom: 10px">
+                        <img
+                            style="max-height: 115px; min-width: 98px; min-height: 115px; max-width: 98px; margin-top: 19px"
+                            src=""
+                            id="fotoCuts1"
+                        />
+                    </div>
+
+                    <div style="display: flex; flex-direction: column">
+                        <span class="spanDataCredential" style="text-wrap: nowrap; color: #009071" id="claveCredential1"> &nbsp; </span>
+                        <span class="spanDataCredential" style="text-wrap: nowrap; color: #009071" id="nameCredential1"> &nbsp; </span>
+                        <span class="spanDataCredential" style="text-wrap: nowrap; color: #009071" id="telefonoCrendential1"> &nbsp; </span>
+                        <span class="spanDataCredential" style="text-wrap: nowrap; color: #009071" id="correoCrendential"> &nbsp; </span>
+                    </div>
+
+                    <div style="display: flex; font-weight: bold; margin-top: 0px">
+                        <div style="width: 50%; display: flex"></div>
+                        <div style="width: 40%; display: flex; margin-top: 15px">
+                            <img
+                                style="max-height: 70px; margin: auto; margin-left: 25px"
+                                src=""
+                                id="qrCredential1"
+                                height="70"
+                                width="70"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 no_print"></div>
+            <div
+                class="col-md-2 print nobreak"
+                style="
+                    text-align: center;
+                    border-radius: 10px;
+                    padding: 0;
+                    background-image: URL('./images/capacitacion/backtbr.png');
+                    background-repeat: no-repeat !important;
+                    background-attachment: scroll !important;
+                    background-position: center center !important;
+                    z-index: auto;
+                    background-size: cover !important;
+                    -webkit-background-size: cover !important;
+                    -moz-background-size: cover !important;
+                    -o-background-size: cover !important;
+                    margin: 0;
+                    width: 215px;
+                "
+            >
+                <div style="display: block" class="nobreak"></div>
+                <div style="margin-bottom: 10px; margin-top: 45px">
+                    <div style="display: flex; flex-direction: column">
+                        <span class="spanDataCredential spanDataCredentialx" style="text-wrap: nowrap;margin-top: 13px;" id="nameVete"> &nbsp; </span>
+                        <span class="spanDataCredential spanDataCredentialx" style="text-wrap: nowrap">Teléfono de atención: </span>
+                        <span class="spanDataCredential spanDataCredentialx" style="text-wrap: nowrap" id="telcredentialvete"> &nbsp; </span>
+                        <span class="spanDataCredential spanDataCredentialx" style="text-wrap: nowrap">Horarios de atención: </span>
+                        <span class="spanDataCredential spanDataCredentialx" style="text-wrap: nowrap" id="horario1credential"> &nbsp; </span>
+                        <span class="spanDataCredential spanDataCredentialx" style="text-wrap: nowrap" id="horario2credential"> &nbsp; </span>
+                        <span class="spanDataCredential spanDataCredentialx" style="text-wrap: nowrap" id="horario3credential"> &nbsp; </span>
+                    </div>
+
+                    <div style="margin-top: 20px;display: flex;flex-direction: column;">
+                        <span class="spanDataCredential spanDataCredentialxsm" style="text-wrap: nowrap" id="Direccion1credential"> &nbsp; </span>
+                        <span class="spanDataCredential spanDataCredentialxsm" style="text-wrap: nowrap" id="Direccion1credentia2"> &nbsp; </span>
+                        <br />
+                        <br />
+                        <span class="spanDataCredential spanDataCredentialxsm" style="font-size: 6px;text-transform: none;font-style: italic;padding: 0px 15px 40px 15px;text-align: justify;"
+                            > Esta membresía NO es una credencial oficial. El uso es exclusivo para la veterina suscrita. Happy pets y Brummy no se
+                            hace responsable por el mal uso de esta membresía. El cliente al aceptar la membresía acepta los terminos y condiciones
+                            publicados en: 
+                            https://brummy.stth.com.mx/terminosycondiciones/</span
+                        >
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 no_print"></div>
         </div>
         <!-- container-scroller -->
         <!-- plugins:js -->
@@ -329,5 +433,7 @@ if( !$boolean_session ){
         <script src="./libraries/exportExcel/xlsx.min.js"></script>
         <script type="text/javascript" src="./libraries/moment/moment.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script type="text/javascript" src="./libraries/moment/moment-precise.min.js"></script>
+        <script type="text/javascript" src="./libraries/qr/qrious.js"></script>
+        <script type="text/javascript" src="./libraries/cropper/cropper.js"></script>
     </body>
 </html>

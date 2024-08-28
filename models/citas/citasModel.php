@@ -59,42 +59,18 @@ namespace citas\citasModel;
             $conexion = $db->getConectaDB();
 
             $sql = "SELECT ID FROM recurrencia_clientes WHERE FKNombreCliente = '$FKNombreCliente' AND estatus = 1";
+            $FK_Usuario = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1;
+            $nameUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
+
+            $sql = "INSERT INTO recurrencia_clientes (FKNombreCliente, nombreCliente, tipoRecurrencia, fechaRecurrenca, ID_mov, estatus, FKUsuarioCrea, FlagUsuarioCrea) 
+                        VALUES ($FKNombreCliente, '$nombreCliente', '$tipoRecurrencia', '$fechaRecurrenca', '$ID_mov', 1, '$FK_Usuario', '$nameUsuario')";
+
             try{
                 $stmt = mysqli_query($conexion, $sql);
                 if($stmt){
-                    $rowcount=mysqli_num_rows($stmt);   
-                    if ( $rowcount ) {
-                        // $FK_Usuario = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1;
-                        // $nameUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
-                        
-                        // $sql = "UPDATE recurrencia_clientes SET estatus = 0  WHERE FKNombreCliente = $FKNombreCliente";
 
-                        // try{
-                        //     $stmt = mysqli_query($conexion, $sql);
-                        //     if($stmt){
-
-                        //     }
-                        // } catch (mysqli_sql_exception $e) { }
-                    } else{
-                        $FK_Usuario = isset($_SESSION['ID_usuario']) ? $_SESSION['ID_usuario'] : 1;
-                        $nameUsuario = isset($_SESSION['nombre']) ? $_SESSION['nombre'].' '.$_SESSION['apellidoPaterno'].' '.$_SESSION['apellidoMaterno'] : 'app';
-                        
-                        $sql = "INSERT INTO recurrencia_clientes (FKNombreCliente, nombreCliente, tipoRecurrencia, fechaRecurrenca, ID_mov, estatus, FKUsuarioCrea, FlagUsuarioCrea) 
-                        VALUES ($FKNombreCliente, '$nombreCliente', '$tipoRecurrencia', '$fechaRecurrenca', '$ID_mov', 1, '$FK_Usuario', '$nameUsuario')";
-
-                        try{
-                            $stmt = mysqli_query($conexion, $sql);
-                            if($stmt){
-
-                            }
-                        } catch (mysqli_sql_exception $e) { }
-                    }
-                } else {
-                    $result = array('success' => false, 'result' => false, "result_query_sql_error"=>"Error no conocido" );
                 }
-            } catch (mysqli_sql_exception $e) {
-                $result = array('success' => false, 'result' => false, "result_query_sql_error"=>$e->getMessage() );
-            }
+            } catch (mysqli_sql_exception $e) { }
 
             mysqli_close( $conexion );
         }

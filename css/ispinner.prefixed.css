@@ -262,3 +262,108 @@
         opacity: 0;
     }
 }
+
+span.spanDataCredential {
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: bold;
+    color: #fff;
+    line-height: 25px;
+}
+
+span.spanDataCredentialx {
+    line-height: 20px;
+}
+
+span.spanDataCredentialsm {
+    font-size: 10px;
+    line-height: 10px;
+}
+span.spanDataCredentialxsm {
+    font-size: 8px;
+    line-height: 10px;
+}
+
+@media print {
+    /* *{
+        display: none !important;   
+    } */
+    .sb-topnav {
+        display: none !important;
+    }
+    #layoutSidenav_nav {
+        display: none !important;
+    }
+    #layoutSidenav_content {
+        padding: 0 !important;
+    }
+
+    .sb-nav-fixed #layoutSidenav {
+        top: 0px !important;
+        background-color: #fff;
+    }
+    body {
+        background-color: #fff;
+    }
+    .sb-nav-fixed #layoutSidenav #layoutSidenav_content {
+        top: 0px !important;
+    }
+    .row {
+        padding: 0 !important;
+    }
+    .main {
+        padding: 0 !important;
+    }
+    #contenido {
+        padding: 0 !important;
+    }
+    @page {
+        margin: 0 0 0 0 !important;
+        size: 54mm 86mm;
+    }
+
+    .no_print {
+        display: none !important;
+    }
+
+    .print {
+        display: block !important;
+        margin-left: 9px;
+        /* margin-left: 12px; */
+        /* margin-left: 20px; */
+        border-radius: 0px !important;
+    }
+
+    .nobreak {
+        break-inside: avoid;
+    }
+    .navbar {
+        display: none !important;
+    }
+    .sidebar {
+        display: none !important;
+    }
+    .main-panel {
+        margin: 0;
+    }
+    .container-fluid {
+        padding: 0;
+    }
+    footer {
+        display: none !important;
+    }
+    .fixed-top {
+        display: none !important;
+    }
+    .d-flex {
+        display: none !important;
+    }
+    .flex-row,
+    .email-wrapper .message-body .attachments-sections ul li,
+    .navbar .navbar-menu-wrapper .navbar-nav {
+        display: none !important;
+    }
+    nav {
+        display: none !important;
+    }
+}
