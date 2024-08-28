@@ -306,7 +306,7 @@ if( !$boolean_session ){
                     text-align: center;
                     border-radius: 10px;
                     padding: 0;
-                    background-image: URL('./images/capacitacion/frontbr4.png');
+                    background-image: URL('./images/frontbr4.png');
                     background-repeat: no-repeat !important;
                     background-attachment: scroll !important;
                     background-position: center center !important;
@@ -357,7 +357,7 @@ if( !$boolean_session ){
                     text-align: center;
                     border-radius: 10px;
                     padding: 0;
-                    background-image: URL('./images/capacitacion/backtbr.png');
+                    background-image: URL('./images/backtbr.png');
                     background-repeat: no-repeat !important;
                     background-attachment: scroll !important;
                     background-position: center center !important;

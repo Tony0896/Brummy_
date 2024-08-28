@@ -43,7 +43,7 @@
                     text-align: center;
                     border-radius: 10px;
                     padding: 0;
-                    background-image: URL('./images/capacitacion/frontbr4.png');
+                    background-image: URL('./images/frontbr4.png');
                     background-repeat: no-repeat !important;
                     background-attachment: scroll !important;
                     background-position: center center !important;
@@ -86,7 +86,7 @@
                     text-align: center;
                     border-radius: 10px;
                     padding: 0;
-                    background-image: URL('./images/capacitacion/backtbr.png');
+                    background-image: URL('./images/backtbr.png');
                     background-repeat: no-repeat !important;
                     background-attachment: scroll !important;
                     background-position: center center !important;
@@ -140,7 +140,7 @@
             </div>
             <div class="modal-body">
                 <div class="img-container">
-                    <img id="image" src="./images/capacitacion/avatar.png" alt="Picture" style="max-width: 100%;">
+                    <img id="image" src="./images/avatar.png" alt="Picture" style="max-width: 100%;">
                 </div>
                 <div id="result" style="display: none;"></div>
             </div>
